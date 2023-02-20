@@ -1,0 +1,8 @@
+{
+  "typescript.tsdk": "node_modules/.pnpm/typescript@4.9.5/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "material-icon-theme.files.associations": {
+    // "*.scss": "tailwindcss"
+  },
+  "css.customData": [".vscode/css_custom_data.json"]
+}
