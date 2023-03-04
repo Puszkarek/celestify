@@ -1,10 +1,11 @@
+import { LoginButton } from "@app/components/login-button";
 import { FC } from "react";
 
 const Home: FC = () => {
   return (
-    <div className="main">
-      <h1>Home</h1>
-    </div>
+    <main className="main">
+      <LoginButton></LoginButton>
+    </main>
   );
 };
 
