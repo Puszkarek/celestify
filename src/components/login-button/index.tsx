@@ -1,16 +1,12 @@
-"use client";
-
+import { generateURL } from "@app/helpers/spotify";
 import { FC } from "react";
 
-const loginWithSpotify = async (): Promise<void> => {
-  await fetch("api/login");
-  console.log("login....");
-};
-
 export const LoginButton: FC = () => {
+  const authURL = generateURL();
+
   return (
-    <button onClick={loginWithSpotify}>
+    <a href={authURL}>
       <h3>Login With Spotify</h3>
-    </button>
+    </a>
   );
 };

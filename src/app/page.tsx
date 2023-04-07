@@ -4,7 +4,7 @@ import { FC } from "react";
 const Home: FC = () => {
   return (
     <main className="main">
-      <LoginButton></LoginButton>
+      <LoginButton />
     </main>
   );
 };
