@@ -8,7 +8,7 @@ export const LoginButton: FC = () => {
 
   return (
     <a className="link shadow" href={authURL}>
-      <h3>Login With Spotify</h3>
+      <h3>Login</h3>
     </a>
   );
 };
