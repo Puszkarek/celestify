@@ -1,0 +1,5 @@
+.link {
+  @apply block w-fit;
+  @apply p-[var(--gutter)] rounded-lg;
+  @apply bg-primary-green no-underline;
+}

@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+@import "./variables.scss";
+@import "./fonts/lexend-mega.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--primary-yellow-color);
+  font-family: "Lexend Mega", sans-serif;
+}
+
+.shadow {
+  border: 3px solid var(--primary-black-color);
+
+  background-color: var(--primary-white-color);
+  box-shadow: 10px 10px 0px 5px var(--primary-black-color);
+}
