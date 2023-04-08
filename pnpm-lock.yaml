@@ -31,6 +31,9 @@ dependencies:
   eslint-config-next:
     specifier: 13.1.6
     version: 13.1.6(eslint@8.33.0)(typescript@4.9.5)
+  fp-ts:
+    specifier: ^2.13.1
+    version: 2.13.1
   lucide-react:
     specifier: ^0.112.0
     version: 0.112.0(react@18.2.0)
@@ -2008,6 +2011,10 @@ packages:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
     dependencies:
       is-callable: 1.2.7
+    dev: false
+
+  /fp-ts@2.13.1:
+    resolution: {integrity: sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==}
     dev: false
 
   /fraction.js@4.2.0:

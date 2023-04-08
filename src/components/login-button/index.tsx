@@ -1,10 +1,10 @@
 import "./style.scss";
 
-import { generateURL } from "@app/helpers/spotify";
+import { generateSpotifyLoginURL } from "@app/helpers/spotify";
 import { FC } from "react";
 
 export const LoginButton: FC = () => {
-  const authURL = generateURL();
+  const authURL = generateSpotifyLoginURL();
 
   return (
     <a className="link shadow" href={authURL}>

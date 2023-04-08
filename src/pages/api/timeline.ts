@@ -8,17 +8,15 @@ type Data = {
   message: string;
 };
 
-const token = "YOUR_SPOTIFY_TOKEN";
-
-const fetchWebApi = async (
+const fetchSpotify = async (
   endpoint: string,
-  method: string
+  code: string
 ): Promise<unknown> => {
   const response = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      // TODO: check how to use the code
+      Authorization: `Bearer ${code}`,
     },
-    method,
   });
   return (await response.json()) as unknown;
 };
@@ -27,9 +25,16 @@ const handler = async (
   request: NextApiRequest,
   response: NextApiResponse<ResponseData<Data>>
 ): Promise<void> => {
-  console.log(request.headers);
-  const results = await fetchWebApi("me/player/recently-played", "GET");
-  console.log(results);
+  const code = request.headers.authorization;
+  if (!code) {
+    response
+      .status(HTTP_STATUS_CODE.Unauthorized)
+      .json({ data: { message: "Unauthorized" } });
+    return;
+  }
+
+  const results = await fetchSpotify("me/player/recently-played", code);
+  console.log("lorem", results);
   response.status(HTTP_STATUS_CODE.Ok).json({ data: { message: "pong" } });
 };
 

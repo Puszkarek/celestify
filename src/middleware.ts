@@ -1,24 +1,40 @@
+import { getSpotifyAccessToken } from "@app/helpers/spotify";
 import { getHostURI } from "@app/helpers/url-generator";
+import { pipe } from "fp-ts/lib/function";
+import * as T from "fp-ts/Task";
+import * as TE from "fp-ts/TaskEither";
 import { NextConfig } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 const saveCode = (
-  newCode: string,
-  { timelineURL }: { timelineURL: string }
-): NextResponse => {
-  // Set the cookie and redirect to /timeline
-  const response = NextResponse.redirect(timelineURL);
-  response.cookies.set("code", newCode, {
-    secure: process.env.NODE_ENV === "production", // Set 'secure' only in production
-    sameSite: "lax", // Recommended to prevent CSRF attacks
-    maxAge: 60 * 60 * 24, // 1 day
-  });
+  code: string,
+  { timelineURL, homeURL }: { timelineURL: string; homeURL: string }
+): T.Task<NextResponse> => {
+  return pipe(
+    code,
+    getSpotifyAccessToken,
+    TE.map((token) => {
+      // Set the cookie and redirect to /timeline
+      const nextResponse = NextResponse.redirect(timelineURL);
+      nextResponse.cookies.set("token", JSON.stringify(token), {
+        secure: process.env.NODE_ENV === "production", // Set 'secure' only in production
+        sameSite: "lax", // Recommended to prevent CSRF attacks
+        maxAge: 60 * 60 * 24, // 1 day
+      });
 
-  return response;
+      return nextResponse;
+    }),
+    TE.getOrElse((error) => {
+      console.error(error);
+      return T.of(NextResponse.redirect(homeURL));
+    })
+  );
 };
 
 // eslint-disable-next-line max-statements
-export const middleware = (request: NextRequest): NextResponse => {
+export const middleware = async (
+  request: NextRequest
+): Promise<NextResponse> => {
   const pathName = request.nextUrl.pathname;
 
   const host = getHostURI(request);
@@ -34,7 +50,9 @@ export const middleware = (request: NextRequest): NextResponse => {
         return NextResponse.redirect(homeURL);
       }
 
-      return saveCode(newCode, { timelineURL });
+      const task = saveCode(newCode, { timelineURL, homeURL });
+
+      return await task();
     }
     case "/timeline": {
       const currentCookie = request.cookies.get("code")?.value;
@@ -46,7 +64,11 @@ export const middleware = (request: NextRequest): NextResponse => {
       return NextResponse.next();
     }
     case "/": {
+      // TODO: handle expired cookies
+      request.cookies.delete("code");
+
       const currentCookie = request.cookies.get("code")?.value;
+
       if (currentCookie) {
         console.warn('Cookie found, redirecting to "/timeline" page');
         const timelineUrl = `${getHostURI(request)}/timeline`;

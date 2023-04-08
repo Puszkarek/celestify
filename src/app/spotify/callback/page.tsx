@@ -1,12 +1,7 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import { FC } from "react";
 
 const SpotifyCallback: FC = () => {
-  const router = useSearchParams();
-  console.log(router.get("code"));
-
+  // TODO: Add loading spinner
   return <main>IDK</main>;
 };
 

@@ -43,10 +43,6 @@
         // Alternate ways of doing things
         "accessor-pairs": "error",
         "block-scoped-var": "error",
-        "camelcase": [
-          "error",
-          { "properties": "always", "ignoreImports": true }
-        ],
         "capitalized-comments": "error",
         "complexity": ["error", 10],
         "consistent-return": "error",
@@ -99,7 +95,7 @@
         "no-nested-ternary": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "error",
-        "no-plusplus": "error",
+        // "no-plusplus": "error",
         "no-return-assign": "error",
         "no-sequences": "error",
         "no-global-assign": "error",
