@@ -1,7 +1,7 @@
-import "./style.scss";
+import './style.scss';
 
-import { LoginButton } from "@app/components/login-button";
-import { FC } from "react";
+import { LoginButton } from '@app/components/login-button';
+import { FC } from 'react';
 
 const Home: FC = () => {
   return (
