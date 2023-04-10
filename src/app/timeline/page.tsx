@@ -13,13 +13,12 @@ const SpotifyTimeline = async (): Promise<JSX.Element> => {
     {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token.access_token}`,
+        'Authorization': `Bearer ${token.access_token}`,
         'Content-Type': 'application/json',
       },
     },
   );
   const data: unknown = await response.json();
-  console.log('data', data);
   return <main>This is the timeline</main>;
 };
 
