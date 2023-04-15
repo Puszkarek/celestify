@@ -1,4 +1,6 @@
 /* eslint-disable max-lines-per-function */
+import { createException } from '@app/app/utils/error';
+import { TOKEN_MAX_AGE_IN_SECONDS } from '@app/constants/token';
 import { getSpotifyAccessToken } from '@app/helpers/spotify-login';
 import { getHostURI } from '@app/helpers/url-generator';
 import * as E from 'fp-ts/Either';
@@ -7,24 +9,22 @@ import * as T from 'fp-ts/Task';
 import * as TE from 'fp-ts/TaskEither';
 import { NextConfig } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
+
 // eslint-disable-next-line max-statements
 export const middleware = async (
   request: NextRequest,
 ): Promise<NextResponse> => {
-  const pathName = request.nextUrl.pathname;
-
   const host = getHostURI(request);
 
   const timelineURL = `${host}/timeline`;
   const homeURL = `${host}/`;
 
-  switch (pathName) {
+  switch (request.nextUrl.pathname) {
     case '/spotify/callback': {
-      console.log('CODE', request.nextUrl.searchParams.get('code'));
-      console.log('headers', request.body);
+      console.log('CALLBACK', request.nextUrl.searchParams.get('code'));
       const task = pipe(
         request.nextUrl.searchParams.get('code'),
-        E.fromNullable(new Error('No code found')),
+        E.fromNullable(createException('No code Found')),
         TE.fromEither,
         TE.chain(getSpotifyAccessToken),
         TE.map((token) => {
@@ -33,7 +33,7 @@ export const middleware = async (
           nextResponse.cookies.set('token', JSON.stringify(token), {
             secure: process.env.NODE_ENV === 'production', // Set 'secure' only in production
             sameSite: 'lax', // Recommended to prevent CSRF attacks
-            maxAge: 60 * 60 * 24, // 1 day
+            maxAge: TOKEN_MAX_AGE_IN_SECONDS,
           });
 
           return nextResponse;

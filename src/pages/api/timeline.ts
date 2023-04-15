@@ -1,40 +1,45 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import {
+  spotifyErrorDecoder,
+  spotifyRecentlyPlayedDecoder,
+} from '@app/app/decoders/spotify';
+import { executeTask, fetchSpotify } from '@app/helpers/spotify-api';
+import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
+import { RecentlyPlayed } from '@app/interfaces/spotify';
+import * as E from 'fp-ts/Either';
+import { flow, pipe } from 'fp-ts/lib/function';
+import * as TE from 'fp-ts/TaskEither';
+import * as t from 'io-ts';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { createException, extractException } from '../../app/utils/error';
 import { ResponseData } from '../../interfaces/response';
 
-type Data = {
-  message: string;
-};
-
-const fetchSpotify = async (
-  endpoint: string,
-  token: string,
-): Promise<unknown> => {
-  const response = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return (await response.json()) as unknown;
-};
+const responseDecoder = t.union([
+  spotifyRecentlyPlayedDecoder,
+  spotifyErrorDecoder,
+]);
 
 const handler = async (
   request: NextApiRequest,
-  response: NextApiResponse<ResponseData<Data>>,
+  response: NextApiResponse<ResponseData<RecentlyPlayed>>,
 ): Promise<void> => {
-  const code = request.headers.authorization;
-  if (!code) {
-    response
-      .status(HTTP_STATUS_CODE.Unauthorized)
-      .json({ data: { message: 'Unauthorized' } });
-    return;
-  }
+  const task: TE.TaskEither<Exception, RecentlyPlayed> = pipe(
+    request.headers.authorization,
+    E.fromNullable(
+      createException('Unauthorized', HTTP_STATUS_CODE.Unauthorized),
+    ),
+    TE.fromEither,
+    TE.chain((code) => fetchSpotify('me/player/recently-played', code)),
+    TE.chain(
+      flow(responseDecoder.decode, TE.fromEither, TE.mapLeft(extractException)),
+    ),
+    TE.chain(
+      TE.fromPredicate(spotifyRecentlyPlayedDecoder.is, extractException),
+    ),
+  );
 
-  const results = await fetchSpotify('me/player/recently-played', code);
-  console.log('AAAAAAAAAAAAA', results);
-  response.status(HTTP_STATUS_CODE.Ok).json({ data: { message: 'pong' } });
+  await executeTask(task, response);
 };
 
 export default handler;

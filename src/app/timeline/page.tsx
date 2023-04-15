@@ -1,4 +1,4 @@
-import { SpotifyToken } from '@app/interfaces/spotify';
+import { RecentlyPlayed, SpotifyToken } from '@app/interfaces/spotify';
 import { cookies } from 'next/headers';
 
 const SpotifyTimeline = async (): Promise<JSX.Element> => {
@@ -7,7 +7,6 @@ const SpotifyTimeline = async (): Promise<JSX.Element> => {
     cookieStore.get('token')?.value as string,
   ) as SpotifyToken;
 
-  console.log(token);
   const response = await fetch(
     'https://api.spotify.com/v1/me/player/recently-played',
     {
@@ -18,7 +17,12 @@ const SpotifyTimeline = async (): Promise<JSX.Element> => {
       },
     },
   );
-  const data: unknown = await response.json();
+  const data: RecentlyPlayed = (await response.json()) as RecentlyPlayed;
+
+  const track = data.items[2]?.track;
+  console.log('RESPONSE', track?.artists);
+  console.log('album-artists', track?.album.artists);
+  console.log('album-images', track?.album.images);
   return <main>This is the timeline</main>;
 };
 

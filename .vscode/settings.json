@@ -4,5 +4,6 @@
   "material-icon-theme.files.associations": {
     // "*.scss": "tailwindcss"
   },
-  "css.customData": [".vscode/css_custom_data.json"]
+  "css.customData": [".vscode/css_custom_data.json"],
+  "cSpell.words": ["spotify"]
 }

@@ -1,10 +1,11 @@
-import { isSpotifyError, isSpotifyToken } from '@app/app/guards/spotify';
+import { spotifyTokenDecoder } from '@app/app/decoders/spotify';
 import { stringToBase64 } from '@app/app/utils/encode';
-import { extractError } from '@app/app/utils/error';
+import { extractException } from '@app/app/utils/error';
 import {
   SPOTIFY_API_TOKEN_URL,
   SPOTIFY_AUTHORIZE_URL,
 } from '@app/constants/spotify-endpoint';
+import { Exception } from '@app/interfaces/error';
 import { SpotifyToken } from '@app/interfaces/spotify';
 import { pipe } from 'fp-ts/function';
 import * as TE from 'fp-ts/TaskEither';
@@ -26,37 +27,47 @@ export const generateSpotifyLoginURL = (): string => {
 
 export const getSpotifyAccessToken = (
   authorizationCode: string,
-): TE.TaskEither<Error, SpotifyToken> => {
+): TE.TaskEither<Exception, SpotifyToken> => {
   const urlParameters = {
     grant_type: 'authorization_code',
     code: authorizationCode,
     redirect_uri: process.env.SPOTIFY_CALLBACK_URI as string,
   };
 
-  return TE.tryCatch(async () => {
-    const response = await fetch(SPOTIFY_API_TOKEN_URL, {
-      method: 'POST',
-      body: new URLSearchParams(urlParameters),
-      headers: {
-        Authorization: `Basic ${stringToBase64(
-          `${process.env.SPOTIFY_CLIENT_ID as string}:${
-            process.env.SPOTIFY_CLIENT_SECRET as string
-          }`,
-        )}`,
+  return pipe(
+    TE.tryCatch(
+      async () => {
+        const response = await fetch(SPOTIFY_API_TOKEN_URL, {
+          method: 'POST',
+          body: new URLSearchParams(urlParameters),
+          headers: {
+            Authorization: `Basic ${stringToBase64(
+              `${process.env.SPOTIFY_CLIENT_ID as string}:${
+                process.env.SPOTIFY_CLIENT_SECRET as string
+              }`,
+            )}`,
+          },
+        });
+        const data: unknown = await response.json();
+
+        return data;
       },
-    });
-    const data: unknown = await response.json();
+      (error) => {
+        console.log('HERE', error);
+        return extractException(error);
+      },
+    ),
+    TE.chain(TE.fromPredicate(spotifyTokenDecoder.is, extractException)),
+    TE.map(({ access_token, refresh_token, expires_in }) => {
+      const millisecondsMultiplier = 1000;
+      const expires_in_milliseconds = expires_in * millisecondsMultiplier;
 
-    console.log('spotify data', data);
-    if (isSpotifyError(data)) {
-      throw new Error(data.error_description);
-    }
+      // Get the date it expires in milliseconds
+      const expires_in_date = new Date(
+        Date.now() + expires_in_milliseconds,
+      ).getTime();
 
-    if (!isSpotifyToken(data)) {
-      throw extractError(data);
-    }
-
-    const { access_token, refresh_token, expires_in } = data;
-    return { access_token, refresh_token, expires_in };
-  }, extractError);
+      return { access_token, refresh_token, expires_in: expires_in_date };
+    }),
+  );
 };
