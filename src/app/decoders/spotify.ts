@@ -48,6 +48,8 @@ export const spotifyTrackDecoder = t.type({
   name: t.string,
   artists: t.array(spotifyArtistDecoder),
   album: spotifyAlbumDecoder,
+  duration_ms: t.number,
+  popularity: t.number, // ? We might be able to do something with this
 });
 
 export const spotifyContextDecoder = t.type({
