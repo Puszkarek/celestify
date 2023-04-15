@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { HTTP_STATUS_CODE } from "@app/interfaces/http";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { HTTP_STATUS_CODE } from '@app/interfaces/http';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { ResponseData } from "../../interfaces/response";
+import { ResponseData } from '../../interfaces/response';
 
 type Data = {
   message: string;
@@ -10,12 +10,11 @@ type Data = {
 
 const fetchSpotify = async (
   endpoint: string,
-  code: string
+  token: string,
 ): Promise<unknown> => {
   const response = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
     headers: {
-      // TODO: check how to use the code
-      Authorization: `Bearer ${code}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   return (await response.json()) as unknown;
@@ -23,19 +22,19 @@ const fetchSpotify = async (
 
 const handler = async (
   request: NextApiRequest,
-  response: NextApiResponse<ResponseData<Data>>
+  response: NextApiResponse<ResponseData<Data>>,
 ): Promise<void> => {
   const code = request.headers.authorization;
   if (!code) {
     response
       .status(HTTP_STATUS_CODE.Unauthorized)
-      .json({ data: { message: "Unauthorized" } });
+      .json({ data: { message: 'Unauthorized' } });
     return;
   }
 
-  const results = await fetchSpotify("me/player/recently-played", code);
-  console.log("lorem", results);
-  response.status(HTTP_STATUS_CODE.Ok).json({ data: { message: "pong" } });
+  const results = await fetchSpotify('me/player/recently-played', code);
+  console.log('AAAAAAAAAAAAA', results);
+  response.status(HTTP_STATUS_CODE.Ok).json({ data: { message: 'pong' } });
 };
 
 export default handler;
