@@ -1,14 +1,22 @@
 import { spotifyTokenDecoder } from '@app/app/decoders/spotify';
 import { stringToBase64 } from '@app/app/utils/encode';
-import { extractException } from '@app/app/utils/error';
+import {
+  codecErrorsToException,
+  createException,
+  extractException,
+} from '@app/app/utils/error';
+import { safeJSONParse } from '@app/app/utils/json';
 import {
   SPOTIFY_API_TOKEN_URL,
   SPOTIFY_AUTHORIZE_URL,
 } from '@app/constants/spotify-endpoint';
 import { Exception } from '@app/interfaces/error';
 import { SpotifyToken } from '@app/interfaces/spotify';
-import { pipe } from 'fp-ts/function';
+import * as E from 'fp-ts/Either';
+import { flow, pipe } from 'fp-ts/function';
+import * as O from 'fp-ts/Option';
 import * as TE from 'fp-ts/TaskEither';
+import { NextRequest } from 'next/server';
 
 export const generateSpotifyLoginURL = (): string => {
   const urlParameters: Record<string, string> = {
@@ -69,5 +77,26 @@ export const getSpotifyAccessToken = (
 
       return { access_token, refresh_token, expires_in: expires_in_date };
     }),
+  );
+};
+
+export const validateSpotifyToken = (
+  request: NextRequest,
+): E.Either<Exception, SpotifyToken> => {
+  return pipe(
+    request.cookies.get('token'),
+    O.fromNullable,
+    O.map(({ value }) => value),
+    O.chain(safeJSONParse),
+    E.fromOption(() => createException('No token found')),
+    E.chain(
+      // TODO: create a `decodeValue` function that takes a decoder and returns a function that takes a value and returns an Either
+      flow(spotifyTokenDecoder.decode, E.mapLeft(codecErrorsToException)),
+    ),
+    // TODO: request refresh token if token has expired
+    E.filterOrElse(
+      (value) => value.expires_in > Date.now(),
+      () => createException('Token has expired'),
+    ),
   );
 };
