@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { createException } from '@app/app/utils/error';
 import { LOGGER } from '@app/app/utils/logger';
 import { TOKEN_MAX_AGE_IN_SECONDS } from '@app/constants/token';
@@ -14,7 +13,6 @@ import * as TE from 'fp-ts/TaskEither';
 import { NextConfig } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 
-// eslint-disable-next-line max-statements
 export const middleware = async (
   request: NextRequest,
 ): Promise<NextResponse> => {
