@@ -1,6 +1,7 @@
 import { exceptionDecoder } from '@app/app/decoders/error';
 import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
+import { Errors } from 'io-ts';
 
 export const createException = (
   message: string,
@@ -25,5 +26,12 @@ export const extractException = (error: unknown): Exception => {
   return {
     status: HTTP_STATUS_CODE.BadRequest,
     message: 'Unknown Exception',
+  };
+};
+
+export const codecErrorsToException = (errors: Errors): Exception => {
+  return {
+    status: HTTP_STATUS_CODE.BadRequest,
+    message: errors.map((error) => error.message).join('::'),
   };
 };

@@ -12,7 +12,11 @@ import * as TE from 'fp-ts/TaskEither';
 import * as t from 'io-ts';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { createException, extractException } from '../../app/utils/error';
+import {
+  codecErrorsToException,
+  createException,
+  extractException,
+} from '../../app/utils/error';
 import { ResponseData } from '../../interfaces/response';
 
 const responseDecoder = t.union([
@@ -32,7 +36,11 @@ const handler = async (
     TE.fromEither,
     TE.chain((code) => fetchSpotify('me/player/recently-played', code)),
     TE.chain(
-      flow(responseDecoder.decode, TE.fromEither, TE.mapLeft(extractException)),
+      flow(
+        responseDecoder.decode,
+        TE.fromEither,
+        TE.mapLeft(codecErrorsToException),
+      ),
     ),
     TE.chain(
       TE.fromPredicate(spotifyRecentlyPlayedDecoder.is, extractException),

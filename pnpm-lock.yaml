@@ -25,6 +25,9 @@ dependencies:
   '@types/react-dom':
     specifier: 18.0.10
     version: 18.0.10
+  chalk:
+    specifier: 4.1.0
+    version: 4.1.0
   eslint:
     specifier: 8.33.0
     version: 8.33.0
@@ -1270,8 +1273,8 @@ packages:
       supports-color: 5.5.0
     dev: true
 
-  /chalk@4.1.2:
-    resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
+  /chalk@4.1.0:
+    resolution: {integrity: sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==}
     engines: {node: '>=10'}
     dependencies:
       ansi-styles: 4.3.0
@@ -1879,7 +1882,7 @@ packages:
       '@humanwhocodes/module-importer': 1.0.1
       '@nodelib/fs.walk': 1.2.8
       ajv: 6.12.6
-      chalk: 4.1.2
+      chalk: 4.1.0
       cross-spawn: 7.0.3
       debug: 4.3.4
       doctrine: 3.0.0
