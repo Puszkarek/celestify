@@ -1,0 +1,16 @@
+.about-container {
+  @apply m-[15px] py-[31px] px-[18px];
+}
+
+.about-title {
+  text-align: center;
+  @apply text-primary-purple;
+  @apply text-lg leading-5 uppercase font-black;
+  @apply pt-[0] pb-[25px];
+}
+
+.about-item {
+  @apply text-sm indent-4 leading-7;
+  @apply text-secondary-black;
+  @apply py-[15px];
+}

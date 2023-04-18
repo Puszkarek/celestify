@@ -5,8 +5,10 @@ module.exports = {
     colors: {
       'primary-green': '#90ee90',
       'primary-black': 'rgb(38, 38, 39)',
+      'secondary-black': 'rgb(63, 63, 64)',
       'primary-white': 'whitesmoke',
       'primary-yellow': '#fedc26',
+      'secondary-yellow': '#f9c80e',
       'primary-blue': '#6780ff',
       'primary-purple': '#9c7bff',
       'primary-pink': '#ff69b4',

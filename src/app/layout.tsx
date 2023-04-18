@@ -1,7 +1,7 @@
-import { Footer } from '@app/components/footer';
-import { Header } from '@app/components/header';
 import '@app/styles/global.scss';
 
+import { Footer } from '@app/components/footer';
+import { Header } from '@app/components/header';
 import { FC, ReactNode } from 'react';
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {

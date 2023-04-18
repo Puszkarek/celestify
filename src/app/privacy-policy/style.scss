@@ -1,0 +1,18 @@
+.privacy-container {
+  @apply m-[15px] py-[31px] px-[18px];
+}
+
+.privacy-title {
+  @apply text-primary-purple;
+  @apply text-lg leading-5 uppercase font-black;
+  @apply pt-[30px] pb-[10px];
+}
+.privacy-title:nth-child(1) {
+  @apply pt-0;
+}
+
+.privacy-item {
+  @apply text-sm leading-7 indent-4;
+  @apply text-secondary-black;
+  font-weight: normal;
+}

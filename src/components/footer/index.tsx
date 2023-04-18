@@ -6,10 +6,10 @@ import Link from 'next/link';
 export const Footer = (): JSX.Element => {
   return (
     <footer className="footer-container">
-      <Link href="TODO" className="footer-item">
+      <Link href="privacy-policy" className="footer-item">
         About
       </Link>
-      <Link href="TODO" className="footer-item">
+      <Link href="about" className="footer-item">
         Privacy
       </Link>
       <Link href="https://github.com/Puszkarek" className="footer-item">
