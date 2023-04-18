@@ -1,9 +1,9 @@
 import './style.scss';
 
-import { spotifyTokenDecoder } from '@app/app/decoders/spotify';
 import { createException } from '@app/app/utils/error';
 import { safeJSONParse } from '@app/app/utils/json';
 import { BattleHandler } from '@app/components/battle-handler';
+import { spotifyTokenDecoder } from '@app/decoders/spotify';
 import { fetchSpotify } from '@app/helpers/spotify-api';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/lib/function';

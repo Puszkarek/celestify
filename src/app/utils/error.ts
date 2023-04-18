@@ -1,4 +1,4 @@
-import { exceptionDecoder } from '@app/app/decoders/error';
+import { exceptionDecoder } from '@app/decoders/error';
 import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
 import { Errors } from 'io-ts';

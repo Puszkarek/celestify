@@ -1,4 +1,3 @@
-import { spotifyTokenDecoder } from '@app/app/decoders/spotify';
 import { stringToBase64 } from '@app/app/utils/encode';
 import {
   codecErrorsToException,
@@ -10,6 +9,7 @@ import {
   SPOTIFY_API_TOKEN_URL,
   SPOTIFY_AUTHORIZE_URL,
 } from '@app/constants/spotify-endpoint';
+import { spotifyTokenDecoder } from '@app/decoders/spotify';
 import { Exception } from '@app/interfaces/error';
 import { SpotifyToken } from '@app/interfaces/spotify';
 import * as E from 'fp-ts/Either';

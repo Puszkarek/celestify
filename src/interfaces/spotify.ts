@@ -6,7 +6,7 @@ import {
   spotifyMostPlayedTracksDecoder,
   spotifyTokenDecoder,
   spotifyTrackDecoder,
-} from '@app/app/decoders/spotify';
+} from '@app/decoders/spotify';
 import * as t from 'io-ts';
 
 export type SpotifyError = t.TypeOf<typeof spotifyErrorDecoder>;

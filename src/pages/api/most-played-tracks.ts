@@ -1,9 +1,8 @@
 import {
   spotifyErrorDecoder,
   spotifyMostPlayedTracksDecoder,
-} from '@app/app/decoders/spotify';
+} from '@app/decoders/spotify';
 import { executeTask, fetchSpotify } from '@app/helpers/spotify-api';
-import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
 import { SpotifyMostPlayedTracks } from '@app/interfaces/spotify';
 import * as E from 'fp-ts/Either';

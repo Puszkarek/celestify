@@ -2,8 +2,8 @@
 
 import './style.scss';
 
-import { spotifyMostPlayedTracksDecoder } from '@app/app/decoders/spotify';
 import { Track } from '@app/components/track';
+import { spotifyMostPlayedTracksDecoder } from '@app/decoders/spotify';
 import { SpotifyTrack } from '@app/interfaces/spotify';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/lib/function';
@@ -13,17 +13,17 @@ type TracksByArtist = Map<string, Array<SpotifyTrack>>;
 const groupTracksByArtist = (tracks: Array<SpotifyTrack>): TracksByArtist => {
   const tracksMap = new Map<string, Array<SpotifyTrack>>();
 
-  const twoMostListenedArtists = tracks.reduce((acc, track) => {
+  const twoMostListenedArtists = tracks.reduce((accumulator, track) => {
     const artistName = track.artists[0]?.name;
     if (artistName) {
-      const artistTracksCount = acc.get(artistName);
+      const artistTracksCount = accumulator.get(artistName);
       if (!artistTracksCount) {
-        acc.set(artistName, 0);
+        accumulator.set(artistName, 0);
       }
 
-      acc.set(artistName, (artistTracksCount ?? 0) + 1);
+      accumulator.set(artistName, (artistTracksCount ?? 0) + 1);
     }
-    return acc;
+    return accumulator;
   }, new Map<string, number>());
 
   console.log('twoMostListenedArtists', twoMostListenedArtists);
