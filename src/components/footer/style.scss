@@ -1,0 +1,47 @@
+:root {
+  --primary-black: #0b3d91;
+  --primary-white: #ffffff;
+  --primary-blue: #00f0ff;
+  --primary-green: #1affa3;
+  --primary-purple: #ff1aff;
+  --primary-pink: #ff69b4;
+}
+
+.footer-container {
+  @apply flex flex-col justify-center items-center text-center;
+  @apply p-4;
+
+  @apply bg-primary-black;
+  @apply text-primary-white;
+}
+
+.footer-item {
+  @apply text-primary-blue;
+  @apply transition duration-200 ease-in-out;
+
+  &:hover {
+    @apply underline;
+  }
+}
+
+.footer-item:nth-child(1) {
+  @apply text-primary-pink;
+  @apply pl-[20px] pb-[8px];
+  font-size: 1.4rem;
+}
+
+.footer-item:nth-child(2) {
+  @apply text-primary-green;
+  @apply pr-[100px] pb-[16px];
+  font-size: 1.1rem;
+}
+
+.footer-item:nth-child(3) {
+  @apply pl-[80px] pb-[11px];
+  font-size: 1.3rem;
+}
+
+.footer-item:last-child {
+  @apply text-primary-purple;
+  font-size: 0.8rem;
+}

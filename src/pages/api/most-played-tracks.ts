@@ -1,34 +1,30 @@
 import {
   spotifyErrorDecoder,
-  spotifyRecentlyPlayedDecoder,
+  spotifyMostPlayedTracksDecoder,
 } from '@app/app/decoders/spotify';
 import { executeTask, fetchSpotify } from '@app/helpers/spotify-api';
 import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
-import { RecentlyPlayed } from '@app/interfaces/spotify';
+import { SpotifyMostPlayedTracks } from '@app/interfaces/spotify';
 import * as E from 'fp-ts/Either';
 import { flow, pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/TaskEither';
 import * as t from 'io-ts';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import {
-  codecErrorsToException,
-  createException,
-  extractException,
-} from '../../app/utils/error';
+import { codecErrorsToException, createException } from '../../app/utils/error';
 import { ResponseData } from '../../interfaces/response';
 
 const responseDecoder = t.union([
-  spotifyRecentlyPlayedDecoder,
+  spotifyMostPlayedTracksDecoder,
   spotifyErrorDecoder,
 ]);
 
 const handler = async (
   request: NextApiRequest,
-  response: NextApiResponse<ResponseData<RecentlyPlayed>>,
+  response: NextApiResponse<ResponseData<SpotifyMostPlayedTracks>>,
 ): Promise<void> => {
-  const task: TE.TaskEither<Exception, RecentlyPlayed> = pipe(
+  const task = pipe(
     request.headers.authorization,
     E.fromNullable(
       createException('Unauthorized', HTTP_STATUS_CODE.Unauthorized),
@@ -41,9 +37,6 @@ const handler = async (
         TE.fromEither,
         TE.mapLeft(codecErrorsToException),
       ),
-    ),
-    TE.chain(
-      TE.fromPredicate(spotifyRecentlyPlayedDecoder.is, extractException),
     ),
   );
 

@@ -32,8 +32,11 @@ export const spotifyAlbumDecoder = t.type({
   type: t.literal('album'),
   id: t.string,
   name: t.string,
-  album_group: t.literal('album'),
-  album_type: t.literal('album'),
+  album_type: t.union([
+    t.literal('ALBUM'),
+    t.literal('SINGLE'),
+    t.literal('COMPILATION'),
+  ]),
   artists: t.array(spotifyArtistDecoder),
   href: t.string,
   images: t.array(spotifyImageDecoder),
@@ -62,19 +65,9 @@ export const spotifyContextDecoder = t.type({
 });
 
 // * Endpoints
-export const spotifyRecentlyPlayedDecoder = t.type({
-  items: t.array(
-    t.type({
-      track: spotifyTrackDecoder,
-      played_at: t.string,
-      context: t.union([spotifyContextDecoder, t.null]),
-    }),
-  ),
-  next: t.string,
-  cursors: t.type({
-    after: t.string,
-    before: t.string,
-  }),
+export const spotifyMostPlayedTracksDecoder = t.type({
+  items: t.array(spotifyTrackDecoder),
+  next: t.union([t.string, t.null]),
   limit: t.number,
   href: t.string,
 });

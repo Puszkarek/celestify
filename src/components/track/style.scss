@@ -1,0 +1,16 @@
+.track-container {
+  @apply p-[10px];
+  .track-info {
+    @apply pt-[4px];
+    .track-name {
+      @apply text-sm text-center;
+      @apply opacity-90;
+
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* number of lines to show */
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+  }
+}

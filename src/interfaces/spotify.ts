@@ -3,7 +3,7 @@ import {
   spotifyArtistDecoder,
   spotifyContextDecoder,
   spotifyErrorDecoder,
-  spotifyRecentlyPlayedDecoder,
+  spotifyMostPlayedTracksDecoder,
   spotifyTokenDecoder,
   spotifyTrackDecoder,
 } from '@app/app/decoders/spotify';
@@ -22,4 +22,6 @@ export type SpotifyTrack = t.TypeOf<typeof spotifyTrackDecoder>;
 export type SpotifyContext = t.TypeOf<typeof spotifyContextDecoder>;
 
 // * Endpoints
-export type RecentlyPlayed = t.TypeOf<typeof spotifyRecentlyPlayedDecoder>;
+export type SpotifyMostPlayedTracks = t.TypeOf<
+  typeof spotifyMostPlayedTracksDecoder
+>;
