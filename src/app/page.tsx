@@ -4,7 +4,6 @@ import { spotifyTokenDecoder } from '@app/app/decoders/spotify';
 import { createException } from '@app/app/utils/error';
 import { safeJSONParse } from '@app/app/utils/json';
 import { BattleHandler } from '@app/components/battle-handler';
-import { Footer } from '@app/components/footer';
 import { fetchSpotify } from '@app/helpers/spotify-api';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/lib/function';
@@ -36,7 +35,6 @@ const Home = async (): Promise<JSX.Element> => {
       <main className="home-container">
         <BattleHandler data={response.right} />
       </main>
-      <Footer />
     </>
   );
 };

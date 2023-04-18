@@ -1,3 +1,5 @@
+import { Footer } from '@app/components/footer';
+import { Header } from '@app/components/header';
 import '@app/styles/global.scss';
 
 import { FC, ReactNode } from 'react';
@@ -10,7 +12,11 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 };
