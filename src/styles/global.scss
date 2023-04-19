@@ -26,6 +26,9 @@ body {
   box-shadow: 5px 5px 0px 0 var(--primary-black-color);
 
   transition: all ease-in 10ms;
+}
+
+.shadow-interacive {
   &:hover {
     filter: brightness(0.9);
   }

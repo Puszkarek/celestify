@@ -12,7 +12,7 @@ export const Footer = (): JSX.Element => {
       <Link href="privacy-policy" className="footer-item">
         Privacy
       </Link>
-      <Link href="https://github.com/Puszkarek" className="footer-item">
+      <Link href="contact" className="footer-item">
         <span style={{ display: 'block' }} className="link">
           Contact
         </span>

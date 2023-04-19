@@ -1,0 +1,49 @@
+.contact-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-container {
+  @apply m-[15px] py-[31px] px-[18px];
+
+  max-width: 500px;
+}
+
+.contact-title {
+  text-align: center;
+  @apply text-primary-purple;
+  @apply text-lg leading-5 uppercase font-black;
+  @apply p-[0];
+}
+.contact-title:nth-child(1) {
+  @apply text-secondary-green;
+  @apply pb-[20px];
+  font-size: 2rem;
+}
+
+.contact-item {
+  @apply text-sm indent-4 leading-7;
+  @apply text-secondary-black;
+  @apply py-[12px];
+}
+
+.email-link {
+  @apply text-primary-purple;
+}
+.instagram-link {
+  @apply text-primary-pink;
+}
+
+.linkedin-link {
+  @apply text-primary-blue;
+}
+
+.github-link {
+  @apply text-secondary-green;
+}
+
+.anchor {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}

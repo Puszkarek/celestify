@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     colors: {
       'primary-green': '#90ee90',
+      'secondary-green': '#5fd65f',
       'primary-black': 'rgb(38, 38, 39)',
       'secondary-black': 'rgb(63, 63, 64)',
       'primary-white': 'whitesmoke',
@@ -12,6 +13,7 @@ module.exports = {
       'primary-blue': '#6780ff',
       'primary-purple': '#9c7bff',
       'primary-pink': '#ff69b4',
+      'primary-red': '#ff4d4d',
     },
     backgroundImage: {
       app: 'linear-gradient(to left, #91EAE4, #86A8E7, #7F7FD5)',

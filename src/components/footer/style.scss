@@ -45,3 +45,9 @@
   @apply text-primary-purple;
   font-size: 0.8rem;
 }
+
+@media screen and (min-width: 1024px) {
+  .footer-container {
+    height: 400px;
+  }
+}

@@ -2,7 +2,7 @@ import './style.scss';
 
 import { FC } from 'react';
 
-const Home: FC = () => {
+const About: FC = () => {
   return (
     <div className="about-wrapper">
       <main className="about-container shadow">
@@ -43,4 +43,4 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+export default About;

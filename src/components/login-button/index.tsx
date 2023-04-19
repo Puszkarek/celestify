@@ -6,7 +6,7 @@ export const LoginButton = (): JSX.Element => {
   const authURL = generateSpotifyLoginURL();
 
   return (
-    <a className="login-button shadow" href={authURL}>
+    <a className="login-button shadow shadow-interacive" href={authURL}>
       <h3>Login</h3>
     </a>
   );

@@ -2,7 +2,7 @@ import './style.scss';
 
 import { FC } from 'react';
 
-const Home: FC = () => {
+const PrivacyPolicy: FC = () => {
   return (
     <div className="privacy-wrapper">
       <main className="privacy-container shadow">
@@ -81,4 +81,4 @@ const Home: FC = () => {
   );
 };
 
-export default Home;
+export default PrivacyPolicy;
