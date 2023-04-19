@@ -1,3 +1,9 @@
+.privacy-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .privacy-container {
   @apply m-[15px] py-[31px] px-[18px];
 }

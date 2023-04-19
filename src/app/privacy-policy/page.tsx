@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const Home: FC = () => {
   return (
-    <>
+    <div className="privacy-wrapper">
       <main className="privacy-container shadow">
         <h2 className="privacy-title">Hey there!</h2>
 
@@ -77,7 +77,7 @@ const Home: FC = () => {
           Guilherme, at [TODO: My Email Address].
         </p>
       </main>
-    </>
+    </div>
   );
 };
 

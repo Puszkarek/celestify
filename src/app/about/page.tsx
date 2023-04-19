@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const Home: FC = () => {
   return (
-    <>
+    <div className="about-wrapper">
       <main className="about-container shadow">
         <h2 className="about-title">
           A <span className="text-secondary-yellow">Musical</span> Universe
@@ -39,7 +39,7 @@ const Home: FC = () => {
           adventure!
         </p>
       </main>
-    </>
+    </div>
   );
 };
 

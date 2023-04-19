@@ -1,5 +1,13 @@
+.about-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .about-container {
   @apply m-[15px] py-[31px] px-[18px];
+
+  max-width: 500px;
 }
 
 .about-title {
