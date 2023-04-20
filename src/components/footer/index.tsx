@@ -6,19 +6,21 @@ import Link from 'next/link';
 export const Footer = (): JSX.Element => {
   return (
     <footer className="footer-container">
-      <Link href="about" className="footer-item">
-        About
-      </Link>
-      <Link href="privacy-policy" className="footer-item">
-        Privacy
-      </Link>
-      <Link href="contact" className="footer-item">
-        <span style={{ display: 'block' }} className="link">
-          Contact
-        </span>
-      </Link>
+      <div className="footer-content">
+        <Link href="about" className="footer-item">
+          About
+        </Link>
+        <Link href="privacy-policy" className="footer-item">
+          Privacy
+        </Link>
+        <Link href="contact" className="footer-item">
+          <span style={{ display: 'block' }} className="link">
+            Contact
+          </span>
+        </Link>
+      </div>
 
-      <span className="footer-item">&copy; 2023</span>
+      <span className="footer-item footer-app-year">&copy; 2023</span>
     </footer>
   );
 };

@@ -1,7 +1,6 @@
 .about-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply flex items-center justify-center;
+  @apply my-[50px];
 }
 
 .about-container {

@@ -1,11 +1,11 @@
 .privacy-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply flex items-center justify-center;
+  @apply my-[50px];
 }
 
 .privacy-container {
   @apply m-[15px] py-[31px] px-[18px];
+  max-width: 500px;
 }
 
 .privacy-title {
