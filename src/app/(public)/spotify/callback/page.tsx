@@ -1,8 +1,8 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 const SpotifyCallback: FC = () => {
   // TODO: Add loading spinner
-  return <main>IDK</main>;
+  return <main className="text-center w-full pt-[40%]">Loading...</main>;
 };
 
 export default SpotifyCallback;

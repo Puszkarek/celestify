@@ -1,10 +1,3 @@
-import { stringToBase64 } from '@app/app/utils/encode';
-import {
-  codecErrorsToException,
-  createException,
-  extractException,
-} from '@app/app/utils/error';
-import { safeJSONParse } from '@app/app/utils/json';
 import {
   SPOTIFY_API_TOKEN_URL,
   SPOTIFY_AUTHORIZE_URL,
@@ -12,6 +5,13 @@ import {
 import { spotifyTokenDecoder } from '@app/decoders/spotify';
 import { Exception } from '@app/interfaces/error';
 import { SpotifyToken } from '@app/interfaces/spotify';
+import { stringToBase64 } from '@app/utils/encode';
+import {
+  codecErrorsToException,
+  createException,
+  extractException,
+} from '@app/utils/error';
+import { safeJSONParse } from '@app/utils/json';
 import * as E from 'fp-ts/Either';
 import { flow, pipe } from 'fp-ts/function';
 import * as O from 'fp-ts/Option';

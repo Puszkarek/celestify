@@ -1,11 +1,11 @@
-import { createException } from '@app/app/utils/error';
-import { LOGGER } from '@app/app/utils/logger';
 import { TOKEN_MAX_AGE_IN_SECONDS } from '@app/constants/token';
 import {
   getSpotifyAccessToken,
   validateSpotifyToken,
 } from '@app/helpers/spotify-login';
 import { getHostURI } from '@app/helpers/url-generator';
+import { createException } from '@app/utils/error';
+import { LOGGER } from '@app/utils/logger';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/lib/function';
 import * as T from 'fp-ts/Task';

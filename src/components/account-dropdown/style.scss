@@ -1,0 +1,6 @@
+.dropdown-item {
+  @apply p-4;
+  &:hover {
+    @apply underline;
+  }
+}

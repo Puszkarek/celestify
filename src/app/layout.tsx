@@ -1,7 +1,6 @@
 import '@app/styles/global.scss';
 
 import { Footer } from '@app/components/footer';
-import { Header } from '@app/components/header';
 import { FC, ReactNode } from 'react';
 
 const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
@@ -12,8 +11,11 @@ const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>
-        <Header />
+      <body
+        style={{
+          overflow: 'auto !important',
+        }}
+      >
         {children}
         <Footer />
       </body>

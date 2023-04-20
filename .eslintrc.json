@@ -10,6 +10,21 @@
     "@next/next/no-html-link-for-pages": "off" // TODO: enable it
   },
   "overrides": [
+    // * TS Rules
+    {
+      "files": ["*.ts"],
+
+      "parserOptions": {
+        "project": ["tsconfig.json"],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "max-lines-per-function": [
+          "error",
+          { "max": 65, "skipBlankLines": true, "skipComments": true }
+        ]
+      }
+    },
     // * Main Rules
     {
       "files": ["*.ts", "*.tsx"],
@@ -65,10 +80,6 @@
         "max-lines": [
           "error",
           { "max": 300, "skipBlankLines": true, "skipComments": true }
-        ],
-        "max-lines-per-function": [
-          "error",
-          { "max": 65, "skipBlankLines": true, "skipComments": true }
         ],
         "max-nested-callbacks": ["error", 3],
         "max-params": ["error", 8],

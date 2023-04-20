@@ -1,4 +1,4 @@
-import { extractException } from '@app/app/utils/error';
+import { extractException } from '@app/utils/error';
 import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
 import { pipe } from 'fp-ts/lib/function';

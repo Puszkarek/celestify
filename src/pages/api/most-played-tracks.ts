@@ -4,15 +4,13 @@ import {
 } from '@app/decoders/spotify';
 import { executeTask, fetchSpotify } from '@app/helpers/spotify-api';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
-import { SpotifyMostPlayedTracks } from '@app/interfaces/spotify';
 import * as E from 'fp-ts/Either';
 import { flow, pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/TaskEither';
 import * as t from 'io-ts';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { codecErrorsToException, createException } from '../../app/utils/error';
-import { ResponseData } from '../../interfaces/response';
+import { codecErrorsToException, createException } from '../../utils/error';
 
 const responseDecoder = t.union([
   spotifyMostPlayedTracksDecoder,
@@ -21,8 +19,15 @@ const responseDecoder = t.union([
 
 const handler = async (
   request: NextApiRequest,
-  response: NextApiResponse<ResponseData<SpotifyMostPlayedTracks>>,
+  response: NextApiResponse,
 ): Promise<void> => {
+  if (request.method !== 'GET') {
+    response
+      .status(405)
+      .send({ data: { message: 'Only GET requests allowed' } });
+    return;
+  }
+
   const task = pipe(
     request.headers.authorization,
     E.fromNullable(
