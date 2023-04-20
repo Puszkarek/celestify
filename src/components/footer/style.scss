@@ -8,6 +8,8 @@
 }
 
 .footer-container {
+  @apply flex flex-col justify-center items-center text-center;
+
   @apply p-4;
 
   @apply bg-primary-black;
