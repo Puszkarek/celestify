@@ -29,19 +29,18 @@ const TOP_COLORS = [
   '#221d2e', // Black
 ] as const;
 
-export const generateGalaxyBackground = (
-  features: AudioFeatures,
-): GalaxyBackground => {
+export const generateGalaxyBackground = ({
+  valence,
+  energy,
+}: AudioFeatures): GalaxyBackground => {
   // Top color: Based on energy
   const top_color =
-    TOP_COLORS[Math.round(features.energy * TOP_COLORS.length)] ??
-    TOP_COLORS[0];
+    TOP_COLORS[Math.round(energy * TOP_COLORS.length)] ?? TOP_COLORS[0];
   // Bottom color: Based on energy and valence
   const bottom_color =
-    BOTTOM_COLORS[Math.round(Math.random() * BOTTOM_COLORS.length)] ??
+    BOTTOM_COLORS[Math.round(valence * BOTTOM_COLORS.length)] ??
     BOTTOM_COLORS[0];
 
-  console.log(bottom_color);
   return {
     top_color: top_color,
     bottom_color: bottom_color,

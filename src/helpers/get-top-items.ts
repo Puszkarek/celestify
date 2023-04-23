@@ -14,7 +14,8 @@ export const getTopItems = (
   return pipe(
     // * Fetch top tracks
     fetchSpotify<SpotifyMostPlayedTracksResponse>(
-      'me/top/tracks?limit=50',
+      // TODO: supports medium_term, short_term, long_term
+      'me/top/tracks?limit=50&time_range=long_term',
       code,
     ),
     TE.bindTo('tracks'),

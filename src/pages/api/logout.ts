@@ -22,7 +22,6 @@ const handler = (
       () => createException('Only POST requests allowed', 405),
     ),
     E.map((request) => {
-      console.log(request);
       for (const cookie of Object.keys(request.cookies)) {
         response.setHeader('Set-Cookie', `${cookie}=; Path=/; Max-Age=0`);
       }

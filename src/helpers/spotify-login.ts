@@ -61,7 +61,6 @@ export const getSpotifyAccessToken = (
         return data;
       },
       (error) => {
-        console.log('HERE', error);
         return extractException(error);
       },
     ),

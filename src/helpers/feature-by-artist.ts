@@ -55,6 +55,7 @@ export const groupFeatureByArtist = (
           features: [],
         });
       }
+
       featuresByArtistMap.get(artistName)?.features.push(track.features);
     }
   }
