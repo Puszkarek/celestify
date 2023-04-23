@@ -1,3 +1,4 @@
+import { audioFeaturesDecoder } from '@app/decoders/music';
 import * as t from 'io-ts';
 
 export const spotifyErrorDecoder = t.type({
@@ -23,6 +24,7 @@ export const spotifyArtistDecoder = t.type({
   name: t.string,
   href: t.string,
   uri: t.string,
+  popularity: t.number,
   external_urls: t.type({
     spotify: t.string,
   }),
@@ -55,6 +57,14 @@ export const spotifyTrackDecoder = t.type({
   popularity: t.number, // ? We might be able to do something with this
 });
 
+export const spotifyAudioFeaturesDecoder = t.intersection([
+  audioFeaturesDecoder,
+  t.type({
+    type: t.literal('audio_features'),
+    id: t.string,
+  }),
+]);
+
 export const spotifyContextDecoder = t.type({
   type: t.literal('artist'),
   external_urls: t.type({
@@ -65,9 +75,19 @@ export const spotifyContextDecoder = t.type({
 });
 
 // * Endpoints
-export const spotifyMostPlayedTracksDecoder = t.type({
+export const spotifyTopTracksResponseDecoder = t.type({
   items: t.array(spotifyTrackDecoder),
   next: t.union([t.string, t.null]),
   limit: t.number,
   href: t.string,
+});
+
+export const spotifyAudioFeaturesResponseDecoder = t.type({
+  audio_features: t.array(spotifyAudioFeaturesDecoder),
+});
+
+// * Custom
+export const featuresByArtistDecoder = t.type({
+  artist: spotifyArtistDecoder,
+  feature: audioFeaturesDecoder,
 });

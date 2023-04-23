@@ -1,0 +1,17 @@
+.galaxy-container {
+  @apply flex flex-col;
+  @apply items-center justify-center;
+  @apply h-full;
+}
+
+.galaxy-content {
+  height: 340px;
+  width: 340px;
+  --galaxy-top-color: black;
+  --galaxy-bottom-color: white;
+  background: linear-gradient(
+    360deg,
+    var(--galaxy-bottom-color) 0%,
+    var(--galaxy-top-color) 100%
+  );
+}

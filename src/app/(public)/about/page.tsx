@@ -15,8 +15,8 @@ const About: FC = () => {
         <p className="about-item">
           Hey there! Welcome to Celestify, where we blend your music taste with
           an astronomical spin. With the help of Spotify&apos;s API, we
-          transform your favorite artists into planets, creating a one-of-a-kind
-          musical galaxy just for you.
+          transform your favorite artists into celestial bodies, creating a
+          one-of-a-kind musical galaxy just for you.
         </p>
 
         <p className="about-item">

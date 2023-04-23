@@ -1,15 +1,15 @@
-import { extractException } from '@app/utils/error';
 import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
+import { extractException } from '@app/utils/error';
 import { pipe } from 'fp-ts/lib/function';
 import * as T from 'fp-ts/Task';
 import * as TE from 'fp-ts/TaskEither';
 import { NextApiResponse } from 'next';
 
-export const fetchSpotify = (
+export const fetchSpotify = <T>(
   endpoint: string,
   token: string,
-): TE.TaskEither<Exception, unknown> => {
+): TE.TaskEither<Exception, T> => {
   return pipe(
     TE.tryCatch(async () => {
       const response = await fetch(`https://api.spotify.com/v1/${endpoint}`, {
@@ -17,7 +17,13 @@ export const fetchSpotify = (
           Authorization: `Bearer ${token}`,
         },
       });
-      const data: unknown = await response.json();
+
+      // Throw error
+      if (response.status < 200 || response.status > 202) {
+        throw new Error(response.statusText);
+      }
+
+      const data = (await response.json()) as T;
       return data;
     }, extractException),
   );

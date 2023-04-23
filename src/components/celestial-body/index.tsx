@@ -3,7 +3,11 @@ import './style.scss';
 import { SpotifyTrack } from '@app/interfaces/spotify';
 import Image from 'next/image';
 
-export const Track = ({ track }: { track: SpotifyTrack }): JSX.Element => {
+export const CelestialBody = ({
+  track,
+}: {
+  track: SpotifyTrack;
+}): JSX.Element => {
   const albumCover = track.album.images[0];
 
   return (

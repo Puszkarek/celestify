@@ -35,3 +35,19 @@ export const codecErrorsToException = (errors: Errors): Exception => {
     message: errors.map((error) => error.message).join('::'),
   };
 };
+
+export const extractError = (error: unknown): Error => {
+  if (error instanceof Error) {
+    return error;
+  }
+
+  if (typeof error === 'string') {
+    return new Error(error);
+  }
+
+  if (exceptionDecoder.is(error)) {
+    return new Error(error.message);
+  }
+
+  return new Error('Unknown Exception');
+};

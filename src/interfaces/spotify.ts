@@ -1,10 +1,12 @@
 import {
   spotifyAlbumDecoder,
   spotifyArtistDecoder,
+  spotifyAudioFeaturesDecoder,
+  spotifyAudioFeaturesResponseDecoder,
   spotifyContextDecoder,
   spotifyErrorDecoder,
-  spotifyMostPlayedTracksDecoder,
   spotifyTokenDecoder,
+  spotifyTopTracksResponseDecoder,
   spotifyTrackDecoder,
 } from '@app/decoders/spotify';
 import * as t from 'io-ts';
@@ -19,9 +21,15 @@ export type SpotifyArtist = t.TypeOf<typeof spotifyArtistDecoder>;
 
 export type SpotifyTrack = t.TypeOf<typeof spotifyTrackDecoder>;
 
+export type SpotifyAudioFeatures = t.TypeOf<typeof spotifyAudioFeaturesDecoder>;
+
 export type SpotifyContext = t.TypeOf<typeof spotifyContextDecoder>;
 
 // * Endpoints
-export type SpotifyMostPlayedTracks = t.TypeOf<
-  typeof spotifyMostPlayedTracksDecoder
+export type SpotifyMostPlayedTracksResponse = t.TypeOf<
+  typeof spotifyTopTracksResponseDecoder
+>;
+
+export type SpotifyAudioFeaturesResponse = t.TypeOf<
+  typeof spotifyAudioFeaturesResponseDecoder
 >;
