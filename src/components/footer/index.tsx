@@ -20,7 +20,7 @@ export const Footer = (): JSX.Element => {
         </Link>
       </div>
 
-      <span className="footer-item footer-app-year">&copy; 2023</span>
+      <div className="footer-app-year">&copy; 2023</div>
     </footer>
   );
 };

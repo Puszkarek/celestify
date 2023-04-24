@@ -25,7 +25,8 @@
   }
 }
 
-.footer-item {
+.footer-item,
+.footer-app-year {
   @apply text-primary-blue;
   @apply transition duration-200 ease-in-out;
 }
@@ -47,8 +48,9 @@
   font-size: 1.3rem;
 }
 
-.footer-item:last-child {
+.footer-app-year {
   @apply text-primary-purple;
+  @apply p-0;
   font-size: 0.8rem;
 }
 
