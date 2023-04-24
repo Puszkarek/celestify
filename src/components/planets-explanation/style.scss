@@ -1,0 +1,16 @@
+.celestial-body-meaning-container {
+  @apply my-[1rem];
+}
+
+.celestial-body-meaning-image {
+  float: left;
+  margin: 1rem;
+}
+.celestial-body-meaning-name {
+  @apply text-xl uppercase text-center;
+  @apply mb-[0.8rem];
+}
+
+.celestial-body-meaning-text {
+  @apply text-sm leading-tight text-secondary-black;
+}

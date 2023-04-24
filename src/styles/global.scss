@@ -4,7 +4,7 @@
 
 @import './variables.scss';
 @import './fonts/lexend-mega.scss';
-@import './fonts/roboto.scss';
+@import './fonts/bungee.scss';
 
 * {
   box-sizing: border-box;
@@ -12,11 +12,17 @@
 
 html,
 body {
-  background-color: var(--primary-yellow-color);
   font-family: 'Lexend Mega', sans-serif;
 
   height: 100%;
   width: 100%;
+}
+
+body {
+  background-color: var(--primary-yellow-color);
+  &:has(.home-container) {
+    background-color: #b5ccff;
+  }
 }
 
 .shadow {

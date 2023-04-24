@@ -5,8 +5,9 @@
 }
 
 .galaxy-content {
-  height: 340px;
-  width: 340px;
+  width: 100%;
+  aspect-ratio: 1;
+
   --galaxy-top-color: black;
   --galaxy-bottom-color: white;
   background: linear-gradient(
@@ -14,4 +15,9 @@
     var(--galaxy-bottom-color) 0%,
     var(--galaxy-top-color) 100%
   );
+}
+
+.celestial-body-name {
+  @apply text-primary-yellow;
+  font-family: 'Bungee';
 }

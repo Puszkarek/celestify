@@ -2,11 +2,23 @@
   height: 80%;
   width: 100%;
 
-  .login-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+  padding: 0 1rem;
 
-    transform: translate(-50%, -50%);
+  .login-header {
+    @apply my-[2rem];
+  }
+
+  .login-button {
+    margin: 50px auto;
+  }
+
+  .login-intro {
+    @apply text-lg text-center;
+  }
+
+  .login-explanation {
+    @apply text-sm leading-tight;
+    @apply text-secondary-black;
+    @apply p-[15px];
   }
 }

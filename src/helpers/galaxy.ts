@@ -75,7 +75,7 @@ const getPlanetType = ({
  */
 export const getCelestialBodyType = (audioFeatures: AudioFeatures): string => {
   /**
-   * Black Hole: Low energy and low valence for a dark, mysterious feeling,
+   * Black Hole: High energy and low valence for a dark, mysterious feeling,
    * With low to medium danceability representing the stillness and rigidity of a black hole
    */
   if (audioFeatures.energy >= 0.9 && audioFeatures.valence <= 0.39) {

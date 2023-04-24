@@ -3,4 +3,6 @@ export enum ICON_NAME {
   arrow_down = 'ArrowDown',
   arrow_up = 'ArrowUp',
   x = 'X',
+  download = 'Download',
+  share = 'Share2',
 }

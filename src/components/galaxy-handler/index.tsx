@@ -9,16 +9,14 @@ export const GalaxyHandler = ({ galaxy }: { galaxy: Galaxy }): JSX.Element => {
     '--galaxy-bottom-color': galaxy.background.bottom_color,
   } as React.CSSProperties;
 
+  const topFive = galaxy.celestialBodies.slice(0, 5);
   return (
-    <div className="galaxy-container shadow p-5 m-2 w-fit text-center">
-      <h2>User's Galaxy</h2>
+    <div className="galaxy-container shadow text-center">
       <div style={contentStyles} className="galaxy-content">
-        {galaxy.celestialBodies.map((celestialBody) => (
-          <>
-            <div style={{ color: 'white' }}>
-              {`${celestialBody.name} - ${celestialBody.type}`}
-            </div>
-          </>
+        {topFive.map((celestialBody, key) => (
+          <div className="celestial-body-name" key={key}>
+            {`${celestialBody.name} - ${celestialBody.type}`}
+          </div>
         ))}
       </div>
     </div>

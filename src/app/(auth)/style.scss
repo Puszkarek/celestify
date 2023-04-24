@@ -1,0 +1,91 @@
+.home-container {
+  width: 100%;
+  margin-bottom: 2rem;
+
+  .home-header {
+    @apply relative overflow-hidden;
+    height: 100dvh;
+    padding-top: calc(50% + 60px);
+    .home-title {
+      font-family: 'Star Jedi';
+
+      @apply w-[280px];
+
+      @apply text-3xl uppercase  text-center;
+      @apply py-[1rem] m-auto;
+      @apply text-secondary-black bg-primary-pink;
+    }
+
+    .home-planet {
+      @apply absolute top-[60%] right-[-27%];
+      @apply h-[200px] w-[200px];
+
+      @apply rounded-full;
+      @apply bg-secondary-green z-[-1];
+    }
+
+    .home-planet:nth-child(2) {
+      @apply top-[5%] right-[-10%];
+      @apply h-[220px] w-[220px];
+
+      @apply bg-primary-purple;
+    }
+
+    .home-planet:nth-child(3) {
+      @apply top-[50%] left-[3%];
+      @apply h-[150px] w-[150px];
+
+      @apply bg-primary-orange;
+    }
+
+    .home-planet:nth-child(4) {
+      @apply top-[-10%] left-[-10%];
+
+      @apply bg-primary-yellow;
+    }
+  }
+}
+
+.home-main-container {
+  @apply px-[20px];
+}
+.section-title {
+  @apply text-xl leading-normal;
+  @apply text-primary-black;
+  @apply mb-[1rem];
+}
+.section-text {
+  @apply text-sm leading-tight;
+  @apply text-secondary-black;
+}
+
+.galaxy-explanation-container,
+.share-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.share-container,
+.galaxy-list-container,
+.galaxy-explanation-container {
+  padding: 1rem;
+}
+
+.share-buttons-container {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  padding: 10px;
+}
+
+.download-button,
+.share-button {
+  padding: 5px;
+}
+
+.download-button {
+  @apply bg-primary-green;
+}
+.share-button {
+  @apply bg-primary-blue;
+}
