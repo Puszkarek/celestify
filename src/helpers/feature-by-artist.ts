@@ -1,4 +1,4 @@
-import { AudioFeatures, FeaturesByArtist } from '@app/helpers/music';
+import { FeaturesByArtist } from '@app/helpers/music';
 import {
   SpotifyArtist,
   SpotifyAudioFeatures,
@@ -7,13 +7,14 @@ import {
 import { mapRecord } from '@app/utils/list';
 
 export const getAverageAudioFeatures = (
-  audioFeatures: Array<AudioFeatures>,
-): AudioFeatures => {
-  const total_features: AudioFeatures = {
+  audioFeatures: Array<FeaturesByArtist['feature']>,
+): FeaturesByArtist['feature'] => {
+  const total_features: FeaturesByArtist['feature'] = {
     danceability: 0,
     energy: 0,
     acousticness: 0,
     valence: 0,
+    popularity: 0,
   };
 
   audioFeatures.forEach((features) => {
@@ -21,6 +22,7 @@ export const getAverageAudioFeatures = (
     total_features.energy += features.energy;
     total_features.acousticness += features.acousticness;
     total_features.valence += features.valence;
+    total_features.popularity += features.popularity / 100;
   });
 
   return {
@@ -28,6 +30,7 @@ export const getAverageAudioFeatures = (
     energy: total_features.energy / audioFeatures.length,
     acousticness: total_features.acousticness / audioFeatures.length,
     valence: total_features.valence / audioFeatures.length,
+    popularity: total_features.popularity / audioFeatures.length,
   };
 };
 
@@ -41,12 +44,13 @@ export const groupFeatureByArtist = (
     string,
     {
       artist: SpotifyArtist;
-      features: Array<SpotifyAudioFeatures>;
+      features: Array<FeaturesByArtist['feature']>;
     }
   >();
 
   for (const track of data) {
     const artist = track.metadata.artists[0];
+
     if (artist) {
       const artistName = artist.name;
       if (!featuresByArtistMap.has(artistName)) {
@@ -56,7 +60,10 @@ export const groupFeatureByArtist = (
         });
       }
 
-      featuresByArtistMap.get(artistName)?.features.push(track.features);
+      featuresByArtistMap.get(artistName)?.features.push({
+        ...track.features,
+        popularity: track.metadata.popularity,
+      });
     }
   }
 

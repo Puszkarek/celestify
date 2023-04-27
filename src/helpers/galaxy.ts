@@ -105,7 +105,7 @@ export const generateCelestialBody = ({
   // Linear interpolation formula: y = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
   const size =
     min_size +
-    ((artist.popularity - min_popularity) * (max_size - min_size)) /
+    ((feature.popularity - min_popularity) * (max_size - min_size)) /
       (max_popularity - min_popularity);
 
   return {
@@ -119,7 +119,7 @@ export const generateGalaxy = (
   artistTracks: Map<string, FeaturesByArtist>,
 ): Galaxy => {
   const celestialBodies: Array<CelestialBody> = [];
-  const total_features: Array<AudioFeatures> = [];
+  const total_features: Array<FeaturesByArtist['feature']> = [];
 
   artistTracks.forEach((value) => {
     // * Create the celestial body

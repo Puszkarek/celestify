@@ -24,7 +24,6 @@ export const spotifyArtistDecoder = t.type({
   name: t.string,
   href: t.string,
   uri: t.string,
-  popularity: t.number,
   external_urls: t.type({
     spotify: t.string,
   }),
@@ -89,5 +88,10 @@ export const spotifyAudioFeaturesResponseDecoder = t.type({
 // * Custom
 export const featuresByArtistDecoder = t.type({
   artist: spotifyArtistDecoder,
-  feature: audioFeaturesDecoder,
+  feature: t.intersection([
+    audioFeaturesDecoder,
+    t.type({
+      popularity: t.number,
+    }),
+  ]),
 });

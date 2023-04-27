@@ -17,7 +17,22 @@
   );
 }
 
+.celestial-body {
+  @apply flex flex-col items-center justify-between;
+}
+
+.celestial-body-image {
+  width: 10%;
+  aspect-ratio: 1;
+
+  border-radius: 100%;
+
+  @apply bg-primary-magenta;
+}
+
 .celestial-body-name {
+  margin-top: 5px;
   @apply text-primary-yellow;
+  font-size: 10px;
   font-family: 'Bungee';
 }

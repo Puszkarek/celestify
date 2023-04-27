@@ -50,10 +50,10 @@ const Home = async (): Promise<JSX.Element> => {
   return (
     <div className="home-container">
       <header className="home-header">
+        {/*   <div aria-hidden className="home-planet"></div>
         <div aria-hidden className="home-planet"></div>
         <div aria-hidden className="home-planet"></div>
-        <div aria-hidden className="home-planet"></div>
-        <div aria-hidden className="home-planet"></div>
+        <div aria-hidden className="home-planet"></div> */}
         <h2 className="home-title shadow">
           <span className="text-primary-green block">Behold</span> Your Unique{' '}
           <span className="text-primary-yellow">Galaxy</span> Awaits!

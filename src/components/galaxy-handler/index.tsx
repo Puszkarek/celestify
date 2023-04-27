@@ -1,6 +1,7 @@
 import './style.scss';
 
 import { Galaxy } from '@app/interfaces/galaxy';
+import Image from 'next/image';
 
 export const GalaxyHandler = ({ galaxy }: { galaxy: Galaxy }): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
@@ -14,8 +15,18 @@ export const GalaxyHandler = ({ galaxy }: { galaxy: Galaxy }): JSX.Element => {
     <div className="galaxy-container shadow text-center">
       <div style={contentStyles} className="galaxy-content">
         {topFive.map((celestialBody, key) => (
-          <div className="celestial-body-name" key={key}>
-            {`${celestialBody.name} - ${celestialBody.type}`}
+          <div key={key} className="celestial-body">
+            <Image
+              src="/images/illustrations/black-hole.png"
+              alt="Celestial body representation"
+              width={1024}
+              height={1024}
+              className="celestial-body-image"
+              style={{
+                width: `calc(10% * ${celestialBody.size})`,
+              }}
+            ></Image>
+            <div className="celestial-body-name">{celestialBody.name}</div>
           </div>
         ))}
       </div>
