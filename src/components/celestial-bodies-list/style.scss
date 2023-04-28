@@ -1,0 +1,32 @@
+.celestial-bodies-list-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 1rem;
+  border: 1px solid black;
+  border-width: 0 0 2px 0;
+}
+
+.celestial-bodies-list-item-counter,
+.celestial-bodies-list-item-name {
+  margin-top: 5px;
+  @apply text-primary-yellow;
+  font-size: 1rem;
+  font-family: 'Bungee';
+}
+
+.celestial-bodies-list-item-counter {
+  font-size: 2rem;
+}
+.celestial-bodies-list-item-name {
+  margin: auto;
+}
+
+.celestial-bodies-list-item-image {
+  aspect-ratio: 1;
+
+  border-radius: 100%;
+
+  width: 100px;
+}

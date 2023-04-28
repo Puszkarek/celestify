@@ -9,7 +9,7 @@ const Home: FC = () => {
       <main className="login-container">
         <header className="login-header">
           <p className="login-intro">
-            Turn your Spotify listening history into a cosmic adventure!
+            Turn your historic into a cosmic adventure!
           </p>
         </header>
 

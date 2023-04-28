@@ -1,6 +1,7 @@
 import './style.scss';
 
-import { GalaxyHandler } from '@app/components/galaxy-handler';
+import { CelestialBodiesList } from '@app/components/celestial-bodies-list';
+import { OrbitHandler } from '@app/components/orbit-handler';
 import Icon from '@app/components/icon';
 import { CelestialBodiesExplanation } from '@app/components/planets-explanation';
 import { spotifyTokenDecoder } from '@app/decoders/spotify';
@@ -60,9 +61,8 @@ const Home = async (): Promise<JSX.Element> => {
         </h2>
       </header>
       <main className="home-main-container">
-        <div>
-          <GalaxyHandler galaxy={response.right}></GalaxyHandler>
-        </div>
+        <OrbitHandler galaxy={response.right}></OrbitHandler>
+        <CelestialBodiesList galaxy={response.right}></CelestialBodiesList>
 
         <section className="share-container shadow">
           <p className="section-text">

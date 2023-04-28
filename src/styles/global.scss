@@ -19,17 +19,17 @@ body {
 }
 
 body {
-  background-color: var(--primary-yellow-color);
+  background-color: var(--primary-yellow);
   &:has(.home-container) {
     background-color: #b5ccff;
   }
 }
 
 .shadow {
-  border: 3px solid var(--primary-black-color);
-  background-color: var(--primary-white-color);
+  border: 3px solid var(--primary-black);
+  background-color: var(--primary-white);
 
-  box-shadow: 5px 5px 0px 0 var(--primary-black-color);
+  box-shadow: 5px 5px 0px 0 var(--primary-black);
 
   transition: all ease-in 10ms;
 }

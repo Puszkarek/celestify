@@ -32,6 +32,7 @@ const requestLogout = (): TE.TaskEither<Exception, Response> => {
 export const AccountDropdown = (): JSX.Element => {
   const [isOpen, setOpen] = useState(false);
 
+  console.log('isOpen', isOpen);
   const { push } = useRouter();
 
   const handleLogout = async (): Promise<void> => {

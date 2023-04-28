@@ -11,7 +11,17 @@ export const celestialBodyDecoder = t.type({
   /** Based on popularity */
   size: t.number,
   /** Based on sadness, happiness, etc */
-  type: t.string,
+  type: t.union([
+    t.literal('black-hole'),
+    t.literal('supernova'),
+    t.literal('wildlife'),
+    t.literal('volcanic'),
+    t.literal('electric'),
+    t.literal('ice'),
+    t.literal('ocean'),
+    t.literal('rocky'),
+    t.literal('gas-giant'),
+  ]),
 });
 
 export const galaxyDecoder = t.type({

@@ -1,8 +1,7 @@
 .login-container {
-  height: 80%;
-  width: 100%;
-
-  padding: 0 1rem;
+  @apply h-[80%] w-[100%] max-w-[600px];
+  @apply flex flex-col items-center justify-center;
+  @apply m-auto py-0 px-[1rem];
 
   .login-header {
     @apply my-[2rem];
@@ -13,7 +12,7 @@
   }
 
   .login-intro {
-    @apply text-lg text-center;
+    @apply text-2xl text-secondary-blue text-center;
   }
 
   .login-explanation {

@@ -15,7 +15,7 @@ const getPlanetType = ({
   acousticness,
   danceability,
   valence,
-}: AudioFeatures): string => {
+}: AudioFeatures): CelestialBody['type'] => {
   // * Importance order: energy, valence, danceability, acousticness
 
   if (energy <= 0.49) {
@@ -73,7 +73,9 @@ const getPlanetType = ({
  * @param audioFeatures - All parameters are between 0 and 1
  * @returns The type of celestial body
  */
-export const getCelestialBodyType = (audioFeatures: AudioFeatures): string => {
+export const getCelestialBodyType = (
+  audioFeatures: AudioFeatures,
+): CelestialBody['type'] => {
   /**
    * Black Hole: High energy and low valence for a dark, mysterious feeling,
    * With low to medium danceability representing the stillness and rigidity of a black hole
