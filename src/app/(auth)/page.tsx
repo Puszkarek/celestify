@@ -4,6 +4,7 @@ import { CelestialBodiesList } from '@app/components/celestial-bodies-list';
 import Icon from '@app/components/icon';
 import { OrbitHandler } from '@app/components/orbit-handler';
 import { CelestialBodiesExplanation } from '@app/components/planets-explanation';
+import { PosterHandler } from '@app/components/poster-handler';
 import { spotifyTokenDecoder } from '@app/decoders/spotify';
 import { groupFeatureByArtist } from '@app/helpers/feature-by-artist';
 import { generateGalaxy } from '@app/helpers/galaxy';
@@ -51,18 +52,14 @@ const Home = async (): Promise<JSX.Element> => {
   return (
     <div className="home-container">
       <header className="home-header">
-        {/*   <div aria-hidden className="home-planet"></div>
-        <div aria-hidden className="home-planet"></div>
-        <div aria-hidden className="home-planet"></div>
-        <div aria-hidden className="home-planet"></div> */}
         <h2 className="home-title shadow">
           <span className="text-primary-green block">Behold</span> Your Unique{' '}
           <span className="text-primary-yellow">Galaxy</span> Awaits!
         </h2>
       </header>
       <main className="home-main-container">
+        <PosterHandler galaxy={response.right}></PosterHandler>
         <OrbitHandler galaxy={response.right}></OrbitHandler>
-        <CelestialBodiesList galaxy={response.right}></CelestialBodiesList>
 
         <section className="share-container shadow">
           <p className="section-text">
@@ -71,14 +68,16 @@ const Home = async (): Promise<JSX.Element> => {
             universe.
           </p>
           <div className="share-buttons-container">
-            <button className="download-button shadow shadow-interacive">
+            <button className="download-button shadow shadow-interactive">
               <Icon name={ICON_NAME.download} size={30}></Icon>
             </button>
-            <button className="share-button shadow shadow-interacive">
+            <button className="share-button shadow shadow-interactive">
               <Icon name={ICON_NAME.share} size={30}></Icon>
             </button>
           </div>
         </section>
+
+        <CelestialBodiesList galaxy={response.right}></CelestialBodiesList>
 
         <section className="galaxy-list-container shadow">
           <h2 className="section-title text-primary-purple">

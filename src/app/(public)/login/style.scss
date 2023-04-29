@@ -1,6 +1,6 @@
 .login-container {
   @apply h-[80%] w-[100%] max-w-[600px];
-  @apply flex flex-col items-center justify-center;
+  @apply flex flex-col items-center justify-between;
   @apply m-auto py-0 px-[1rem];
 
   .login-header {
@@ -19,5 +19,10 @@
     @apply text-sm leading-tight;
     @apply text-secondary-black;
     @apply p-[15px];
+  }
+
+  .citation {
+    @apply text-secondary-blue border-solid border-secondary-blue text-sm opacity-90;
+    @apply p-4;
   }
 }

@@ -1,0 +1,43 @@
+.poster-wrap {
+  --orbit-top-color: black;
+  --orbit-bottom-color: white;
+  --celestial-body-size: 1.5em;
+
+  position: relative;
+
+  height: 100%;
+  width: 100%;
+
+  overflow: hidden;
+  aspect-ratio: 1;
+
+  background: linear-gradient(
+    360deg,
+    var(--orbit-bottom-color) 0%,
+    var(--orbit-top-color) 100%
+  );
+
+  list-style: none;
+  font-size: 1.3em;
+}
+
+.poster-item {
+  @apply absolute;
+  @apply flex flex-col items-center justify-between;
+}
+
+.poster-item-image {
+  aspect-ratio: 1;
+
+  border-radius: 100%;
+}
+
+.poster-item-name {
+  --celestial-body-name-size: 0.5rem;
+
+  @apply mt-[5px];
+  @apply text-primary-yellow text-center;
+  font-size: var(--celestial-body-name-size);
+  line-height: 1em;
+  font-family: 'Bungee';
+}
