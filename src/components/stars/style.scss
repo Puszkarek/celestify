@@ -1,0 +1,48 @@
+// * Stars
+.background-stars-container {
+  position: absolute;
+  width: 300%;
+  height: 300%;
+
+  pointer-events: none;
+
+  animation: ringRotation 75s linear infinite;
+}
+
+.background-star {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  border-radius: 100px;
+
+  background: #fff;
+  filter: brightness(5);
+}
+
+@keyframes flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .background-star {
+    width: 2px;
+    height: 2px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .background-star {
+    width: 3px;
+    height: 3px;
+  }
+}

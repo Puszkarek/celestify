@@ -18,7 +18,7 @@ export const celestialBodyDecoder = t.type({
     t.literal('volcanic'),
     t.literal('electric'),
     t.literal('ice'),
-    t.literal('ocean'),
+    t.literal('oceanic'),
     t.literal('rocky'),
     t.literal('gas-giant'),
   ]),

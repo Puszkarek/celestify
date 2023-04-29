@@ -28,9 +28,9 @@ const getPlanetType = ({
     }
 
     if (valence >= 0.5 && danceability <= 0.5) {
-      /** Ocean Planet: Low energy and high valence for a calm, soothing atmosphere,
+      /** Oceanic Planet: Low energy and high valence for a calm, soothing atmosphere,
      With low danceability representing the stillness and serenity of water */
-      return 'ocean';
+      return 'oceanic';
     }
 
     if (acousticness >= 0.55 && danceability <= 0.5) {

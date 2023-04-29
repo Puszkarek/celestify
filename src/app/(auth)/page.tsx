@@ -1,8 +1,8 @@
 import './style.scss';
 
 import { CelestialBodiesList } from '@app/components/celestial-bodies-list';
-import { OrbitHandler } from '@app/components/orbit-handler';
 import Icon from '@app/components/icon';
+import { OrbitHandler } from '@app/components/orbit-handler';
 import { CelestialBodiesExplanation } from '@app/components/planets-explanation';
 import { spotifyTokenDecoder } from '@app/decoders/spotify';
 import { groupFeatureByArtist } from '@app/helpers/feature-by-artist';
