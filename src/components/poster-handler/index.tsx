@@ -3,6 +3,7 @@
 /* eslint-disable id-length */
 import './style.scss';
 
+import { generateGridItems, GridItem } from '@app/helpers/grid';
 import { Galaxy } from '@app/interfaces/galaxy';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -18,25 +19,39 @@ const PosterHandlerComponent = ({
     '--orbit-bottom-color': galaxy.background.bottom_color,
   } as React.CSSProperties;
 
-  const topFive = galaxy.celestialBodies.slice(0, 5);
+  const topItems = galaxy.celestialBodies.slice(0, 5);
+
+  const gridItems = generateGridItems(20, topItems.length, [5, 6, 7]);
+
   return (
-    <div className="poster-container shadow">
-      <div className="poster-wrap" style={contentStyles}>
-        {topFive.reverse().map((celestialBody, index) => {
-          return (
-            <div key={index} className="poster-item">
-              <Image
-                src="/images/illustrations/black-hole.png"
-                alt="Celestial body representation"
-                height={1024}
-                width={1024}
-                className="poster-item-image"
-              ></Image>
-              <div className="poster-item-name">{celestialBody.name}</div>
-            </div>
-          );
-        })}
-      </div>
+    <div className="poster-container shadow" style={contentStyles}>
+      {topItems.map((celestialBody, index) => {
+        const gridItem = gridItems[index] as GridItem;
+
+        const positionStyles: React.CSSProperties = {
+          gridColumnStart: gridItem.x + 1,
+          gridColumnEnd: gridItem.x + gridItem.size + 1,
+          gridRowStart: gridItem.y + 1,
+          gridRowEnd: gridItem.y + gridItem.size + 1,
+        };
+
+        return (
+          <div
+            key={index}
+            className={`poster-item item`}
+            style={positionStyles}
+          >
+            <Image
+              src="/images/illustrations/black-hole.png"
+              alt="Celestial body representation"
+              height={1024}
+              width={1024}
+              className="poster-item-image"
+            ></Image>
+            <div className="poster-item-name">{celestialBody.name}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

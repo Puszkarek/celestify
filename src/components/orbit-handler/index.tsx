@@ -5,7 +5,7 @@ import './style.scss';
 
 import { Stars } from '@app/components/stars';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
-import { getRandomNumberInRange } from '@app/utils/random';
+import { seededRandomGenerator } from '@app/utils/random';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -45,7 +45,6 @@ const getRingColor = (ringType: CelestialBody['type']): string => {
 };
 
 const OrbitHandlerComponent = ({ galaxy }: { galaxy: Galaxy }): JSX.Element => {
-  console.log('orbit');
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const contentStyles = {
     '--orbit-top-color': galaxy.background.top_color,
@@ -67,13 +66,14 @@ const OrbitHandlerComponent = ({ galaxy }: { galaxy: Galaxy }): JSX.Element => {
         </div>
 
         {topFive.reverse().map((celestialBody, index) => {
+          const randomSeed = index + celestialBody.size;
           const ringColor = getRingColor(celestialBody.type);
 
           // Calculate the width and height for each ring based on the ringIndex
           const size = 85 - index * 25;
 
           const animationSpeed = index * 5;
-          const animationDelay = getRandomNumberInRange(0, 20);
+          const animationDelay = seededRandomGenerator(randomSeed, 0, 20);
           // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           const ringStyles = {
             '--tw-ring-color': `var(--${ringColor})`,

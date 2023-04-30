@@ -1,7 +1,13 @@
-.poster-wrap {
+.poster-container {
   --orbit-top-color: black;
   --orbit-bottom-color: white;
   --celestial-body-size: 1.5em;
+
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
 
   position: relative;
 
@@ -17,7 +23,6 @@
     var(--orbit-top-color) 100%
   );
 
-  list-style: none;
   font-size: 1.3em;
 }
 
@@ -28,8 +33,6 @@
 
 .poster-item-image {
   aspect-ratio: 1;
-
-  border-radius: 100%;
 }
 
 .poster-item-name {

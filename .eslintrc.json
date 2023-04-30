@@ -74,7 +74,7 @@
         "func-style": "error",
         "grouped-accessor-pairs": "error",
         "id-denylist": ["error", "err", "e", "cb", "callback"],
-        "id-length": ["error", { "min": 2, "max": 35 }],
+        "id-length": ["error", { "min": 2, "max": 35, "properties": "never" }],
         "max-classes-per-file": ["error", 2],
         "max-depth": ["error", 4],
         "max-lines": [
