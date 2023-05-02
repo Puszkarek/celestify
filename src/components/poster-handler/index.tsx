@@ -21,7 +21,11 @@ const PosterHandlerComponent = ({
 
   const topItems = galaxy.celestialBodies.slice(0, 5);
 
-  const gridItems = generateGridItems(20, topItems.length, [5, 6, 7]);
+  const gridItems = generateGridItems(topItems.length, [
+    { width: 5, height: 7 },
+    { width: 6, height: 8 },
+    { width: 7, height: 9 },
+  ]);
 
   return (
     <div className="poster-container shadow" style={contentStyles}>
@@ -30,9 +34,9 @@ const PosterHandlerComponent = ({
 
         const positionStyles: React.CSSProperties = {
           gridColumnStart: gridItem.x + 1,
-          gridColumnEnd: gridItem.x + gridItem.size + 1,
+          gridColumnEnd: gridItem.x + gridItem.width + 1,
           gridRowStart: gridItem.y + 1,
-          gridRowEnd: gridItem.y + gridItem.size + 1,
+          gridRowEnd: gridItem.y + gridItem.height + 1,
         };
 
         return (

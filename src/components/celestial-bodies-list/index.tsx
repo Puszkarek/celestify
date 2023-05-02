@@ -2,7 +2,6 @@
 import './style.scss';
 
 import { Galaxy } from '@app/interfaces/galaxy';
-import { List } from 'immutable';
 import Image from 'next/image';
 
 export const CelestialBodiesList = ({

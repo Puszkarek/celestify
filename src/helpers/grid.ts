@@ -1,39 +1,65 @@
-// TODO: move to interfaces folder
+/* eslint-disable func-style */
 export type GridItem = {
   x: number;
   y: number;
-  size: number;
+  width: number;
+  height: number;
 };
 
-type SizeOptions = [number, ...Array<number>];
-
-const generateRandomItem = (sizeOptions: SizeOptions): GridItem => {
-  const size =
+export function generateRandomItem(
+  sizeOptions: [
+    {
+      width: number;
+      height: number;
+    },
+    ...Array<{
+      width: number;
+      height: number;
+    }>,
+  ],
+): GridItem {
+  const { width, height } =
     sizeOptions[Math.floor(Math.random() * sizeOptions.length)] ??
     sizeOptions[0];
-
   return {
-    x: Math.floor(Math.random() * (21 - size)),
-    y: Math.floor(Math.random() * (21 - size)),
-    size,
+    x: Math.floor(Math.random() * (21 - width)),
+    y: Math.floor(Math.random() * (21 - height)),
+    width,
+    height,
   };
-};
+}
 
-const isOverlap = (item1: GridItem, item2: GridItem): boolean => {
+export function isOverlap(item1: GridItem, item2: GridItem): boolean {
   return (
-    item1.x < item2.x + item2.size &&
-    item1.x + item1.size > item2.x &&
-    item1.y < item2.y + item2.size &&
-    item1.y + item1.size > item2.y
+    item1.x < item2.x + item2.width &&
+    item1.x + item1.width > item2.x &&
+    item1.y < item2.y + item2.height &&
+    item1.y + item1.height > item2.y
   );
-};
+}
 
-export const generateGridItems = (
-  gridSize: number,
+export function generateGridItems(
   itemCount: number,
-  sizeOptions: SizeOptions,
-): Array<GridItem> => {
+  sizeOptions: [
+    {
+      width: number;
+      height: number;
+    },
+    ...Array<{
+      width: number;
+      height: number;
+    }>,
+  ],
+): Array<GridItem> {
   const gridItems: Array<GridItem> = [];
+
+  // Start from center
+  gridItems.push({
+    x: 10 - 3,
+    y: 10 - 3,
+    width: 5,
+    height: 6,
+  });
 
   while (gridItems.length < itemCount) {
     const newItem = generateRandomItem(sizeOptions);
@@ -52,4 +78,4 @@ export const generateGridItems = (
   }
 
   return gridItems;
-};
+}

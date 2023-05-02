@@ -31,7 +31,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'black-hole',
+    id: 'supernova',
     name: 'Supernova',
     color: 'primary-blue',
     image: {
@@ -50,7 +50,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'black-hole',
+    id: 'wildlife',
     name: 'Wildlife Planet',
     color: 'primary-green',
     image: {
@@ -71,7 +71,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'black-hole',
+    id: 'rocky',
     name: 'Rocky Planet',
     color: 'primary-brown',
     image: {
@@ -89,7 +89,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'black-hole',
+    id: 'oceanic',
     name: 'Oceanic Planet',
     color: 'primary-aqua',
     image: {
@@ -107,7 +107,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'black-hole',
+    id: 'ice',
     name: 'Ice Planet',
     color: 'primary-cyan',
     image: {
@@ -124,7 +124,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'gas-giant-planet',
+    id: 'gas-giant',
     name: 'Gas-Giant Planet',
     color: 'primary-orange',
     image: {
@@ -143,7 +143,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'black-hole',
+    id: 'vulcanic',
     name: 'Volcano Planet',
     color: 'primary-red',
     image: {
@@ -181,7 +181,7 @@ export const CelestialBodiesExplanation = (): JSX.Element => {
                     width: `${100 * image.size}px`,
                     float: image.position,
                   }}
-                  src={`/images/illustrations/${id}.png`}
+                  src={`/images/illustrations/${id}.svg`}
                   alt="Hey"
                   width={1024}
                   height={1024}
