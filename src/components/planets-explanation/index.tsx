@@ -54,7 +54,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     name: 'Wildlife Planet',
     color: 'primary-green',
     image: {
-      size: 0.5,
+      size: 0.6,
       position: 'left',
     },
     description: (
@@ -93,7 +93,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     name: 'Oceanic Planet',
     color: 'primary-aqua',
     image: {
-      size: 0.6,
+      size: 0.65,
       position: 'left',
     },
     description: (
@@ -128,7 +128,7 @@ const CELESTIAL_BODY_MEANING: Array<{
     name: 'Gas-Giant Planet',
     color: 'primary-orange',
     image: {
-      size: 1.2,
+      size: 1,
       position: 'left',
     },
     description: (
@@ -174,11 +174,13 @@ export const CelestialBodiesExplanation = (): JSX.Element => {
               <div className={`celestial-body-meaning-name text-${color}`}>
                 {name}
               </div>
-              <div>
+              <div className="celestial-body-meaning-content">
                 <Image
                   className="celestial-body-meaning-image"
                   style={{
-                    width: `${100 * image.size}px`,
+                    width: `calc(${
+                      150 * image.size
+                    }px * var(--meaning-image-size-multiplier))`,
                     float: image.position,
                   }}
                   src={`/images/illustrations/${id}.svg`}
