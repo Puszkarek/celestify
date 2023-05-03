@@ -1,4 +1,7 @@
-/* eslint-disable func-style */
+/* eslint-disable max-statements */
+import { CelestialBody } from '@app/interfaces/galaxy';
+import { seededRandomGenerator } from '@app/utils/random';
+
 export type GridItem = {
   x: number;
   y: number;
@@ -6,7 +9,8 @@ export type GridItem = {
   height: number;
 };
 
-export function generateRandomItem(
+export const sizeToGridSize = (
+  size: number,
   sizeOptions: [
     {
       width: number;
@@ -17,29 +21,52 @@ export function generateRandomItem(
       height: number;
     }>,
   ],
-): GridItem {
-  const { width, height } =
-    sizeOptions[Math.floor(Math.random() * sizeOptions.length)] ??
-    sizeOptions[0];
+): {
+  width: number;
+  height: number;
+} => {
+  const centerItemSizeIndex = Math.floor(size * (sizeOptions.length - 1));
+  const centerItemDimensions =
+    sizeOptions[centerItemSizeIndex] ?? sizeOptions[0];
+
+  return centerItemDimensions;
+};
+
+export const generateRandomItem = (
+  sizeOptions: [
+    {
+      width: number;
+      height: number;
+    },
+    ...Array<{
+      width: number;
+      height: number;
+    }>,
+  ],
+  celestialBody: CelestialBody,
+  seed: string,
+): GridItem => {
+  const { width, height } = sizeToGridSize(celestialBody.size, sizeOptions);
   return {
+    // TODO: use seed
     x: Math.floor(Math.random() * (21 - width)),
     y: Math.floor(Math.random() * (21 - height)),
     width,
     height,
   };
-}
+};
 
-export function isOverlap(item1: GridItem, item2: GridItem): boolean {
+export const isOverlap = (item1: GridItem, item2: GridItem): boolean => {
   return (
     item1.x < item2.x + item2.width &&
     item1.x + item1.width > item2.x &&
     item1.y < item2.y + item2.height &&
     item1.y + item1.height > item2.y
   );
-}
+};
 
-export function generateGridItems(
-  itemCount: number,
+export const generateGridItems = (
+  items: [CelestialBody, ...Array<CelestialBody>],
   sizeOptions: [
     {
       width: number;
@@ -50,19 +77,27 @@ export function generateGridItems(
       height: number;
     }>,
   ],
-): Array<GridItem> {
+  seed: string,
+): Array<GridItem> => {
   const gridItems: Array<GridItem> = [];
 
-  // Start from center
+  // * Start from center
   gridItems.push({
-    x: 10 - 3,
-    y: 10 - 3,
-    width: 5,
-    height: 6,
+    ...sizeToGridSize(items[0].size, sizeOptions),
+    // TODO: use seed
+    x: seededRandomGenerator(Math.random(), 7, 8),
+    y: seededRandomGenerator(Math.random(), 7, 8),
   });
 
-  while (gridItems.length < itemCount) {
-    const newItem = generateRandomItem(sizeOptions);
+  let count = 0;
+  while (gridItems.length < items.length) {
+    count += 0.123;
+    const celestialBody = items[gridItems.length - 1] as CelestialBody;
+    const newItem = generateRandomItem(
+      sizeOptions,
+      celestialBody,
+      `${seed}-${count}`,
+    );
 
     let hasOverlap = false;
     for (const item of gridItems) {
@@ -78,4 +113,4 @@ export function generateGridItems(
   }
 
   return gridItems;
-}
+};

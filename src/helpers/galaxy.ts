@@ -1,5 +1,8 @@
-import { generateGalaxyBackground } from '@app/helpers/color';
 import { getAverageAudioFeatures } from '@app/helpers/feature-by-artist';
+import {
+  generateGalaxyBackground,
+  generateGalaxyStars,
+} from '@app/helpers/galaxy-background';
 import { AudioFeatures, FeaturesByArtist } from '@app/helpers/music';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 
@@ -52,7 +55,7 @@ const getPlanetType = ({
   if (energy >= 0.65 && valence <= 0.4 && danceability >= 0.5) {
     /** Volcanic Planet: High energy and low valence for an intense, dramatic atmosphere,
      * With medium to high danceability representing the dynamic nature of volcanoes and eruptions */
-    return 'volcanic';
+    return 'vulcanic';
   }
 
   if (danceability >= 0.55 && valence >= 0.55 && acousticness <= 0.3) {
@@ -98,21 +101,9 @@ export const generateCelestialBody = ({
   artist,
   feature,
 }: FeaturesByArtist): CelestialBody => {
-  const min_popularity = 0;
-  const max_popularity = 1;
-
-  const min_size = 0.3;
-  const max_size = 1.8;
-
-  // Linear interpolation formula: y = y1 + (x - x1) * (y2 - y1) / (x2 - x1)
-  const size =
-    min_size +
-    ((feature.popularity - min_popularity) * (max_size - min_size)) /
-      (max_popularity - min_popularity);
-
   return {
     name: artist.name,
-    size,
+    size: feature.popularity,
     type: getCelestialBodyType(feature),
   };
 };
@@ -130,10 +121,11 @@ export const generateGalaxy = (
     total_features.push(value.feature);
   });
 
+  const averageAudioFeatures = getAverageAudioFeatures(total_features);
+
   return {
     celestialBodies: celestialBodies,
-    background: generateGalaxyBackground(
-      getAverageAudioFeatures(total_features),
-    ),
+    background: generateGalaxyBackground(averageAudioFeatures),
+    stars: generateGalaxyStars(averageAudioFeatures),
   };
 };

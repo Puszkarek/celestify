@@ -1,5 +1,5 @@
 import { AudioFeatures } from '@app/helpers/music';
-import { GalaxyBackground } from '@app/interfaces/galaxy';
+import { GalaxyBackground, GalaxyStars } from '@app/interfaces/galaxy';
 
 // From calmest to most energetic (more energetic = sunrise; more calm = sunset or night)
 const BOTTOM_COLORS = [
@@ -44,5 +44,29 @@ export const generateGalaxyBackground = ({
   return {
     top_color: top_color,
     bottom_color: bottom_color,
+  };
+};
+export const generateGalaxyStars = ({
+  energy,
+  valence,
+}: AudioFeatures): GalaxyStars => {
+  const energyBasedStars = Math.max(
+    70,
+    Math.min(180, Math.round(energy * 180)),
+  );
+  const totalStars = energyBasedStars;
+
+  const commonPercentage = 0.9; // Need at least 90% of total stars
+  const rarePercentage = 0.1; // At max 10% of total stars
+
+  const commonCount = Math.round(totalStars * commonPercentage);
+  const rareCount = Math.min(
+    Math.round(totalStars * rarePercentage),
+    valence < 0.2 ? 0 : Math.round(valence * totalStars * rarePercentage),
+  );
+
+  return {
+    common: commonCount,
+    rare: rareCount,
   };
 };

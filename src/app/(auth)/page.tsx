@@ -1,8 +1,6 @@
 import './style.scss';
 
-import { CelestialBodiesList } from '@app/components/celestial-bodies-list';
 import Icon from '@app/components/icon';
-import { OrbitHandler } from '@app/components/orbit-handler';
 import { CelestialBodiesExplanation } from '@app/components/planets-explanation';
 import { PosterHandler } from '@app/components/poster-handler';
 import { spotifyTokenDecoder } from '@app/decoders/spotify';
@@ -51,15 +49,14 @@ const Home = async (): Promise<JSX.Element> => {
 
   return (
     <div className="home-container">
-      <header className="home-header">
+      {/*       <header className="home-header">
         <h2 className="home-title shadow">
           <span className="text-primary-green block">Behold</span> Your Unique{' '}
           <span className="text-primary-yellow">Galaxy</span> Awaits!
         </h2>
-      </header>
+      </header> */}
       <main className="home-main-container">
         <PosterHandler galaxy={response.right}></PosterHandler>
-        <OrbitHandler galaxy={response.right}></OrbitHandler>
 
         <section className="share-container shadow">
           <p className="section-text">
@@ -76,8 +73,6 @@ const Home = async (): Promise<JSX.Element> => {
             </button>
           </div>
         </section>
-
-        <CelestialBodiesList galaxy={response.right}></CelestialBodiesList>
 
         <section className="galaxy-list-container shadow">
           <h2 className="section-title text-primary-purple">

@@ -27,7 +27,7 @@
 }
 
 .poster-item {
-  @apply absolute;
+  @apply absolute z-10;
   @apply flex flex-col items-center justify-between;
 }
 
@@ -36,11 +36,11 @@
 }
 
 .poster-item-name {
-  --celestial-body-name-size: 0.5rem;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 
-  @apply mt-[5px];
   @apply text-primary-yellow text-center;
-  font-size: var(--celestial-body-name-size);
+  font-size: 1.5rem;
   line-height: 1em;
   font-family: 'Bungee';
 }

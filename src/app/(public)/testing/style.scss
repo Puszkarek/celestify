@@ -1,0 +1,9 @@
+.testing-container {
+  @apply w-[100%] bg-primary-black;
+  @apply flex flex-wrap flex-row items-center justify-between;
+  @apply m-auto gap-4 py-8 px-[1rem];
+}
+.testing-image {
+  width: 400px;
+  height: 400px;
+}
