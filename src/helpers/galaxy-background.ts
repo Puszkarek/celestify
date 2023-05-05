@@ -1,5 +1,5 @@
 import { AudioFeatures } from '@app/helpers/music';
-import { GalaxyBackground, GalaxyStars } from '@app/interfaces/galaxy';
+import { GalaxyBackground, GalaxyStarCount } from '@app/interfaces/galaxy';
 
 // From calmest to most energetic (more energetic = sunrise; more calm = sunset or night)
 const BOTTOM_COLORS = [
@@ -49,7 +49,7 @@ export const generateGalaxyBackground = ({
 export const generateGalaxyStars = ({
   energy,
   valence,
-}: AudioFeatures): GalaxyStars => {
+}: AudioFeatures): GalaxyStarCount => {
   const energyBasedStars = Math.max(
     70,
     Math.min(180, Math.round(energy * 180)),

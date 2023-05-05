@@ -1,9 +1,8 @@
 import './style.scss';
 
+import { CELESTIAL_BODY_TYPES_COUNT } from '@app/constants/poster';
 import Image from 'next/image';
 import { FC } from 'react';
-
-import { CELESTIAL_BODY_TYPES_COUNT } from '../../../constants/galaxy';
 
 const Home: FC = () => {
   const planetList = Object.entries(CELESTIAL_BODY_TYPES_COUNT).map(

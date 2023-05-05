@@ -4,9 +4,13 @@
 import './style.scss';
 
 import { PosterStars } from '@app/components/poster-stars';
-import { CELESTIAL_BODY_TYPES_COUNT } from '@app/constants/galaxy';
-import { generateGridItems, GridItem } from '@app/helpers/grid';
+import {
+  CELESTIAL_BODY_TYPES_COUNT,
+  POSTER_CELESTIAL_BODY_SIZES,
+} from '@app/constants/poster';
+import { generateGridItems } from '@app/helpers/grid';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
+import { PosterItem } from '@app/interfaces/poster';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -15,11 +19,10 @@ const PosterHandlerComponent = ({
 }: {
   galaxy: Galaxy;
 }): JSX.Element => {
-  console.log('poster-handler');
   // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
   const contentStyles = {
-    '--orbit-top-color': galaxy.background.top_color,
-    '--orbit-bottom-color': galaxy.background.bottom_color,
+    /*     '--orbit-top-color': galaxy.background.top_color,
+    '--orbit-bottom-color': galaxy.background.bottom_color, */
   } as React.CSSProperties;
 
   const topItems = galaxy.celestialBodies.slice(0, 5) as [
@@ -33,19 +36,15 @@ const PosterHandlerComponent = ({
 
   const gridItems = generateGridItems(
     topItems,
-    [
-      { width: 5, height: 6 },
-      { width: 6, height: 7 },
-      { width: 7, height: 8 },
-    ],
+    POSTER_CELESTIAL_BODY_SIZES,
     topItems.reduce((accumulator, item) => accumulator + item.name, ''),
   );
 
   return (
     <div className="poster-container shadow" style={contentStyles}>
-      <PosterStars stars={galaxy.stars}></PosterStars>
+      <PosterStars items={gridItems} stars={galaxy.stars}></PosterStars>
       {topItems.map((celestialBody, index) => {
-        const gridItem = gridItems[index] as GridItem;
+        const gridItem = gridItems[index] as PosterItem;
 
         const positionStyles: React.CSSProperties = {
           gridColumnStart: gridItem.x + 1,

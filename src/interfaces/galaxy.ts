@@ -5,9 +5,9 @@ import {
 } from '@app/decoders/galaxy';
 import * as t from 'io-ts';
 
-import { galaxyStars } from '../decoders/galaxy';
+import { galaxyStarCount } from '../decoders/galaxy';
 
-export type GalaxyStars = t.TypeOf<typeof galaxyStars>;
+export type GalaxyStarCount = t.TypeOf<typeof galaxyStarCount>;
 
 export type GalaxyBackground = t.TypeOf<typeof galaxyBackgroundDecoder>;
 

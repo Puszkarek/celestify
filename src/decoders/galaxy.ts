@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 
-export const galaxyStars = t.type({
+export const galaxyStarCount = t.type({
   common: t.number,
   rare: t.number,
 });
@@ -32,5 +32,5 @@ export const celestialBodyDecoder = t.type({
 export const galaxyDecoder = t.type({
   celestialBodies: t.array(celestialBodyDecoder),
   background: galaxyBackgroundDecoder,
-  stars: galaxyStars,
+  stars: galaxyStarCount,
 });

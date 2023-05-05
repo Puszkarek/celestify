@@ -1,3 +1,14 @@
+import { PosterItemSize } from '@app/interfaces/poster';
+
+export const POSTER_CELESTIAL_BODY_SIZES: [
+  PosterItemSize,
+  ...Array<PosterItemSize>,
+] = [
+  { width: 5, height: 6 },
+  { width: 6, height: 7 },
+  { width: 7, height: 8 },
+];
+
 export const CELESTIAL_BODY_TYPES_COUNT = {
   'gas-giant': 2,
   'oceanic': 2,
