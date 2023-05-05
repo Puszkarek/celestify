@@ -6,7 +6,7 @@ import './style.scss';
 import { PosterStars } from '@app/components/poster-stars';
 import { CELESTIAL_BODY_TYPES_COUNT } from '@app/constants/galaxy';
 import { generateGridItems, GridItem } from '@app/helpers/grid';
-import { Galaxy } from '@app/interfaces/galaxy';
+import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -22,7 +22,10 @@ const PosterHandlerComponent = ({
     '--orbit-bottom-color': galaxy.background.bottom_color,
   } as React.CSSProperties;
 
-  const topItems = galaxy.celestialBodies.slice(0, 5);
+  const topItems = galaxy.celestialBodies.slice(0, 5) as [
+    CelestialBody,
+    ...Array<CelestialBody>,
+  ];
 
   if (topItems.length === 0) {
     throw new Error('No celestial bodies found');
