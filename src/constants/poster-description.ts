@@ -56,8 +56,9 @@ export const POSTER_DESCRIPTION = {
     'These oceanic planets are making waves on your playlist! 🎵🌊',
   ],
   'wildlife': [
-    'Wildlife planets bring a jungle of beats to your music collection! 🌴🎶',
-    'Unleash your wild side with these nature-inspired tunes! 🦁🎵',
+    'These lively planets bring a vibrant pulse to your music! 🎵💚',
+    'Discover a new world of beats with these life-infused planets! 🌎🎶',
+    'Breathe life into your playlist with these living celestial gems! 🌟🎧',
   ],
   'rocky': [
     'Rock out to the solid beats of these rocky planets! 🪨🎵',
