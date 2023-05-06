@@ -1,0 +1,29 @@
+.celestial-body-meaning-container {
+  --meaning-image-size-multiplier: 1;
+  @apply my-[1rem];
+}
+
+.celestial-body-meaning-name {
+  clear: both;
+  @apply text-xl uppercase text-center;
+  @apply mb-[0.8rem];
+}
+
+.celestial-body-meaning-text {
+  @apply text-sm leading-tight text-secondary-black;
+}
+
+@media screen and (min-width: 724px) {
+  .celestial-body-meaning-content {
+    display: flex;
+    align-items: center;
+  }
+
+  .celestial-body-meaning-name {
+    margin: 0;
+  }
+  .celestial-body-meaning-image {
+    --meaning-image-size-multiplier: 1.2;
+    float: none;
+  }
+}
