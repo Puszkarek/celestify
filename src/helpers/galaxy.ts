@@ -123,7 +123,9 @@ export const generateGalaxy = (
 
   const averageAudioFeatures = getAverageAudioFeatures(total_features);
 
+  //  topItems.reduce((accumulator, item) => accumulator + item.name, '')
   return {
+    id: '0134',
     celestialBodies: celestialBodies,
     background: generateGalaxyBackground(averageAudioFeatures),
     stars: generateGalaxyStars(averageAudioFeatures),

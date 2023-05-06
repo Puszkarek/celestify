@@ -28,9 +28,8 @@ export const generateRandomItem = (
 ): PosterItem => {
   const { width, height } = sizeToGridSize(celestialBody.size, sizeOptions);
   return {
-    // TODO: use seed
-    x: Math.floor(Math.random() * (21 - width)),
-    y: Math.floor(Math.random() * (21 - height)),
+    x: seededRandomGenerator(`${seed}-y`, 0, 21 - width),
+    y: seededRandomGenerator(`${seed}-x`, 0, 21 - height),
     width,
     height,
   };
@@ -59,14 +58,12 @@ export const generateGridItems = (
   // * Start from center
   gridItems.push({
     ...sizeToGridSize(items[0].size, sizeOptions),
-    // TODO: use seed
-    x: seededRandomGenerator(Math.random(), 7, 8),
-    y: seededRandomGenerator(Math.random(), 7, 8),
+    x: seededRandomGenerator(`${seed}-y`, 7, 8),
+    y: seededRandomGenerator(`${seed}-x`, 7, 8),
   });
 
   let count = 0;
   while (gridItems.length < items.length) {
-    console.log('trying to create', count);
     count += 0.123;
 
     if (count >= 100) {

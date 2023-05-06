@@ -1,3 +1,4 @@
+import { GalaxyStarCount } from '@app/interfaces/galaxy';
 import { PosterItemSize } from '@app/interfaces/poster';
 
 export const POSTER_CELESTIAL_BODY_SIZES: [
@@ -10,18 +11,24 @@ export const POSTER_CELESTIAL_BODY_SIZES: [
 ];
 
 export const CELESTIAL_BODY_TYPES_COUNT = {
-  'gas-giant': 2,
-  'oceanic': 2,
-  'black-hole': 2,
-  'electric': 2,
-  'ice': 2,
-  'rocky': 2,
-  'supernova': 2,
-  'vulcanic': 2,
-  'wildlife': 2,
+  'gas-giant': [0, 1],
+  'oceanic': [0, 1],
+  'black-hole': [0, 1],
+  'electric': [0, 1],
+  'ice': [0, 1],
+  'rocky': [0, 1],
+  'supernova': [0, 1],
+  'vulcanic': [0, 1],
+  'wildlife': [0, 1],
 };
 
-export const STAR_TYPES_COUNT = {
-  common: 8,
-  rare: 12,
-};
+export const STAR_TYPES_COUNT: [GalaxyStarCount, ...Array<GalaxyStarCount>] = [
+  {
+    common: 3,
+    rare: 3,
+  },
+  {
+    common: 1,
+    rare: 3,
+  },
+];

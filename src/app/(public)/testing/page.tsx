@@ -7,16 +7,13 @@ import { FC } from 'react';
 const Home: FC = () => {
   const planetList = Object.entries(CELESTIAL_BODY_TYPES_COUNT).map(
     ([celestialBodyName, value]) => {
-      let count = -1;
-      return Array.from({
-        length: value,
-      }).map(() => {
-        count++;
+      return value.map((variant) => {
+        console.log('value', value);
         return (
           <Image
             className="testing-image"
-            key={`${celestialBodyName}-${count}`}
-            src={`/images/celestial-bodies/${celestialBodyName}/${count}.svg`}
+            key={`${celestialBodyName}-${variant}`}
+            src={`/images/celestial-bodies/${celestialBodyName}/${variant}.svg`}
             alt="Picture of the author"
             width={1024}
             height={1024}

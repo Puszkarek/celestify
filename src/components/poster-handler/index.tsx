@@ -11,6 +11,8 @@ import {
 import { generateGridItems } from '@app/helpers/grid';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 import { PosterItem } from '@app/interfaces/poster';
+import { clone } from '@app/utils/object';
+import { seededRandomGenerator } from '@app/utils/random';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -37,12 +39,14 @@ const PosterHandlerComponent = ({
   const gridItems = generateGridItems(
     topItems,
     POSTER_CELESTIAL_BODY_SIZES,
-    topItems.reduce((accumulator, item) => accumulator + item.name, ''),
+    galaxy.id,
   );
+
+  const availableBodyTypes = clone(CELESTIAL_BODY_TYPES_COUNT);
 
   return (
     <div className="poster-container shadow" style={contentStyles}>
-      <PosterStars items={gridItems} stars={galaxy.stars}></PosterStars>
+      <PosterStars stars={galaxy.stars} galaxyID={galaxy.id}></PosterStars>
       {topItems.map((celestialBody, index) => {
         const gridItem = gridItems[index] as PosterItem;
 
@@ -53,12 +57,21 @@ const PosterHandlerComponent = ({
           gridRowEnd: gridItem.y + gridItem.height + 1,
         };
 
-        const image = Math.floor(
-          Math.random() *
-            CELESTIAL_BODY_TYPES_COUNT[
-              celestialBody.type as keyof typeof CELESTIAL_BODY_TYPES_COUNT
-            ],
+        // TODO: should not repeat the same image
+        const imageIDList = availableBodyTypes[celestialBody.type];
+
+        const imageIndex = seededRandomGenerator(
+          `${galaxy.id}-${index}`,
+          0,
+          imageIDList.length - 1,
         );
+
+        const imageID = imageIDList[imageIndex];
+        // DELETE
+        availableBodyTypes[celestialBody.type] = imageIDList.filter(
+          (id) => id !== imageID,
+        );
+
         return (
           <div
             key={index}
@@ -66,7 +79,7 @@ const PosterHandlerComponent = ({
             style={positionStyles}
           >
             <Image
-              src={`/images/celestial-bodies/${celestialBody.type}/${image}.svg`}
+              src={`/images/celestial-bodies/${celestialBody.type}/${imageID}.svg`}
               alt="Celestial body representation"
               height={1024}
               width={1024}

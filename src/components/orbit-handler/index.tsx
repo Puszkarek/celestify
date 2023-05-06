@@ -11,7 +11,7 @@ import Image from 'next/image';
 
 const getRingColor = (ringType: CelestialBody['type']): string => {
   switch (ringType) {
-    case 'volcanic': {
+    case 'vulcanic': {
       return 'primary-red';
     }
     case 'electric': {
@@ -66,14 +66,17 @@ const OrbitHandlerComponent = ({ galaxy }: { galaxy: Galaxy }): JSX.Element => {
         </div>
 
         {topFive.reverse().map((celestialBody, index) => {
-          const randomSeed = index + celestialBody.size;
           const ringColor = getRingColor(celestialBody.type);
 
           // Calculate the width and height for each ring based on the ringIndex
           const size = 85 - index * 25;
 
           const animationSpeed = index * 5;
-          const animationDelay = seededRandomGenerator(randomSeed, 0, 20);
+          const animationDelay = seededRandomGenerator(
+            celestialBody.size + index,
+            0,
+            20,
+          );
           // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           const ringStyles = {
             '--tw-ring-color': `var(--${ringColor})`,

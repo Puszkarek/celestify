@@ -30,6 +30,7 @@ export const celestialBodyDecoder = t.type({
 });
 
 export const galaxyDecoder = t.type({
+  id: t.string,
   celestialBodies: t.array(celestialBodyDecoder),
   background: galaxyBackgroundDecoder,
   stars: galaxyStarCount,

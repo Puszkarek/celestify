@@ -1,11 +1,8 @@
 import './style.scss';
 
-import { seededRandomGenerator } from '@app/utils/random';
 import { FC } from 'react';
 
 const About: FC = () => {
-  const randomNumber = seededRandomGenerator('Celestify', 0, 10);
-  console.log('about', randomNumber);
   return (
     <div className="about-wrapper">
       <main className="about-container shadow">

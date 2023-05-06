@@ -3,8 +3,7 @@
 import './style.scss';
 
 import { STAR_TYPES_COUNT } from '@app/constants/poster';
-import { GalaxyStarCount } from '@app/interfaces/galaxy';
-import { PosterItem } from '@app/interfaces/poster';
+import { Galaxy, GalaxyStarCount } from '@app/interfaces/galaxy';
 import { seededRandomGenerator } from '@app/utils/random';
 import Image from 'next/image';
 
@@ -18,10 +17,15 @@ type Star = {
 // eslint-disable-next-line max-statements
 export const generateStars = (
   parameters: GalaxyStarCount,
+  starCollectionIndex: number,
 ): {
   common: Array<Star>;
   rare: Array<Star>;
 } => {
+  const starCollection = STAR_TYPES_COUNT[
+    starCollectionIndex
+  ] as GalaxyStarCount;
+
   const occupiedXPositions = new Set<number>();
   const occupiedYPositions = new Set<number>();
 
@@ -40,9 +44,9 @@ export const generateStars = (
           y: yPosition,
           size: seededRandomGenerator(commonStars.length, 3, 8),
           variant: seededRandomGenerator(
-            commonStars.length,
-            1,
-            STAR_TYPES_COUNT.common,
+            commonStars.length / 1.1,
+            0,
+            starCollection.common - 1,
           ),
         };
         commonStars.push(star);
@@ -65,9 +69,9 @@ export const generateStars = (
           y: seededRandomGenerator(rareStars.length / 2, 0, 100),
           size: seededRandomGenerator(rareStars.length, 20, 30),
           variant: seededRandomGenerator(
-            commonStars.length,
-            1,
-            STAR_TYPES_COUNT.rare,
+            commonStars.length / 1.1,
+            0,
+            starCollection.rare - 1,
           ),
         };
         rareStars.push(star);
@@ -83,11 +87,17 @@ export const generateStars = (
 
 export const PosterStars = ({
   stars,
+  galaxyID,
 }: {
-  items: Array<PosterItem>;
+  galaxyID: Galaxy['id'];
   stars: GalaxyStarCount;
 }): JSX.Element => {
-  const starsStyles = generateStars(stars);
+  const seed = galaxyID;
+  const starCollectionIndex = Math.floor(
+    seededRandomGenerator(seed, 0, STAR_TYPES_COUNT.length - 1),
+  );
+
+  const starsStyles = generateStars(stars, starCollectionIndex);
 
   return (
     <div className="background-stars-container">
@@ -95,7 +105,7 @@ export const PosterStars = ({
         return (
           <Image
             key={`common${index}`}
-            src={`/images/stars/common/${star.variant}.svg`}
+            src={`/images/stars/${starCollectionIndex}/common/${star.variant}.svg`}
             alt="Star representation"
             height={32}
             width={32}
@@ -113,7 +123,7 @@ export const PosterStars = ({
         return (
           <Image
             key={`rare${index}`}
-            src={`/images/stars/rare/${star.variant}.svg`}
+            src={`/images/stars/${starCollectionIndex}/rare/${star.variant}.svg`}
             alt="Star representation"
             height={32}
             width={32}
