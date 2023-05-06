@@ -1,6 +1,4 @@
 .poster-container {
-  --orbit-top-color: black;
-  --orbit-bottom-color: white;
   --celestial-body-size: 1.5em;
 
   display: grid;
@@ -16,8 +14,6 @@
 
   overflow: hidden;
   aspect-ratio: 1;
-
-  background: linear-gradient(-135deg, #2c6d85 0%, #331e43 20%, #1d1630 100%);
 
   font-size: 1.3em;
 }

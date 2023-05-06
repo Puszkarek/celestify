@@ -21,11 +21,9 @@ const PosterHandlerComponent = ({
 }: {
   galaxy: Galaxy;
 }): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-  const contentStyles = {
-    /*     '--orbit-top-color': galaxy.background.top_color,
-    '--orbit-bottom-color': galaxy.background.bottom_color, */
-  } as React.CSSProperties;
+  const contentStyles: React.CSSProperties = {
+    background: galaxy.background,
+  };
 
   const topItems = galaxy.celestialBodies.slice(0, 5) as [
     CelestialBody,
