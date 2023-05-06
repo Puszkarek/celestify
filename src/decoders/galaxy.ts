@@ -5,10 +5,7 @@ export const galaxyStarCount = t.type({
   rare: t.number,
 });
 
-export const galaxyBackgroundDecoder = t.type({
-  top_color: t.string,
-  bottom_color: t.string,
-});
+export const galaxyBackgroundDecoder = t.string;
 
 export const celestialBodyDecoder = t.type({
   /** Artist name */
