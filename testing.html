@@ -1,0 +1,97 @@
+<html>
+  <head> </head>
+  <body>
+    <canvas id="gridCanvas" width="1024" height="1024" />
+    <script>
+      const canvasElement = document.getElementById('gridCanvas');
+      const canvasContext = canvasElement.getContext('2d');
+
+      const GRID_SIZE = 1024;
+
+      // Function to load an SVG image
+      const loadSVG = (url) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+          img.src = url;
+        });
+      };
+
+      // Function to generate a random number between min and max (inclusive)
+      const randomInt = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      };
+
+      // Function to check if a rectangle overlaps with any existing rectangles
+      const isOverlapping = (newRect, existingRects) => {
+        for (let rect of existingRects) {
+          if (
+            newRect.x < rect.x + rect.width &&
+            newRect.x + newRect.width > rect.x &&
+            newRect.y < rect.y + rect.height &&
+            newRect.y + newRect.height > rect.y
+          ) {
+            return true;
+          }
+        }
+        return false;
+      };
+
+      // Function to add a random item to the grid
+      const addRandomItem = (isCenterItem) => {
+        const maxAttempts = 50;
+
+        const item = {
+          width: 300,
+          height: 300,
+        };
+
+        if (isCenterItem) {
+          item.x = (GRID_SIZE - item.width) / 2;
+          item.y = (GRID_SIZE - item.height) / 2;
+        } else {
+          let attempts = 0;
+          let positionFound = false;
+
+          while (attempts < maxAttempts && !positionFound) {
+            item.x = randomInt(0, GRID_SIZE - item.width);
+            item.y = randomInt(0, GRID_SIZE - item.height);
+
+            if (!isOverlapping(item, items)) {
+              positionFound = true;
+            } else {
+              attempts++;
+            }
+          }
+
+          if (!positionFound) {
+            return; // If no suitable position is found, exit the function early
+          }
+        }
+
+        items.push(item);
+        loadSVG('./public/images/celestial-bodies/black-hole/0.svg').then(
+          (img) => {
+            canvasContext.drawImage(
+              img,
+              item.x,
+              item.y,
+              item.width,
+              item.height,
+            );
+          },
+        );
+      };
+
+      // Array to store items added to the grid
+      const items = [];
+
+      // Add items to the grid
+      const numItems = 5;
+      for (let i = 0; i < numItems; i++) {
+        addRandomItem(i === 0);
+      }
+    </script>
+  </body>
+</html>

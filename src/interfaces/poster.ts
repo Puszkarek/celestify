@@ -11,6 +11,4 @@ export type PosterItemPossibleSizes = [
 export type PosterItem = {
   x: number;
   y: number;
-  width: number;
-  height: number;
-};
+} & PosterItemSize;

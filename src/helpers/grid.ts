@@ -1,97 +1,128 @@
 /* eslint-disable max-statements */
-import { CelestialBody } from '@app/interfaces/galaxy';
-import {
-  PosterItem,
-  PosterItemPossibleSizes,
-  PosterItemSize,
-} from '@app/interfaces/poster';
-import { seededRandomGenerator } from '@app/utils/random';
+'use client';
 
-export const sizeToGridSize = (
-  size: number,
-  sizeOptions: [PosterItemSize, ...Array<PosterItemSize>],
-): {
-  width: number;
-  height: number;
-} => {
-  const centerItemSizeIndex = Math.floor(size * (sizeOptions.length - 1));
-  const centerItemDimensions =
-    sizeOptions[centerItemSizeIndex] ?? sizeOptions[0];
+import { GRID_SIZE } from '@app/constants/grid';
+import { CELESTIAL_BODY_TYPES_COUNT } from '@app/constants/poster';
+import { Galaxy } from '@app/interfaces/galaxy';
+import { PosterItem } from '@app/interfaces/poster';
+import { clone } from '@app/utils/object';
 
-  return centerItemDimensions;
+const loadSVG = async (url: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.addEventListener('load', () => resolve(img));
+    img.src = url;
+  });
 };
 
-export const generateRandomItem = (
-  celestialBody: CelestialBody,
-  sizeOptions: PosterItemPossibleSizes,
-  seed: string,
-): PosterItem => {
-  const { width, height } = sizeToGridSize(celestialBody.size, sizeOptions);
-  return {
-    x: seededRandomGenerator(`${seed}-y`, 0, 21 - width),
-    y: seededRandomGenerator(`${seed}-x`, 0, 21 - height),
-    width,
-    height,
-  };
+const randomInt = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const isOverlap = (item1: PosterItem, item2: PosterItem): boolean => {
-  return (
-    item1.x < item2.x + item2.width &&
-    item1.x + item1.width > item2.x &&
-    item1.y < item2.y + item2.height &&
-    item1.y + item1.height > item2.y
-  );
+const isOverlapping = (
+  newRect: PosterItem,
+  existingRects: Array<PosterItem>,
+): boolean => {
+  for (const rect of existingRects) {
+    if (
+      newRect.x < rect.x + rect.width &&
+      newRect.x + newRect.width > rect.x &&
+      newRect.y < rect.y + rect.height &&
+      newRect.y + newRect.height > rect.y
+    ) {
+      return true;
+    }
+  }
+  return false;
 };
 
-const isItemAligned = (item_1: PosterItem, item_2: PosterItem): boolean => {
-  return item_1.x === item_2.x || item_1.y === item_2.y;
-};
+const createCanvasBackground = (
+  context: CanvasRenderingContext2D,
+  background: Galaxy['background'],
+): CanvasGradient => {
+  console.log('BACKGROUND-0', background);
+  const canvasWidth = GRID_SIZE;
+  const canvasHeight = GRID_SIZE;
+  const angleInRadians = (background.angle * Math.PI) / 180;
 
-export const generateGridItems = (
-  items: [CelestialBody, ...Array<CelestialBody>],
-  sizeOptions: PosterItemPossibleSizes,
-  seed: string,
-): Array<PosterItem> => {
-  const gridItems: Array<PosterItem> = [];
+  const startX =
+    canvasWidth / 2 + (Math.cos(angleInRadians + Math.PI) * canvasWidth) / 2;
+  const startY =
+    canvasHeight / 2 + (Math.sin(angleInRadians + Math.PI) * canvasHeight) / 2;
+  const endX = canvasWidth / 2 + (Math.cos(angleInRadians) * canvasWidth) / 2;
+  const endY = canvasHeight / 2 + (Math.sin(angleInRadians) * canvasHeight) / 2;
 
-  // * Start from center
-  gridItems.push({
-    ...sizeToGridSize(items[0].size, sizeOptions),
-    x: seededRandomGenerator(`${seed}-y`, 7, 8),
-    y: seededRandomGenerator(`${seed}-x`, 7, 8),
+  const gradient = context.createLinearGradient(startX, startY, endX, endY);
+
+  const mappedColors = new Map(background.colors);
+  mappedColors.forEach((value, key) => {
+    gradient.addColorStop(key, value);
   });
 
-  let count = 0;
-  while (gridItems.length < items.length) {
-    count += 0.123;
+  return gradient;
+};
 
-    if (count >= 100) {
-      console.log('RESET');
-      count = 0;
-      // Reset the gridItems and start over if it takes too long to generate
-      gridItems.slice(0, 1);
-    }
+export const addItemsToCanvas = async (
+  canvasElement: HTMLCanvasElement,
+  galaxy: Galaxy,
+): Promise<void> => {
+  const availableBodyTypes = clone(CELESTIAL_BODY_TYPES_COUNT);
 
-    const celestialBody = items[gridItems.length - 1] as CelestialBody;
-    const newItem = generateRandomItem(
-      celestialBody,
-      sizeOptions,
-      `${seed}-${count}`,
-    );
+  const items: Array<PosterItem> = [];
 
-    let hasOverlap = false;
-    for (const item of gridItems) {
-      if (isOverlap(newItem, item) || isItemAligned(newItem, item)) {
-        hasOverlap = true;
-        break;
+  const context = canvasElement.getContext('2d');
+  if (!context) {
+    return;
+  }
+  // Create gradient
+  const gradient = createCanvasBackground(context, galaxy.background);
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, GRID_SIZE, GRID_SIZE);
+
+  const addItems = async (isCenterItem: boolean): Promise<void> => {
+    const maxAttempts = 50;
+
+    const item: PosterItem = {
+      width: 300,
+      height: 300,
+      x: 0,
+      y: 0,
+    };
+
+    if (isCenterItem) {
+      item.x = (GRID_SIZE - item.width) / 2;
+      item.y = (GRID_SIZE - item.height) / 2;
+    } else {
+      let attempts = 0;
+      let positionFound = false;
+
+      while (attempts < maxAttempts && !positionFound) {
+        item.x = randomInt(0, GRID_SIZE - item.width);
+        item.y = randomInt(0, GRID_SIZE - item.height);
+
+        if (!isOverlapping(item, items)) {
+          positionFound = true;
+        } else {
+          attempts++;
+        }
+      }
+
+      if (!positionFound) {
+        return; // If no suitable position is found, exit the function early
       }
     }
 
-    if (!hasOverlap) {
-      gridItems.push(newItem);
-    }
-  }
+    items.push(item);
 
-  return gridItems;
+    // Draw the SVG image instead of the colored box
+    const svgImage = await loadSVG('images/celestial-bodies/black-hole/0.svg');
+
+    context.drawImage(svgImage, item.x, item.y, item.width, item.height);
+  };
+
+  const numberItems = 5;
+  for (let index = 0; index < numberItems; index++) {
+    console.log('looping');
+    await addItems(index === 0);
+  }
 };
