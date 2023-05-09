@@ -224,7 +224,7 @@
         ],
         "@typescript-eslint/no-base-to-string": "error",
         "@typescript-eslint/no-confusing-void-expression": [
-          "error",
+          "off",
           { "ignoreArrowShorthand": true }
         ],
         "@typescript-eslint/no-duplicate-enum-values": "error",
