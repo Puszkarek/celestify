@@ -6,7 +6,7 @@ import { Galaxy } from '@app/interfaces/galaxy';
 import { PosterGridItem, PosterStarItem } from '@app/interfaces/poster';
 import { seededRandomGenerator } from '@app/utils/random';
 
-const MAX_LOOP_ATTEMPTS = 50;
+const MAX_LOOP_ATTEMPTS = 500;
 
 export const isOverlapping = (
   newItem: PosterGridItem,
@@ -21,16 +21,6 @@ export const isOverlapping = (
       newItem.y + newItem.height > rect.y
     );
   });
-};
-
-const generateStarSeed = ({
-  seed,
-  attempts,
-}: {
-  seed: string;
-  attempts: number;
-}): string => {
-  return `${seed}-${attempts}`;
 };
 
 const initStar = (seed: string): PosterGridItem => {
@@ -64,18 +54,12 @@ export const addStars = async (
 
     while (attempts < MAX_LOOP_ATTEMPTS && !positionFound) {
       item.x = seededRandomGenerator(
-        generateStarSeed({
-          attempts,
-          seed: starSeed,
-        }),
+        `${seed}${attempts}-x`,
         0,
         GRID_SIZE - item.width,
       );
       item.y = seededRandomGenerator(
-        generateStarSeed({
-          attempts: attempts / 0.5,
-          seed: starSeed,
-        }),
+        `${seed}${attempts}-y`,
         0,
         GRID_SIZE - item.height,
       );
