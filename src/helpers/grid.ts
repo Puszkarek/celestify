@@ -4,19 +4,13 @@
 
 import { GRID_SIZE } from '@app/constants/grid';
 import { celestialBodyDecoder } from '@app/decoders/galaxy';
-import { loadSVG } from '@app/helpers/canvas';
-import {
-  FiveCelestialBodiesLayout,
-  generateFiveCelestialBodiesGrid,
-} from '@app/helpers/generate-grid-layout';
-import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
-import { PosterGridItem } from '@app/interfaces/poster';
+import { drawItem } from '@app/helpers/canvas';
+import { generateFiveCelestialBodiesGrid } from '@app/helpers/generate-grid-layout';
+import { addStars } from '@app/helpers/grid-stars';
+import { Galaxy } from '@app/interfaces/galaxy';
+import { FiveCelestialBodiesLayout } from '@app/interfaces/grid-layout';
 import { notUndefined } from '@app/utils/guard';
 import { isLeft } from 'fp-ts/lib/Either';
-
-const randomInt = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
 
 const createCanvasBackground = (
   context: CanvasRenderingContext2D,
@@ -43,64 +37,6 @@ const createCanvasBackground = (
   });
 
   return gradient;
-};
-
-const addStars = async (
-  context: CanvasRenderingContext2D,
-  currentGridItems: Array<PosterGridItem>,
-): Promise<void> => {
-  const maxAttempts = 10;
-
-  // TODO: overlapping the text
-  console.log('started items', currentGridItems);
-  const starItems: Array<PosterGridItem> = [...currentGridItems];
-
-  while (starItems.length < 80) {
-    const item: PosterGridItem = {
-      // TODO: missing the type (common, rare)
-      // TODO: random size
-      width: 15,
-      height: 15,
-      x: 0,
-      y: 0,
-    };
-
-    let attempts = 0;
-    let positionFound = false;
-
-    while (attempts < maxAttempts && !positionFound) {
-      item.x = randomInt(0, GRID_SIZE - item.width);
-      item.y = randomInt(0, GRID_SIZE - item.height);
-
-      // TODO: fix it not working, the items are being overlapped
-      if (
-        starItems.some((rect) => {
-          return (
-            item.x < rect.x + rect.width &&
-            item.x + item.width > rect.x &&
-            item.y < rect.y + rect.height &&
-            item.y + item.height > rect.y
-          );
-        })
-      ) {
-        attempts++;
-      } else {
-        console.log('is not overlapping');
-        positionFound = true;
-      }
-    }
-
-    if (!positionFound) {
-      return; // If no suitable position is found, exit the function early
-    }
-    starItems.push(item);
-
-    // Draw the SVG image instead of the colored box
-    // eslint-disable-next-line no-await-in-loop
-    const starImage = await loadSVG('images/stars/0/common/0.svg');
-
-    context.drawImage(starImage, item.x, item.y, item.width, item.height);
-  }
 };
 
 export const addItemsToCanvas = async (
@@ -130,6 +66,7 @@ export const addItemsToCanvas = async (
   if (celestialBodies.length === 5) {
     const task = generateFiveCelestialBodiesGrid(
       context,
+      galaxy.id,
       celestialBodies as FiveCelestialBodiesLayout,
     );
 
@@ -141,7 +78,21 @@ export const addItemsToCanvas = async (
     }
     const gridItems = result.right;
 
-    await addStars(context, gridItems);
+    const starItems = await addStars(galaxy.id, galaxy.stars, gridItems);
+
+    const starPromises = starItems.map(async (item) => {
+      await drawItem(context, item);
+    });
+
+    await Promise.all(starPromises);
+
+    const itemsPromises = gridItems.map(async (item) => {
+      await drawItem(context, item);
+    });
+
+    await Promise.all(itemsPromises);
+
+    // TODO: add the stars to the gridItems
   }
   if (celestialBodies.length === 4) {
     console.warn('NOT IMPLEMENTED YET');

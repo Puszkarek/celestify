@@ -8,7 +8,6 @@ const Home: FC = () => {
   const planetList = Object.entries(CELESTIAL_BODY_TYPES_COUNT).map(
     ([celestialBodyName, value]) => {
       return value.map((variant) => {
-        console.log('value', value);
         return (
           <Image
             className="testing-image"
