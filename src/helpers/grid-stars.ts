@@ -8,10 +8,11 @@ import { seededRandomGenerator } from '@app/utils/random';
 
 const MAX_LOOP_ATTEMPTS = 50;
 
-const isOverlapping = (
+export const isOverlapping = (
   newItem: PosterGridItem,
   reacts: Array<PosterGridItem>,
 ): boolean => {
+  // TODO: different check for text
   return reacts.some((rect) => {
     return (
       newItem.x < rect.x + rect.width &&
@@ -52,7 +53,6 @@ export const addStars = async (
   starsParameters: Galaxy['stars'],
   currentGridItems: Array<PosterGridItem>,
 ): Promise<Array<PosterGridItem>> => {
-  // TODO: it's overlapping the text
   const starPositions: Array<PosterGridItem> = [...currentGridItems];
 
   while (starPositions.length < starsParameters.common) {
@@ -73,7 +73,7 @@ export const addStars = async (
       );
       item.y = seededRandomGenerator(
         generateStarSeed({
-          attempts: attempts / 0.3,
+          attempts: attempts / 0.5,
           seed: starSeed,
         }),
         0,

@@ -64,19 +64,11 @@ export const addItemsToCanvas = async (
 
   // TODO: make it a function that uses a a switch and returns the TaskEither
   if (celestialBodies.length === 5) {
-    const task = generateFiveCelestialBodiesGrid(
+    const gridItems = await generateFiveCelestialBodiesGrid(
       context,
       galaxy.id,
       celestialBodies as FiveCelestialBodiesLayout,
     );
-
-    // TODO: needs the list of items in the grid so we can add the stars
-    const result = await task();
-
-    if (isLeft(result)) {
-      return;
-    }
-    const gridItems = result.right;
 
     const starItems = await addStars(galaxy.id, galaxy.stars, gridItems);
 

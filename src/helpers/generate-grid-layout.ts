@@ -1,9 +1,16 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable max-lines */
 /* eslint-disable max-lines-per-function */
 import { GRID_ITEM_SIZES, GRID_SIZE } from '@app/constants/grid';
 import { CELESTIAL_BODY_TYPES_COUNT } from '@app/constants/poster';
 import { loadSVG, resizeItemImageSize } from '@app/helpers/canvas';
+import { isOverlapping } from '@app/helpers/grid-stars';
 import { CelestialBody } from '@app/interfaces/galaxy';
-import { FiveCelestialBodiesLayout } from '@app/interfaces/grid-layout';
+import {
+  FiveCelestialBodiesLayout,
+  FourCelestialBodiesLayout,
+} from '@app/interfaces/grid-layout';
 import {
   PosterCelestialBodyItem,
   PosterGridItem,
@@ -14,6 +21,8 @@ import { clone } from '@app/utils/object';
 import { seededRandomGenerator } from '@app/utils/random';
 import { pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/TaskEither';
+
+const MAX_ATTEMPTS = 50;
 
 // eslint-disable-next-line max-statements
 const wrapText = (
@@ -81,11 +90,16 @@ const wrapText = (
 const popRandomItemType = (
   availableBodyTypes: typeof CELESTIAL_BODY_TYPES_COUNT,
   type: CelestialBody['type'],
+  seed: string,
 ): number => {
   const availableTypes = availableBodyTypes[type];
   const variant =
     availableTypes[
-      seededRandomGenerator(Math.random(), 0, availableTypes.length - 1)
+      seededRandomGenerator(
+        seed + availableTypes.length,
+        0,
+        availableTypes.length - 1,
+      )
     ] ?? 0;
 
   availableBodyTypes[type] = availableTypes.filter((bodyType) => {
@@ -149,139 +163,114 @@ const parseLayoutItems = async (
   ];
 };
 
-export const generateFiveCelestialBodiesGrid = (
+type GridItemSize = {
+  width: number;
+  height: number;
+};
+
+// eslint-disable-next-line max-statements
+export const generateFiveCelestialBodiesGrid = async (
   context: CanvasRenderingContext2D,
   seed: string,
-  items: FiveCelestialBodiesLayout,
-): TE.TaskEither<Error, Array<PosterGridItem>> => {
+  celestialBodies: FiveCelestialBodiesLayout,
+): Promise<Array<PosterGridItem>> => {
   const availableBodyTypes = clone(CELESTIAL_BODY_TYPES_COUNT);
 
-  return pipe(
+  const positionCalculators = [
     // First
-    TE.tryCatch(async () => {
-      const celestialBody = items[0];
-      const size = sizeToGridSize(celestialBody.size);
-
-      const item: PosterCelestialBodyItem = {
-        type: 'celestial-body',
-        // Add in the center
-        x:
-          (GRID_SIZE - size.width) / 2 -
-          seededRandomGenerator(Math.random(), -10, 10),
-        y:
-          (GRID_SIZE - size.height) / 2 -
-          seededRandomGenerator(Math.random(), -10, 10),
-        ...size,
-        celestialBody: {
-          ...celestialBody,
-          variant: popRandomItemType(availableBodyTypes, celestialBody.type),
-        },
-      };
-
-      return [...(await parseLayoutItems(context, item))];
-    }, extractError),
+    (size: GridItemSize, customSeed: string) => ({
+      x:
+        (GRID_SIZE - size.width) / 2 -
+        seededRandomGenerator(customSeed, -10, 10),
+      y:
+        (GRID_SIZE - size.height) / 2 -
+        seededRandomGenerator(`${customSeed}-y`, -10, 10),
+    }),
     // Second
-    TE.chain((gridItems) =>
-      TE.tryCatch(async () => {
-        const celestialBody = items[1];
-        const size = sizeToGridSize(celestialBody.size);
-
-        const variant = popRandomItemType(
-          availableBodyTypes,
-          celestialBody.type,
-        );
-        const item: PosterCelestialBodyItem = {
-          type: 'celestial-body',
-          // Add in the center
-          ...size,
-          x: seededRandomGenerator(Math.random(), 20, 60),
-          y: seededRandomGenerator(Math.random(), 20, 60),
-          celestialBody: { ...celestialBody, variant },
-        };
-
-        return [...gridItems, ...(await parseLayoutItems(context, item))];
-      }, extractError),
-    ),
+    (_size: GridItemSize, customSeed: string) => ({
+      x: seededRandomGenerator(customSeed, 20, 60),
+      y: seededRandomGenerator(`${customSeed}-y`, 20, 60),
+    }),
     // Third
-    TE.chain((gridItems) =>
-      TE.tryCatch(async () => {
-        const celestialBody = items[2];
-        const size = sizeToGridSize(celestialBody.size);
-
-        const variant = popRandomItemType(
-          availableBodyTypes,
-          celestialBody.type,
-        );
-
-        const item: PosterCelestialBodyItem = {
-          type: 'celestial-body',
-          // Add in the center
-          ...size,
-          x:
-            GRID_SIZE -
-            size.width -
-            seededRandomGenerator(Math.random(), 20, 60),
-          y: seededRandomGenerator(Math.random(), 20, 60),
-          celestialBody: { ...celestialBody, variant },
-        };
-
-        return [...gridItems, ...(await parseLayoutItems(context, item))];
-      }, extractError),
-    ),
+    (size: GridItemSize, customSeed: string) => ({
+      x: GRID_SIZE - size.width - seededRandomGenerator(customSeed, 20, 60),
+      y: seededRandomGenerator(`${customSeed}-y`, 20, 60),
+    }),
     // Fourth
-    TE.chain((gridItems) =>
-      TE.tryCatch(async () => {
-        const celestialBody = items[3];
-        const size = sizeToGridSize(celestialBody.size);
+    (size: GridItemSize, customSeed: string) => ({
+      x: seededRandomGenerator(customSeed, 20, 60),
+      y:
+        GRID_SIZE -
+        size.height -
+        seededRandomGenerator(`${customSeed}-y`, 100, 150),
+    }),
+    (size: GridItemSize, customSeed: string) => ({
+      x: GRID_SIZE - size.width - seededRandomGenerator(customSeed, 20, 60),
+      y:
+        GRID_SIZE -
+        size.height -
+        seededRandomGenerator(`${customSeed}-y`, 100, 150),
+    }),
+  ] as const;
 
-        const variant = popRandomItemType(
+  const results: Array<PosterGridItem> = [];
+
+  for (const [index, celestialBody] of celestialBodies.entries()) {
+    const size = sizeToGridSize(celestialBody.size);
+    const positionCalculator = positionCalculators[index]!;
+
+    let attempts = 0;
+
+    let position: {
+      x: number;
+      y: number;
+    } | null = null;
+
+    const item = {
+      type: 'celestial-body' as const,
+      // Add in the center
+      ...size,
+      celestialBody: {
+        ...celestialBody,
+        variant: popRandomItemType(
           availableBodyTypes,
           celestialBody.type,
-        );
+          seed,
+        ),
+      },
+    };
 
-        const item: PosterCelestialBodyItem = {
-          type: 'celestial-body',
-          // Add in the center
-          ...size,
-          x: seededRandomGenerator(Math.random(), 20, 60),
-          y:
-            GRID_SIZE -
-            size.height -
-            seededRandomGenerator(Math.random(), 100, 150),
-          celestialBody: { ...celestialBody, variant },
-        };
+    while (attempts < MAX_ATTEMPTS) {
+      attempts++;
+      const newPosition = positionCalculator(
+        size,
+        `${seed}${index}-${attempts}`,
+      );
 
-        return [...gridItems, ...(await parseLayoutItems(context, item))];
-      }, extractError),
-    ),
-    // Fifth
-    TE.chain((gridItems) =>
-      TE.tryCatch(async () => {
-        const celestialBody = items[4];
-        const size = sizeToGridSize(celestialBody.size);
+      if (
+        !isOverlapping(
+          {
+            ...item,
+            ...newPosition,
+          },
+          results,
+        )
+      ) {
+        position = newPosition;
+        break;
+      }
+    }
 
-        const variant = popRandomItemType(
-          availableBodyTypes,
-          celestialBody.type,
-        );
+    if (!position) {
+      break;
+    }
 
-        const item: PosterCelestialBodyItem = {
-          type: 'celestial-body',
-          // Add in the center
-          ...size,
-          x:
-            GRID_SIZE -
-            size.width -
-            seededRandomGenerator(Math.random(), 20, 60),
-          y:
-            GRID_SIZE -
-            size.height -
-            seededRandomGenerator(Math.random(), 100, 150),
-          celestialBody: { ...celestialBody, variant },
-        };
+    const parsedItems = await parseLayoutItems(context, {
+      ...item,
+      ...position,
+    });
+    results.push(...parsedItems);
+  }
 
-        return [...gridItems, ...(await parseLayoutItems(context, item))];
-      }, extractError),
-    ),
-  );
+  return results;
 };
