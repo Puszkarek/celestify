@@ -264,7 +264,9 @@
         "@typescript-eslint/no-throw-literal": ["error"],
         "@typescript-eslint/no-unnecessary-boolean-literal-compare": [
           "error",
-          { "allowComparingNullableBooleansToFalse": false }
+          {
+            "allowComparingNullableBooleansToFalse": false
+          }
         ],
         "@typescript-eslint/no-unnecessary-condition": "error",
         "@typescript-eslint/no-unsafe-assignment": "error",

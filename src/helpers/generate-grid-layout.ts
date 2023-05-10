@@ -33,7 +33,8 @@ const wrapText = (
   yPosition: number,
   maxWidth: number,
   lineHeight: number,
-): void => {
+): Array<PosterGridItem> => {
+  const items: Array<PosterGridItem> = [];
   const words = text.split(' ');
 
   let line = '';
@@ -44,16 +45,40 @@ const wrapText = (
     const metrics = context.measureText(testLine);
     const testWidth = metrics.width;
     if (testWidth > maxWidth && index > 0) {
-      const lineWidth = context.measureText(line).width;
-      context.fillText(line, xPosition - lineWidth / 2, mutableYPosition);
+      const textMetrics = context.measureText(line);
+
+      const item: PosterGridItem = {
+        x: xPosition - textMetrics.width / 2,
+        y: mutableYPosition,
+        width: textMetrics.width,
+        height:
+          textMetrics.actualBoundingBoxAscent +
+          textMetrics.actualBoundingBoxDescent,
+      };
+
+      items.push(item);
+      context.fillText(line, item.x, item.y);
       line = `${word} `;
       mutableYPosition += lineHeight;
     } else {
       line = testLine;
     }
   }
-  const lineWidth = context.measureText(line).width;
-  context.fillText(line, xPosition - lineWidth / 2, mutableYPosition);
+  const textMetrics = context.measureText(line);
+
+  const item: PosterGridItem = {
+    x: xPosition - textMetrics.width / 2,
+    y: mutableYPosition,
+    width: textMetrics.width,
+    height:
+      textMetrics.actualBoundingBoxAscent +
+      textMetrics.actualBoundingBoxDescent,
+  };
+
+  items.push(item);
+  context.fillText(line, item.x, item.y);
+
+  return items;
 };
 
 const popRandomItemType = (
@@ -92,7 +117,7 @@ const addImageTitleToCanvas = (
   context: CanvasRenderingContext2D,
   item: PosterGridItem,
   text: string,
-): void => {
+): Array<PosterGridItem> => {
   // Set the text color
   context.fillStyle = '#ffd700';
 
@@ -108,7 +133,7 @@ const addImageTitleToCanvas = (
   const yOffset = 15;
 
   // Draw text on the canvas
-  wrapText(
+  return wrapText(
     context,
     text,
     item.x + item.width / 2,
@@ -150,7 +175,7 @@ export const addItem = async (
   celestialBody: CelestialBody & {
     variant: number;
   },
-): Promise<void> => {
+): Promise<Array<PosterGridItem>> => {
   // Draw the SVG image instead of the colored box
   const svgImage = await loadSVG(
     `images/celestial-bodies/${celestialBody.type}/${celestialBody.variant}.svg`,
@@ -158,12 +183,19 @@ export const addItem = async (
 
   const itemSize = resizeItemImageSize(svgImage, item);
 
-  context.drawImage(svgImage, item.x, item.y, itemSize.width, itemSize.height);
-  addImageTitleToCanvas(
-    context,
-    { ...item, width: itemSize.width, height: itemSize.height },
-    celestialBody.name,
+  const newItem = { ...item, width: itemSize.width, height: itemSize.height };
+
+  context.drawImage(
+    svgImage,
+    newItem.x,
+    newItem.y,
+    newItem.width,
+    newItem.height,
   );
+  return [
+    newItem,
+    ...addImageTitleToCanvas(context, newItem, celestialBody.name),
+  ];
 };
 
 export const generateFiveCelestialBodiesGrid = (
@@ -176,7 +208,7 @@ export const generateFiveCelestialBodiesGrid = (
     // First
     TE.tryCatch(async () => {
       const celestialBody = items[0];
-      const size = sizeToGridSize(1); // TODO: celestialBody.size
+      const size = sizeToGridSize(celestialBody.size);
       const item = {
         // Add in the center
         x:
@@ -190,15 +222,13 @@ export const generateFiveCelestialBodiesGrid = (
 
       const variant = popRandomItemType(availableBodyTypes, celestialBody.type);
 
-      await addItem(context, item, { ...celestialBody, variant });
-
-      return [item];
+      return await addItem(context, item, { ...celestialBody, variant });
     }, extractError),
     // Second
     TE.chain((gridItems) =>
       TE.tryCatch(async () => {
         const celestialBody = items[1];
-        const size = sizeToGridSize(1);
+        const size = sizeToGridSize(celestialBody.size);
         const item: PosterGridItem = {
           // Add in the center
           ...size,
@@ -211,16 +241,17 @@ export const generateFiveCelestialBodiesGrid = (
           celestialBody.type,
         );
 
-        await addItem(context, item, { ...celestialBody, variant });
-
-        return [...gridItems, item];
+        return [
+          ...gridItems,
+          ...(await addItem(context, item, { ...celestialBody, variant })),
+        ];
       }, extractError),
     ),
     // Third
     TE.chain((gridItems) =>
       TE.tryCatch(async () => {
         const celestialBody = items[2];
-        const size = sizeToGridSize(1);
+        const size = sizeToGridSize(celestialBody.size);
         const item: PosterGridItem = {
           // Add in the center
           ...size,
@@ -236,9 +267,10 @@ export const generateFiveCelestialBodiesGrid = (
           celestialBody.type,
         );
 
-        await addItem(context, item, { ...celestialBody, variant });
-
-        return [...gridItems, item];
+        return [
+          ...gridItems,
+          ...(await addItem(context, item, { ...celestialBody, variant })),
+        ];
       }, extractError),
     ),
     // Fourth
@@ -261,9 +293,10 @@ export const generateFiveCelestialBodiesGrid = (
           celestialBody.type,
         );
 
-        await addItem(context, item, { ...celestialBody, variant });
-
-        return [...gridItems, item];
+        return [
+          ...gridItems,
+          ...(await addItem(context, item, { ...celestialBody, variant })),
+        ];
       }, extractError),
     ),
     // Fifth
@@ -289,9 +322,10 @@ export const generateFiveCelestialBodiesGrid = (
           celestialBody.type,
         );
 
-        await addItem(context, item, { ...celestialBody, variant });
-
-        return [...gridItems, item];
+        return [
+          ...gridItems,
+          ...(await addItem(context, item, { ...celestialBody, variant })),
+        ];
       }, extractError),
     ),
   );

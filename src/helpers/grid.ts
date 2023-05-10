@@ -18,23 +18,6 @@ const randomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const isOverlapping = (
-  newRect: PosterGridItem,
-  existingRects: Array<PosterGridItem>,
-): boolean => {
-  for (const rect of existingRects) {
-    if (
-      newRect.x < rect.x + rect.size &&
-      newRect.x + newRect.size > rect.x &&
-      newRect.y < rect.y + rect.size &&
-      newRect.y + newRect.size > rect.y
-    ) {
-      return true;
-    }
-  }
-  return false;
-};
-
 const createCanvasBackground = (
   context: CanvasRenderingContext2D,
   background: Galaxy['background'],
@@ -66,31 +49,44 @@ const addStars = async (
   context: CanvasRenderingContext2D,
   currentGridItems: Array<PosterGridItem>,
 ): Promise<void> => {
-  const maxAttempts = 50;
+  const maxAttempts = 10;
 
-  const item: PosterGridItem = {
-    // TODO: missing the type (common, rare)
-    // TODO: random size
-    size: 10,
-    x: 0,
-    y: 0,
-  };
-
+  // TODO: overlapping the text
+  console.log('started items', currentGridItems);
   const starItems: Array<PosterGridItem> = [...currentGridItems];
 
-  while (starItems.length < 100) {
+  while (starItems.length < 80) {
+    const item: PosterGridItem = {
+      // TODO: missing the type (common, rare)
+      // TODO: random size
+      width: 15,
+      height: 15,
+      x: 0,
+      y: 0,
+    };
+
     let attempts = 0;
     let positionFound = false;
 
     while (attempts < maxAttempts && !positionFound) {
-      item.x = randomInt(0, GRID_SIZE - item.size);
-      item.y = randomInt(0, GRID_SIZE - item.size);
+      item.x = randomInt(0, GRID_SIZE - item.width);
+      item.y = randomInt(0, GRID_SIZE - item.height);
 
       // TODO: fix it not working, the items are being overlapped
-      if (!isOverlapping(item, starItems)) {
-        positionFound = true;
-      } else {
+      if (
+        starItems.some((rect) => {
+          return (
+            item.x < rect.x + rect.width &&
+            item.x + item.width > rect.x &&
+            item.y < rect.y + rect.height &&
+            item.y + item.height > rect.y
+          );
+        })
+      ) {
         attempts++;
+      } else {
+        console.log('is not overlapping');
+        positionFound = true;
       }
     }
 
@@ -103,7 +99,7 @@ const addStars = async (
     // eslint-disable-next-line no-await-in-loop
     const starImage = await loadSVG('images/stars/0/common/0.svg');
 
-    context.drawImage(starImage, item.x, item.y, item.size, item.size);
+    context.drawImage(starImage, item.x, item.y, item.width, item.height);
   }
 };
 
@@ -111,8 +107,6 @@ export const addItemsToCanvas = async (
   canvasElement: HTMLCanvasElement,
   galaxy: Galaxy,
 ): Promise<void> => {
-  const items: Array<PosterGridItem> = [];
-
   const context = canvasElement.getContext('2d');
   if (!context) {
     return;
