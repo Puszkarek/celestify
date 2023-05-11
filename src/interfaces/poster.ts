@@ -1,6 +1,16 @@
 import { loadSVG } from '@app/helpers/canvas';
 import { CelestialBody } from '@app/interfaces/galaxy';
 
+export type GridItemSize = {
+  width: number;
+  height: number;
+};
+
+export type GridItemPosition = {
+  x: number;
+  y: number;
+};
+
 type BaseGridItem = {
   x: number;
   y: number;

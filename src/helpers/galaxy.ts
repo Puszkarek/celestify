@@ -125,7 +125,7 @@ export const generateGalaxy = (
 
   //  topItems.reduce((accumulator, item) => accumulator + item.name, '')
   return {
-    id: '0134',
+    id: '324', // 124
     celestialBodies: celestialBodies,
     background: generateGalaxyBackground(averageAudioFeatures),
     stars: generateGalaxyStars(averageAudioFeatures),

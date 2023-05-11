@@ -12,6 +12,7 @@ import {
   FourCelestialBodiesLayout,
 } from '@app/interfaces/grid-layout';
 import {
+  GridItemSize,
   PosterCelestialBodyItem,
   PosterGridItem,
   PosterTextItem,
@@ -109,12 +110,7 @@ const popRandomItemType = (
   return variant;
 };
 
-const sizeToGridSize = (
-  size: number,
-): {
-  width: number;
-  height: number;
-} => {
+const sizeToGridSize = (size: number): GridItemSize => {
   const sizeOptions = GRID_ITEM_SIZES;
 
   const centerItemSizeIndex = Math.floor(size * (sizeOptions.length - 1));
@@ -161,11 +157,6 @@ const parseLayoutItems = async (
       30,
     ),
   ];
-};
-
-type GridItemSize = {
-  width: number;
-  height: number;
 };
 
 // eslint-disable-next-line max-statements

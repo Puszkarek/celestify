@@ -2,8 +2,14 @@
 'use client';
 
 import { GRID_SIZE } from '@app/constants/grid';
+import { STAR_TYPES_COUNT } from '@app/constants/poster';
 import { Galaxy } from '@app/interfaces/galaxy';
-import { PosterGridItem, PosterStarItem } from '@app/interfaces/poster';
+import {
+  GridItemPosition,
+  GridItemSize,
+  PosterGridItem,
+  PosterStarItem,
+} from '@app/interfaces/poster';
 import { seededRandomGenerator } from '@app/utils/random';
 
 const MAX_LOOP_ATTEMPTS = 500;
@@ -23,12 +29,24 @@ export const isOverlapping = (
   });
 };
 
-const initStar = (seed: string): PosterGridItem => {
-  const starSize = seededRandomGenerator(seed, 4, 9);
-  const starVariant = 0;
+const initStar = (
+  seed: string,
+  collectionID: number,
+  variantCount: number,
+  type: 'common' | 'rare',
+  [min, max]: [number, number],
+): PosterGridItem => {
+  const starSize = seededRandomGenerator(seed + type, min, max);
+
+  const starVariant = seededRandomGenerator(
+    `${seed}-${type}-variant`,
+    0,
+    variantCount - 1,
+  );
+
   const item: PosterStarItem = {
     type: 'star',
-    url: `images/stars/0/common/${starVariant}.svg`,
+    url: `images/stars/${collectionID}/${type}/${starVariant}.svg`,
     width: starSize,
     height: starSize,
     x: 0,
@@ -38,6 +56,7 @@ const initStar = (seed: string): PosterGridItem => {
   return item;
 };
 
+// eslint-disable-next-line max-lines-per-function
 export const addStars = async (
   seed: string,
   starsParameters: Galaxy['stars'],
@@ -45,41 +64,99 @@ export const addStars = async (
 ): Promise<Array<PosterGridItem>> => {
   const starPositions: Array<PosterGridItem> = [...currentGridItems];
 
+  const collectionID = seededRandomGenerator(
+    `${seed}collection`,
+    0,
+    STAR_TYPES_COUNT.length - 1,
+  );
+  const starsCollection = STAR_TYPES_COUNT[collectionID] ?? STAR_TYPES_COUNT[0];
+
   while (starPositions.length < starsParameters.common) {
-    const starSeed = seed + starPositions.length;
-    const item = initStar(starSeed);
+    const starSeed = `${seed + starPositions.length}common`;
+    const item = initStar(
+      starSeed,
+      collectionID,
+      starsCollection.common,
+      'common',
+      [4, 9],
+    );
 
     let attempts = 0;
-    let positionFound = false;
+    let positionFound: GridItemPosition | null = null;
 
-    while (attempts < MAX_LOOP_ATTEMPTS && !positionFound) {
-      item.x = seededRandomGenerator(
-        `${seed}${attempts}-x`,
-        0,
-        GRID_SIZE - item.width,
-      );
-      item.y = seededRandomGenerator(
-        `${seed}${attempts}-y`,
-        0,
-        GRID_SIZE - item.height,
-      );
+    while (attempts < MAX_LOOP_ATTEMPTS) {
+      const newPosition = {
+        x: seededRandomGenerator(
+          `${seed}${attempts}-x`,
+          0,
+          GRID_SIZE - item.width,
+        ),
+        y: seededRandomGenerator(
+          `${seed}${attempts}-y`,
+          0,
+          GRID_SIZE - item.height,
+        ),
+      };
 
-      // TODO: fix it not working, the items are being overlapped
-      if (isOverlapping(item, starPositions)) {
+      if (isOverlapping({ ...item, ...newPosition }, starPositions)) {
         attempts++;
       } else {
-        positionFound = true;
+        positionFound = newPosition;
+        break;
       }
     }
 
-    if (!positionFound) {
-      // TODO: might be a `Either`
-      return starPositions; // If no suitable position is found, exit the function early
+    if (positionFound === null) {
+      break;
     }
 
-    starPositions.push(item);
+    starPositions.push({ ...item, ...positionFound });
   }
-  // TODO: starPositions.length < starsParameters.rare
+
+  const rareStarsCount = starPositions.length + starsParameters.rare;
+  while (starPositions.length < rareStarsCount) {
+    const starSeed = `${seed + starPositions.length}rare`;
+    const item = initStar(
+      starSeed,
+      collectionID,
+      starsCollection.rare,
+      'rare',
+      [20, 25],
+    );
+
+    let attempts = 0;
+    let positionFound: GridItemPosition | null = null;
+
+    while (attempts < MAX_LOOP_ATTEMPTS) {
+      const xOffset = 25;
+      const yOffset = 15;
+      const newPosition = {
+        x: seededRandomGenerator(
+          `${seed}${attempts}-x`,
+          xOffset,
+          GRID_SIZE - item.width - xOffset,
+        ),
+        y: seededRandomGenerator(
+          `${seed}${attempts}-y`,
+          yOffset,
+          GRID_SIZE - item.height - yOffset,
+        ),
+      };
+
+      if (isOverlapping({ ...item, ...newPosition }, starPositions)) {
+        attempts++;
+      } else {
+        positionFound = newPosition;
+        break;
+      }
+    }
+
+    if (positionFound === null) {
+      break;
+    }
+
+    starPositions.push({ ...item, ...positionFound });
+  }
 
   return starPositions;
 };
