@@ -1,10 +1,13 @@
 /* eslint-disable max-statements */
 'use client';
 
-import { addItemsToCanvas } from '@app/helpers/grid';
+import './style.scss';
+
+import { createGalaxyPoster } from '@app/helpers/grid';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 import dynamic from 'next/dynamic';
-import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 // TODO: This is a hack to prevent the canvas from being rendered twice, improve this later to use hooks
 let isLoading = false;
@@ -13,12 +16,8 @@ const PosterHandlerComponent = ({
 }: {
   galaxy: Galaxy;
 }): JSX.Element => {
-  const canvasReference = useRef<HTMLCanvasElement>(null);
-
+  const [imageURL, setImageURL] = useState<string | null>(null);
   useEffect(() => {
-    if (!canvasReference.current) {
-      return;
-    }
     if (isLoading) {
       return;
     }
@@ -33,10 +32,26 @@ const PosterHandlerComponent = ({
       throw new Error('No celestial bodies found');
     }
 
-    void addItemsToCanvas(canvasReference.current, galaxy);
+    void createGalaxyPoster(galaxy).then((posterURI) => {
+      setImageURL(posterURI);
+    });
   }, []);
 
-  return <canvas ref={canvasReference} height={1024} width={1024} />;
+  if (!imageURL) {
+    return <div className="poster-container shadow">Loading</div>;
+  }
+
+  return (
+    <div className="poster-container shadow">
+      <Image
+        className="poster-image"
+        src={imageURL}
+        alt="Poster"
+        width={1024}
+        height={1024}
+      ></Image>
+    </div>
+  );
 };
 
 export const PosterHandler = dynamic(

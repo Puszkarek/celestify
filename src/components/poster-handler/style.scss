@@ -1,39 +1,12 @@
 .poster-container {
-  --celestial-body-size: 1.5em;
-
-  display: grid;
-  grid-template-columns: repeat(20, 1fr);
-  grid-template-rows: repeat(20, 1fr);
-  gap: 10px;
-  padding: 20px 10px;
-
-  position: relative;
-
   height: 100%;
   width: 100%;
 
   overflow: hidden;
   aspect-ratio: 1;
-
-  font-size: 1.3em;
 }
 
-.poster-item {
-  @apply absolute z-10;
-  @apply flex flex-col items-center justify-between;
-}
-
-.poster-item-image {
-  aspect-ratio: 1;
-}
-
-.poster-item-name {
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-
-  @apply text-center;
-  color: #fdfa83;
-  font-size: 1.5rem;
-  line-height: 1em;
-  font-family: 'Bungee';
+.poster-image {
+  height: 100%;
+  width: 100%;
 }

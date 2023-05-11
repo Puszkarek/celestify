@@ -53,25 +53,27 @@ const initCanvas = async (
   document.fonts.add(await bungeeFont.load());
 
   const lexendFont = new FontFace(
-    'Lexend Mega',
+    'Lexend',
     'url(/fonts/lexend-mega/medium.ttf)',
   );
   document.fonts.add(await lexendFont.load());
 
   // * Add footer
   context.fillStyle = '#fefefe';
-  context.font = '20px Lexend Mega';
+  context.font = '20px Lexend';
 
   context.fillText('celestify.space', 800, 1010);
 };
 
-export const addItemsToCanvas = async (
-  canvasElement: HTMLCanvasElement,
+export const createGalaxyPoster = async (
   galaxy: Galaxy,
-): Promise<void> => {
+): Promise<string | null> => {
+  const canvasElement = document.createElement('canvas');
+  canvasElement.width = GRID_SIZE;
+  canvasElement.height = GRID_SIZE;
   const context = canvasElement.getContext('2d');
   if (!context) {
-    return;
+    return null;
   }
 
   await initCanvas(context, galaxy);
@@ -107,4 +109,6 @@ export const addItemsToCanvas = async (
   if (celestialBodies.length === 4) {
     console.warn('NOT IMPLEMENTED YET');
   }
+
+  return canvasElement.toDataURL();
 };
