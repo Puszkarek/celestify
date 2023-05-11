@@ -4,13 +4,13 @@
 import './style.scss';
 
 import { Icon } from '@app/components/icon';
+import { Loading } from '@app/components/loading';
 import { createGalaxyPoster } from '@app/helpers/grid';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 import { ICON_NAME } from '@app/interfaces/icon';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Loading } from '@app/components/loading';
 
 // TODO: This is a hack to prevent the canvas from being rendered twice, improve this later to use hooks
 let isLoading = false;
@@ -43,16 +43,15 @@ const PosterHandlerComponent = ({
   return (
     <>
       <div className="poster-container shadow">
-        {!imageURL ? (
-          <div>Loading</div>
-        ) : (
-          /*   <Image
+        {imageURL ? (
+          <Image
             className="poster-image"
-            src={'imageURL'}
+            src={imageURL}
             alt="Poster"
             width={1024}
             height={1024}
-          ></Image> */
+          ></Image>
+        ) : (
           <div className="poster-container shadow">
             <div className="poster-loading">
               <Loading />
