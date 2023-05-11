@@ -39,6 +39,32 @@ const createCanvasBackground = (
   return gradient;
 };
 
+const initCanvas = async (
+  context: CanvasRenderingContext2D,
+  galaxy: Galaxy,
+): Promise<void> => {
+  // * Create background
+  const gradient = createCanvasBackground(context, galaxy.background);
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, GRID_SIZE, GRID_SIZE);
+
+  // * Add font for texts (without this, we'll have a racing condition)
+  const bungeeFont = new FontFace('Bungee', 'url(/fonts/bungee/regular.ttf)');
+  document.fonts.add(await bungeeFont.load());
+
+  const lexendFont = new FontFace(
+    'Lexend Mega',
+    'url(/fonts/lexend-mega/medium.ttf)',
+  );
+  document.fonts.add(await lexendFont.load());
+
+  // * Add footer
+  context.fillStyle = '#fefefe';
+  context.font = '20px Lexend Mega';
+
+  context.fillText('celestify.space', 800, 1010);
+};
+
 export const addItemsToCanvas = async (
   canvasElement: HTMLCanvasElement,
   galaxy: Galaxy,
@@ -48,15 +74,7 @@ export const addItemsToCanvas = async (
     return;
   }
 
-  // Create gradient
-  const gradient = createCanvasBackground(context, galaxy.background);
-  context.fillStyle = gradient;
-  context.fillRect(0, 0, GRID_SIZE, GRID_SIZE);
-
-  // Add font for texts (without this, we'll have a racing condition)
-  const bungeeFont = new FontFace('Bungee', 'url(/fonts/bungee/regular.ttf)');
-  const fontFace = await bungeeFont.load();
-  document.fonts.add(fontFace);
+  await initCanvas(context, galaxy);
 
   const celestialBodies = galaxy.celestialBodies
     .slice(0, 5)
