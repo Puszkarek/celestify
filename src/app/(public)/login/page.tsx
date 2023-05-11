@@ -27,8 +27,6 @@ const Home: FC = () => {
         </section>
 
         <LoginButton />
-
-        <p className="citation">“Wine is bottled poetry.”</p>
       </main>
     </>
   );

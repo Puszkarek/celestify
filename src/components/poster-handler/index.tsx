@@ -19,7 +19,7 @@ const PosterHandlerComponent = ({
 }: {
   galaxy: Galaxy;
 }): JSX.Element => {
-  const [imageURL, setImageURL] = useState<string | null>(null);
+  const [imageURI, setImageURI] = useState<string | null>(null);
   useEffect(() => {
     if (isLoading) {
       return;
@@ -36,17 +36,27 @@ const PosterHandlerComponent = ({
     }
 
     void createGalaxyPoster(galaxy).then((posterURI) => {
-      setImageURL(posterURI);
+      setImageURI(posterURI);
     });
-  }, []);
+  }, [galaxy]);
+
+  const share = async (): Promise<void> => {
+    // TODO: improve it later
+    await navigator.share({
+      title: 'Galaxy Poster',
+      text: 'Check out my galaxy poster!',
+      url: 'celestify.space',
+      files: [new File([imageURI ?? ''], 'poster.png', { type: 'image/png' })],
+    });
+  };
 
   return (
     <>
       <div className="poster-container shadow">
-        {imageURL ? (
+        {imageURI ? (
           <Image
             className="poster-image"
-            src={imageURL}
+            src={imageURI}
             alt="Poster"
             width={1024}
             height={1024}
@@ -66,10 +76,17 @@ const PosterHandlerComponent = ({
           universe.
         </p>
         <div className="share-buttons-container">
-          <button className="download-button shadow shadow-interactive">
+          <a
+            href={imageURI ?? ''}
+            download="poster.png"
+            className="download-button shadow shadow-interactive"
+          >
             <Icon name={ICON_NAME.download} size={30}></Icon>
-          </button>
-          <button className="share-button shadow shadow-interactive">
+          </a>
+          <button
+            onClick={share}
+            className="share-button shadow shadow-interactive"
+          >
             <Icon name={ICON_NAME.share} size={30}></Icon>
           </button>
         </div>
