@@ -1,6 +1,6 @@
 import './style.scss';
 
-import Icon from '@app/components/icon';
+import { Icon } from '@app/components/icon';
 import { CelestialBodiesExplanation } from '@app/components/planets-explanation';
 import { PosterHandler } from '@app/components/poster-handler';
 import { spotifyTokenDecoder } from '@app/decoders/spotify';
@@ -57,22 +57,6 @@ const Home = async (): Promise<JSX.Element> => {
       </header> */}
       <main className="home-main-container">
         <PosterHandler galaxy={response.right}></PosterHandler>
-
-        <section className="share-container shadow">
-          <p className="section-text">
-            Share your Galaxy with friends, or download it as a keepsake! Show
-            off your stellar taste in music and let others explore your personal
-            universe.
-          </p>
-          <div className="share-buttons-container">
-            <button className="download-button shadow shadow-interactive">
-              <Icon name={ICON_NAME.download} size={30}></Icon>
-            </button>
-            <button className="share-button shadow shadow-interactive">
-              <Icon name={ICON_NAME.share} size={30}></Icon>
-            </button>
-          </div>
-        </section>
 
         <section className="galaxy-list-container shadow">
           <h2 className="section-title text-primary-purple">

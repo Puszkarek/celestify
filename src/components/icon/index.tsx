@@ -4,13 +4,13 @@ import { ICON_NAME } from '@app/interfaces/icon';
 import * as icons from 'lucide-react';
 import { FC, HTMLAttributes } from 'react';
 
-type IconProperties = {
+export type IconProperties = {
   readonly name: ICON_NAME;
   readonly color?: string;
   readonly size: number;
 };
 
-const Icon: FC<IconProperties & HTMLAttributes<HTMLElement>> = ({
+export const Icon: FC<IconProperties & HTMLAttributes<HTMLElement>> = ({
   name,
   color,
   size,
@@ -32,5 +32,3 @@ const Icon: FC<IconProperties & HTMLAttributes<HTMLElement>> = ({
     <LucideIcon strokeWidth={3} color={color ?? 'currentColor'} size={size} />
   );
 };
-
-export default Icon;

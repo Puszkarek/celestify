@@ -5,4 +5,5 @@ export enum ICON_NAME {
   x = 'X',
   download = 'Download',
   share = 'Share2',
+  loading = 'Loading',
 }

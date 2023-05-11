@@ -2,7 +2,7 @@
 
 import './style.scss';
 
-import Icon from '@app/components/icon';
+import { Icon } from '@app/components/icon';
 import { Exception } from '@app/interfaces/error';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
 import { ICON_NAME } from '@app/interfaces/icon';
