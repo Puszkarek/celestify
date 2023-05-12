@@ -1,5 +1,5 @@
 .footer-container {
-  @apply flex flex-col justify-center items-center text-center;
+  @apply relative flex flex-col justify-center items-center text-center;
 
   @apply p-4;
 
@@ -45,6 +45,12 @@
   font-size: 0.8rem;
 }
 
+.footer-version {
+  @apply text-xs opacity-50;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+}
 @media screen and (min-width: 1024px) {
   .footer-container {
     @apply flex flex-col justify-end items-center;
@@ -69,6 +75,10 @@
 
     .footer-app-year {
       @apply text-2xl;
+    }
+
+    .footer-version {
+      @apply text-base;
     }
   }
 }

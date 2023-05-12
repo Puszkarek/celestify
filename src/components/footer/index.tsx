@@ -21,6 +21,7 @@ export const Footer = (): JSX.Element => {
       </div>
 
       <div className="footer-app-year">&copy; 2023</div>
+      <div className="footer-version">Alpha 0.0.3</div>
     </footer>
   );
 };
