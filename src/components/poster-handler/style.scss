@@ -10,6 +10,12 @@
   aspect-ratio: 1;
 }
 
+.poster-description {
+  padding: var(--gutter);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: var(--gutter);
+}
 .poster-image {
   height: 100%;
   width: 100%;

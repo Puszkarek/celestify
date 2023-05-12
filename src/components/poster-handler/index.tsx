@@ -5,6 +5,7 @@ import './style.scss';
 
 import { Icon } from '@app/components/icon';
 import { Loading } from '@app/components/loading';
+import { POSTER_DESCRIPTION } from '@app/constants/poster-description';
 import { createGalaxyPoster } from '@app/helpers/grid';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 import { ICON_NAME } from '@app/interfaces/icon';
@@ -52,6 +53,7 @@ const PosterHandlerComponent = ({
 
   return (
     <>
+      <h2 className="poster-description shadow">{galaxy.description}</h2>
       <div className="poster-container shadow">
         {imageURI ? (
           <Image

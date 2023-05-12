@@ -1,111 +1,66 @@
+import { POSTER_DESCRIPTION } from '@app/constants/poster-description';
+import { generateCelestialBody } from '@app/helpers/celestial-body';
 import { getAverageAudioFeatures } from '@app/helpers/feature-by-artist';
 import {
   generateGalaxyBackground,
   generateGalaxyStars,
 } from '@app/helpers/galaxy-background';
-import { AudioFeatures, FeaturesByArtist } from '@app/helpers/music';
+import { FeaturesByArtist } from '@app/helpers/music';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
+import { seededRandomGenerator } from '@app/utils/random';
 
-/**
- * Determines the type of planet based on the audio features
- *
- * @param audioFeatures - All parameters are between 0 and 1
- * @returns The type of planet
- */
-// eslint-disable-next-line complexity
-const getPlanetType = ({
-  energy,
-  acousticness,
-  danceability,
-  valence,
-}: AudioFeatures): CelestialBody['type'] => {
-  // * Importance order: energy, valence, danceability, acousticness
+export const getGalaxyDescription = (
+  galaxyID: string,
+  celestialBodies: Array<CelestialBody>,
+): string => {
+  // If there is only one celestial body, return a description for one celestial body
+  if (celestialBodies.length === 1) {
+    const oneAlternative = POSTER_DESCRIPTION['1'];
 
-  if (energy <= 0.49) {
-    // TODO: apocalypse planet?
-    // TODO: might be something inspired by broke planet, depends on midjourney
-    if (valence <= 0.5 && danceability <= 0.5) {
-      /** Ice Planet: Low energy and low valence for a cool, reserved atmosphere,
-       * With low to medium danceability representing the stillness and rigidity of ice */
-      return 'ice';
-    }
-
-    if (valence >= 0.5 && danceability <= 0.5) {
-      /** Oceanic Planet: Low energy and high valence for a calm, soothing atmosphere,
-     With low danceability representing the stillness and serenity of water */
-      return 'oceanic';
-    }
-
-    if (acousticness >= 0.55 && danceability <= 0.5) {
-      /** Gas Giant: Low to medium energy and high acousticness for an ambient, ethereal feeling,
-       * With low to medium danceability representing the fluidity of gas and slower movement */
-      return 'gas-giant';
-    }
-    if (acousticness >= 0.5 && danceability >= 0.5) {
-      /** Rocky Planet: Lower energy and higher acousticness for a "grounded" and "natural" feeling,
-       * With medium to high danceability representing the solid surface and movement */
-      return 'rocky';
-    }
+    return oneAlternative[
+      seededRandomGenerator(
+        galaxyID + celestialBodies.length.toString(),
+        0,
+        oneAlternative.length - 1,
+      )
+    ] as string;
   }
 
-  // * Energy >= 0.5
-  // TODO: Party planet?
-  // TODO: might something inspired by Alice in Wonderland, depends on midjourney
+  // If all `.type` are the same, return that type
+  const referenceType = celestialBodies[0]?.type;
+  if (
+    referenceType &&
+    celestialBodies.every(
+      (celestialBody) => celestialBody.type === referenceType,
+    )
+  ) {
+    const alternatives =
+      POSTER_DESCRIPTION[referenceType as keyof typeof POSTER_DESCRIPTION];
 
-  if (energy >= 0.65 && valence <= 0.4 && danceability >= 0.5) {
-    /** Volcanic Planet: High energy and low valence for an intense, dramatic atmosphere,
-     * With medium to high danceability representing the dynamic nature of volcanoes and eruptions */
-    return 'vulcanic';
+    // Get the description based on the type of all celestial bodies
+    return alternatives[
+      seededRandomGenerator(
+        galaxyID + referenceType,
+        0,
+        alternatives.length - 1,
+      )
+    ] as string;
   }
 
-  if (danceability >= 0.55 && valence >= 0.55 && acousticness <= 0.3) {
-    /** Electric Planet: High energy and high valence for an exciting, energetic atmosphere,
-     * With low to medium acousticness representing the "electric" feeling of the planet */
-    return 'electric';
-  }
+  // All the other cases
+  const commonAlternatives =
+    POSTER_DESCRIPTION[
+      celestialBodies.length.toString() as keyof typeof POSTER_DESCRIPTION
+    ];
 
-  /** Wildlife Planet: High energy and high valence for a lively, vibrant atmosphere,
-   * With medium to high danceability representing the active life and movement */
-  return 'wildlife';
-};
-
-/**
- * Determines the type of celestial body based on the audio features
- *
- *
- * @param audioFeatures - All parameters are between 0 and 1
- * @returns The type of celestial body
- */
-export const getCelestialBodyType = (
-  audioFeatures: AudioFeatures,
-): CelestialBody['type'] => {
-  /**
-   * Black Hole: High energy and low valence for a dark, mysterious feeling,
-   * With low to medium danceability representing the stillness and rigidity of a black hole
-   */
-  if (audioFeatures.energy >= 0.9 && audioFeatures.valence <= 0.39) {
-    return 'black-hole';
-  }
-  /**
-   * Supernova: High energy and low acousticness for a powerful, explosive feeling,
-   * With low to medium danceability representing the sudden, explosive nature of a supernova
-   */
-  if (audioFeatures.energy > 0.8 && audioFeatures.acousticness < 0.15) {
-    return 'supernova';
-  }
-
-  return getPlanetType(audioFeatures);
-};
-
-export const generateCelestialBody = ({
-  artist,
-  feature,
-}: FeaturesByArtist): CelestialBody => {
-  return {
-    name: artist.name,
-    size: feature.popularity,
-    type: getCelestialBodyType(feature),
-  };
+  // Get the description based on the number of celestial bodies
+  return commonAlternatives[
+    seededRandomGenerator(
+      galaxyID + celestialBodies.length.toString(),
+      0,
+      commonAlternatives.length - 1,
+    )
+  ] as string;
 };
 
 export const generateGalaxy = (
@@ -114,20 +69,34 @@ export const generateGalaxy = (
   const celestialBodies: Array<CelestialBody> = [];
   const total_features: Array<FeaturesByArtist['feature']> = [];
 
-  artistTracks.forEach((value) => {
-    // * Create the celestial body
+  // Initialize counter
+  let counter = 0;
+  // Iterate over the Map
+  for (const [__, value] of artistTracks.entries()) {
+    if (counter >= 5) {
+      // If the counter is 5 or more, stop the loop
+      break;
+    }
+
+    // Create the celestial body
     celestialBodies.push(generateCelestialBody(value));
-    // * Add the features to the total features array
+    // Add the features to the total features array
     total_features.push(value.feature);
-  });
+    // Increment counter
+    counter += 1;
+  }
 
   const averageAudioFeatures = getAverageAudioFeatures(total_features);
 
-  //  topItems.reduce((accumulator, item) => accumulator + item.name, '')
+  const galaxyID = celestialBodies.reduce(
+    (accumulator, item) => accumulator + item.name,
+    '',
+  );
   return {
-    id: '324', // 124
+    id: galaxyID,
     celestialBodies: celestialBodies,
     background: generateGalaxyBackground(averageAudioFeatures),
     stars: generateGalaxyStars(averageAudioFeatures),
+    description: getGalaxyDescription(galaxyID, celestialBodies),
   };
 };

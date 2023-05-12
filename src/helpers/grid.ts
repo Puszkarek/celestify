@@ -1,8 +1,7 @@
-/* eslint-disable max-statements */
 'use client';
+/* eslint-disable max-statements */
 
 import { GRID_SIZE } from '@app/constants/grid';
-import { celestialBodyDecoder } from '@app/decoders/galaxy';
 import { drawItem } from '@app/helpers/canvas';
 import {
   generateCelestialBodiesGrid,
@@ -17,7 +16,6 @@ import {
 } from '@app/helpers/grid-layout';
 import { addStars } from '@app/helpers/grid-stars';
 import { Galaxy } from '@app/interfaces/galaxy';
-import { notUndefined } from '@app/utils/guard';
 
 const createCanvasBackground = (
   context: CanvasRenderingContext2D,
@@ -111,21 +109,19 @@ export const createGalaxyPoster = async (
 
   await initCanvas(context, galaxy);
 
-  const celestialBodies = galaxy.celestialBodies
-    .slice(0, 5)
-    .filter(notUndefined(celestialBodyDecoder).is);
+  const { celestialBodies, id, stars } = galaxy;
 
   const itemPositionGeneratorList = getGridItemsPosition(
     celestialBodies.length,
   );
   const gridItems = await generateCelestialBodiesGrid(
     context,
-    galaxy.id,
+    id,
     celestialBodies,
     itemPositionGeneratorList,
   );
 
-  const starItems = await addStars(galaxy.id, galaxy.stars, gridItems);
+  const starItems = await addStars(id, stars, gridItems);
 
   const starPromises = starItems.map(async (item) => {
     await drawItem(context, item);
