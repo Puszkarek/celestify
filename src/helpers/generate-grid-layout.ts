@@ -8,22 +8,21 @@ import { loadSVG, resizeItemImageSize } from '@app/helpers/canvas';
 import { isOverlapping } from '@app/helpers/grid-stars';
 import { CelestialBody } from '@app/interfaces/galaxy';
 import {
-  FiveCelestialBodiesLayout,
-  FourCelestialBodiesLayout,
-} from '@app/interfaces/grid-layout';
-import {
+  GridItemPosition,
   GridItemSize,
   PosterCelestialBodyItem,
   PosterGridItem,
   PosterTextItem,
 } from '@app/interfaces/poster';
-import { extractError } from '@app/utils/error';
 import { clone } from '@app/utils/object';
 import { seededRandomGenerator } from '@app/utils/random';
-import { pipe } from 'fp-ts/lib/function';
-import * as TE from 'fp-ts/TaskEither';
 
-const MAX_ATTEMPTS = 50;
+export type GridPositionCalculator = (
+  size: GridItemSize,
+  seed: string,
+) => GridItemPosition;
+
+const MAX_ATTEMPTS = 200;
 
 // eslint-disable-next-line max-statements
 const wrapText = (
@@ -160,54 +159,18 @@ const parseLayoutItems = async (
 };
 
 // eslint-disable-next-line max-statements
-export const generateFiveCelestialBodiesGrid = async (
+export const generateCelestialBodiesGrid = async (
   context: CanvasRenderingContext2D,
   seed: string,
-  celestialBodies: FiveCelestialBodiesLayout,
+  celestialBodies: Array<CelestialBody>,
+  positionCalculators: Array<GridPositionCalculator>,
 ): Promise<Array<PosterGridItem>> => {
   const availableBodyTypes = clone(CELESTIAL_BODY_TYPES_COUNT);
-
-  const positionCalculators = [
-    // First
-    (size: GridItemSize, customSeed: string) => ({
-      x:
-        (GRID_SIZE - size.width) / 2 -
-        seededRandomGenerator(customSeed, -10, 10),
-      y:
-        (GRID_SIZE - size.height) / 2 -
-        seededRandomGenerator(`${customSeed}-y`, -10, 10),
-    }),
-    // Second
-    (_size: GridItemSize, customSeed: string) => ({
-      x: seededRandomGenerator(customSeed, 20, 60),
-      y: seededRandomGenerator(`${customSeed}-y`, 20, 60),
-    }),
-    // Third
-    (size: GridItemSize, customSeed: string) => ({
-      x: GRID_SIZE - size.width - seededRandomGenerator(customSeed, 20, 60),
-      y: seededRandomGenerator(`${customSeed}-y`, 20, 60),
-    }),
-    // Fourth
-    (size: GridItemSize, customSeed: string) => ({
-      x: seededRandomGenerator(customSeed, 20, 60),
-      y:
-        GRID_SIZE -
-        size.height -
-        seededRandomGenerator(`${customSeed}-y`, 100, 150),
-    }),
-    (size: GridItemSize, customSeed: string) => ({
-      x: GRID_SIZE - size.width - seededRandomGenerator(customSeed, 20, 60),
-      y:
-        GRID_SIZE -
-        size.height -
-        seededRandomGenerator(`${customSeed}-y`, 100, 150),
-    }),
-  ] as const;
 
   const results: Array<PosterGridItem> = [];
 
   for (const [index, celestialBody] of celestialBodies.entries()) {
-    const size = sizeToGridSize(celestialBody.size);
+    const size = sizeToGridSize(1);
     const positionCalculator = positionCalculators[index]!;
 
     let attempts = 0;
@@ -253,6 +216,7 @@ export const generateFiveCelestialBodiesGrid = async (
     }
 
     if (!position) {
+      console.log('NOT FOUND');
       break;
     }
 

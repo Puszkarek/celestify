@@ -1,16 +1,23 @@
-/* eslint-disable max-lines-per-function */
 /* eslint-disable max-statements */
 'use client';
 
 import { GRID_SIZE } from '@app/constants/grid';
 import { celestialBodyDecoder } from '@app/decoders/galaxy';
 import { drawItem } from '@app/helpers/canvas';
-import { generateFiveCelestialBodiesGrid } from '@app/helpers/generate-grid-layout';
+import {
+  generateCelestialBodiesGrid,
+  GridPositionCalculator,
+} from '@app/helpers/generate-grid-layout';
+import {
+  FIFTY_GRID_CALCULATOR_POSITIONS,
+  FIRST_GRID_CALCULATOR_POSITIONS,
+  FOURTH_GRID_CALCULATOR_POSITIONS,
+  SECOND_GRID_CALCULATOR_POSITIONS,
+  THIRD_GRID_CALCULATOR_POSITIONS,
+} from '@app/helpers/grid-layout';
 import { addStars } from '@app/helpers/grid-stars';
 import { Galaxy } from '@app/interfaces/galaxy';
-import { FiveCelestialBodiesLayout } from '@app/interfaces/grid-layout';
 import { notUndefined } from '@app/utils/guard';
-import { isLeft } from 'fp-ts/lib/Either';
 
 const createCanvasBackground = (
   context: CanvasRenderingContext2D,
@@ -59,12 +66,38 @@ const initCanvas = async (
   document.fonts.add(await lexendFont.load());
 
   // * Add footer
+  // eslint-disable-next-line require-atomic-updates
   context.fillStyle = '#fefefe';
+  // eslint-disable-next-line require-atomic-updates
   context.font = '20px Lexend';
 
   context.fillText('celestify.space', 800, 1010);
 };
 
+const getGridItemsPosition = (
+  celestialBodiesCount: number,
+): Array<GridPositionCalculator> => {
+  switch (celestialBodiesCount) {
+    case 5: {
+      return FIFTY_GRID_CALCULATOR_POSITIONS;
+    }
+    case 4: {
+      return FOURTH_GRID_CALCULATOR_POSITIONS;
+    }
+    case 3: {
+      return THIRD_GRID_CALCULATOR_POSITIONS;
+    }
+    case 2: {
+      return SECOND_GRID_CALCULATOR_POSITIONS;
+    }
+    case 1: {
+      return FIRST_GRID_CALCULATOR_POSITIONS;
+    }
+    default: {
+      return [];
+    }
+  }
+};
 export const createGalaxyPoster = async (
   galaxy: Galaxy,
 ): Promise<string | null> => {
@@ -82,33 +115,29 @@ export const createGalaxyPoster = async (
     .slice(0, 5)
     .filter(notUndefined(celestialBodyDecoder).is);
 
-  // TODO: make it a function that uses a a switch and returns the TaskEither
-  if (celestialBodies.length === 5) {
-    const gridItems = await generateFiveCelestialBodiesGrid(
-      context,
-      galaxy.id,
-      celestialBodies as FiveCelestialBodiesLayout,
-    );
+  const itemPositionGeneratorList = getGridItemsPosition(
+    celestialBodies.length,
+  );
+  const gridItems = await generateCelestialBodiesGrid(
+    context,
+    galaxy.id,
+    celestialBodies,
+    itemPositionGeneratorList,
+  );
 
-    const starItems = await addStars(galaxy.id, galaxy.stars, gridItems);
+  const starItems = await addStars(galaxy.id, galaxy.stars, gridItems);
 
-    const starPromises = starItems.map(async (item) => {
-      await drawItem(context, item);
-    });
+  const starPromises = starItems.map(async (item) => {
+    await drawItem(context, item);
+  });
 
-    await Promise.all(starPromises);
+  await Promise.all(starPromises);
 
-    const itemsPromises = gridItems.map(async (item) => {
-      await drawItem(context, item);
-    });
+  const itemsPromises = gridItems.map(async (item) => {
+    await drawItem(context, item);
+  });
 
-    await Promise.all(itemsPromises);
-
-    // TODO: add the stars to the gridItems
-  }
-  if (celestialBodies.length === 4) {
-    console.warn('NOT IMPLEMENTED YET');
-  }
+  await Promise.all(itemsPromises);
 
   return canvasElement.toDataURL();
 };
