@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { TOKEN_MAX_AGE_IN_SECONDS } from '@app/constants/token';
 import {
   getSpotifyAccessToken,
@@ -21,7 +22,7 @@ export const middleware = async (
 
   const pathName = request.nextUrl.pathname;
 
-  console.log('NEXT', request.nextUrl);
+  console.log('NEXT_URL', request.nextUrl);
   if (pathName.startsWith('/poster')) {
     return pipe(
       validateSpotifyToken(request),
@@ -49,6 +50,7 @@ export const middleware = async (
         TE.fromEither,
         TE.chain(getSpotifyAccessToken),
         TE.map((token) => {
+          console.log('SAVING TOKEN', token);
           // Set the cookie and redirect to /home
           const nextResponse = NextResponse.redirect(homeURL);
           nextResponse.cookies.set('token', JSON.stringify(token), {

@@ -57,6 +57,7 @@ export const getSpotifyAccessToken = (
             )}`,
           },
         });
+        console.log('RESPONSE', response);
         const data: unknown = await response.json();
 
         return data;
