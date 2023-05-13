@@ -1,6 +1,6 @@
 import { BACKGROUNDS } from '@app/constants/background';
-import { AudioFeatures } from '@app/helpers/music';
 import { GalaxyBackground, GalaxyStarCount } from '@app/interfaces/galaxy';
+import { AudioFeatures } from '@app/interfaces/music';
 
 export const generateGalaxyBackground = ({
   valence,
