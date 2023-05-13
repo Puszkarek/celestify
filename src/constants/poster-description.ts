@@ -6,6 +6,11 @@ export const POSTER_DESCRIPTION = {
     "Is this the only artist you're listening to?",
     'You have a favorite artist, huh?',
   ],
+  '2': [
+    'Two lovers, but which one is the favorite?',
+    'Some kinda of yin-yang here',
+  ],
+  '3': ['Who is the lover here?'],
   '5': [
     'You have a lot of favorite artists',
     'How many artists here, they can form a k-pop group',

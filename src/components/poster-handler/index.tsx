@@ -1,4 +1,3 @@
-/* eslint-disable max-statements */
 'use client';
 
 import './style.scss';
@@ -52,7 +51,7 @@ const PosterHandlerComponent = ({
 
   return (
     <>
-      <h2 className="poster-description shadow">{galaxy.description}</h2>
+      {/* <h2 className="poster-description shadow">{galaxy.description}</h2> */}
       <div className="poster-container shadow">
         {imageURI ? (
           <Image

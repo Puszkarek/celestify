@@ -1,4 +1,3 @@
-import { POSTER_DESCRIPTION } from '@app/constants/poster-description';
 import { generateCelestialBody } from '@app/helpers/celestial-body';
 import { getAverageAudioFeatures } from '@app/helpers/feature-by-artist';
 import {
@@ -7,60 +6,12 @@ import {
 } from '@app/helpers/galaxy-background';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
 import { FeaturesByArtist } from '@app/interfaces/music';
-import { seededRandomGenerator } from '@app/utils/random';
 
 export const getGalaxyDescription = (
-  galaxyID: string,
-  celestialBodies: Array<CelestialBody>,
+  _galaxyID: string,
+  _celestialBodies: Array<CelestialBody>,
 ): string => {
-  // If there is only one celestial body, return a description for one celestial body
-  if (celestialBodies.length === 1) {
-    const oneAlternative = POSTER_DESCRIPTION['1'];
-
-    return oneAlternative[
-      seededRandomGenerator(
-        galaxyID + celestialBodies.length.toString(),
-        0,
-        oneAlternative.length - 1,
-      )
-    ] as string;
-  }
-
-  // If all `.type` are the same, return that type
-  const referenceType = celestialBodies[0]?.type;
-  if (
-    referenceType &&
-    celestialBodies.every(
-      (celestialBody) => celestialBody.type === referenceType,
-    )
-  ) {
-    const alternatives =
-      POSTER_DESCRIPTION[referenceType as keyof typeof POSTER_DESCRIPTION];
-
-    // Get the description based on the type of all celestial bodies
-    return alternatives[
-      seededRandomGenerator(
-        galaxyID + referenceType,
-        0,
-        alternatives.length - 1,
-      )
-    ] as string;
-  }
-
-  // All the other cases
-  const commonAlternatives =
-    POSTER_DESCRIPTION[
-      celestialBodies.length.toString() as keyof typeof POSTER_DESCRIPTION
-    ];
-
-  // Get the description based on the number of celestial bodies
-  return commonAlternatives[
-    seededRandomGenerator(
-      galaxyID + celestialBodies.length.toString(),
-      0,
-      commonAlternatives.length - 1,
-    )
-  ] as string;
+  return "Sorry, It's not ready yet";
 };
 
 export const generateGalaxy = (
