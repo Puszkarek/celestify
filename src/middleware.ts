@@ -3,7 +3,6 @@ import {
   getSpotifyAccessToken,
   validateSpotifyToken,
 } from '@app/helpers/spotify-login';
-import { getHostURI } from '@app/helpers/url-generator';
 import { createException } from '@app/utils/error';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/lib/function';
@@ -15,12 +14,32 @@ import { NextRequest, NextResponse } from 'next/server';
 export const middleware = async (
   request: NextRequest,
 ): Promise<NextResponse> => {
-  const host = getHostURI(request);
+  const host = request.nextUrl.origin;
 
   const homeURL = `${host}/`;
   const loginURL = `${host}/login`;
 
+  const pathName = request.nextUrl.pathname;
+  if (pathName.startsWith('/poster')) {
+    return pipe(
+      validateSpotifyToken(request),
+      E.fold(
+        // User's Token is invalid, delete it and redirect to `login` page
+        () => {
+          request.cookies.delete('token');
+          return NextResponse.redirect(loginURL);
+        },
+        // User can access `home` page
+        () => {
+          return NextResponse.next();
+        },
+      ),
+    );
+  }
   switch (request.nextUrl.pathname) {
+    case '/': {
+      return NextResponse.redirect(`${host}/poster/short_term`);
+    }
     case '/spotify/callback': {
       const task = pipe(
         request.nextUrl.searchParams.get('code'),
@@ -64,22 +83,6 @@ export const middleware = async (
         ),
       );
     }
-    case '/': {
-      return pipe(
-        validateSpotifyToken(request),
-        E.fold(
-          // User's Token is invalid, delete it and redirect to `login` page
-          () => {
-            request.cookies.delete('token');
-            return NextResponse.redirect(loginURL);
-          },
-          // User can access `home` page
-          () => {
-            return NextResponse.next();
-          },
-        ),
-      );
-    }
   }
 
   return NextResponse.next();
@@ -87,5 +90,5 @@ export const middleware = async (
 
 // See "Matching Paths" below to learn more
 export const config: NextConfig = {
-  matcher: ['/spotify/callback', '/', '/login'],
+  matcher: ['/spotify/callback', '/', '/poster/:path*', '/login'],
 };

@@ -34,6 +34,9 @@ module.exports = {
       app: 'linear-gradient(to left, #91EAE4, #86A8E7, #7F7FD5)',
     },
     extend: {
+      margin: {
+        gutter: '16px',
+      },
       borderRadius: {
         sm: '1rem',
         lg: '3rem',

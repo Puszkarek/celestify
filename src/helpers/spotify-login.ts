@@ -47,6 +47,7 @@ export const getSpotifyAccessToken = (
       async () => {
         const response = await fetch(SPOTIFY_API_TOKEN_URL, {
           method: 'POST',
+          cache: 'no-cache',
           body: new URLSearchParams(urlParameters),
           headers: {
             Authorization: `Basic ${stringToBase64(

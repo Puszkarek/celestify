@@ -128,7 +128,7 @@ const parseLayoutItems = async (
   // Draw the SVG image instead of the colored box
 
   const imageElement = await loadSVG(
-    `images/celestial-bodies/${celestialBody.type}/${celestialBody.variant}.svg`,
+    `/images/celestial-bodies/${celestialBody.type}/${celestialBody.variant}.svg`,
   );
 
   const item = {

@@ -24,7 +24,7 @@ const getIcon = (isOpen: boolean): JSX.Element => {
 
 const requestLogout = (): TE.TaskEither<Exception, Response> => {
   return TE.tryCatch(
-    async () => fetch('/api/logout', { method: 'POST' }),
+    async () => fetch('/api/logout', { method: 'POST', cache: 'no-cache' }),
     extractException,
   );
 };

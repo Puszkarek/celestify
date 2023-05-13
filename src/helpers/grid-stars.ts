@@ -6,7 +6,6 @@ import { STAR_TYPES_COUNT } from '@app/constants/poster';
 import { Galaxy } from '@app/interfaces/galaxy';
 import {
   GridItemPosition,
-  GridItemSize,
   PosterGridItem,
   PosterStarItem,
 } from '@app/interfaces/poster';
@@ -46,7 +45,7 @@ const initStar = (
 
   const item: PosterStarItem = {
     type: 'star',
-    url: `images/stars/${collectionID}/${type}/${starVariant}.svg`,
+    url: `/images/stars/${collectionID}/${type}/${starVariant}.svg`,
     width: starSize,
     height: starSize,
     x: 0,

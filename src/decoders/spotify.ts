@@ -1,6 +1,12 @@
 import { audioFeaturesDecoder } from '@app/decoders/music';
 import * as t from 'io-ts';
 
+export const timeRangeDecoder = t.union([
+  t.literal('short_term'),
+  t.literal('medium_term'),
+  t.literal('long_term'),
+]);
+
 export const spotifyErrorDecoder = t.type({
   error: t.string,
   error_description: t.string,

@@ -10,12 +10,12 @@ import * as TE from 'fp-ts/TaskEither';
 
 export const getTopItems = (
   code: string,
+  timeRange: 'long_term' | 'medium_term' | 'short_term',
 ): TE.TaskEither<Exception, TopItemsResponse> => {
   return pipe(
     // * Fetch top tracks
     fetchSpotify<SpotifyMostPlayedTracksResponse>(
-      // TODO: supports medium_term, short_term, long_term
-      'me/top/tracks?limit=50&time_range=long_term',
+      `me/top/tracks?limit=50&time_range=${timeRange}`,
       code,
     ),
     TE.bindTo('tracks'),

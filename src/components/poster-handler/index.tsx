@@ -5,39 +5,39 @@ import './style.scss';
 import { Icon } from '@app/components/icon';
 import { Loading } from '@app/components/loading';
 import { createGalaxyPoster } from '@app/helpers/grid';
-import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
+import { Galaxy } from '@app/interfaces/galaxy';
 import { ICON_NAME } from '@app/interfaces/icon';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-// TODO: This is a hack to prevent the canvas from being rendered twice, improve this later to use hooks
-let isLoading = false;
 const PosterHandlerComponent = ({
   galaxy,
 }: {
   galaxy: Galaxy;
 }): JSX.Element => {
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [imageURI, setImageURI] = useState<string | null>(null);
+
   useEffect(() => {
-    if (isLoading) {
+    if (isLoaded) {
       return;
     }
-    isLoading = true;
 
-    const topItems = galaxy.celestialBodies.slice(0, 5) as [
-      CelestialBody,
-      ...Array<CelestialBody>,
-    ];
+    const topItems = galaxy.celestialBodies;
 
     if (topItems.length === 0) {
       throw new Error('No celestial bodies found');
     }
 
-    void createGalaxyPoster(galaxy).then((posterURI) => {
-      setImageURI(posterURI);
-    });
-  }, [galaxy]);
+    void createGalaxyPoster(galaxy)
+      .then((posterURI) => {
+        setImageURI(posterURI);
+      })
+      .then(() => {
+        setIsLoaded(true);
+      });
+  }, [galaxy, isLoaded]);
 
   const share = async (): Promise<void> => {
     // TODO: improve it later
@@ -51,7 +51,6 @@ const PosterHandlerComponent = ({
 
   return (
     <>
-      {/* <h2 className="poster-description shadow">{galaxy.description}</h2> */}
       <div className="poster-container shadow">
         {imageURI ? (
           <Image

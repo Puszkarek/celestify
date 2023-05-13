@@ -38,8 +38,7 @@
 
 .galaxy-explanation-container,
 .share-container {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  @apply my-gutter;
 }
 
 .share-container,
@@ -70,5 +69,28 @@
 @media screen and (min-width: 1024px) {
   .section-title {
     @apply text-3xl px-5 pb-5 pt-4;
+  }
+}
+
+.poster-buttons {
+  @apply flex flex-row justify-center items-stretch;
+
+  margin-bottom: var(--gutter);
+
+  .poster-button {
+    @apply text-sm text-center;
+
+    flex: 1;
+    border-style: solid;
+    border-width: 0 1px 0 0;
+    border-color: black;
+    padding: var(--gutter);
+
+    &:last-child {
+      border: none;
+    }
+  }
+  .active-link {
+    @apply bg-primary-purple;
   }
 }

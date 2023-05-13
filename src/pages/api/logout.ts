@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getHostURI } from '@app/helpers/url-generator';
 import { HTTP_STATUS_CODE } from '@app/interfaces/http';
 import { ResponseData } from '@app/interfaces/response';
 import { createException } from '@app/utils/error';

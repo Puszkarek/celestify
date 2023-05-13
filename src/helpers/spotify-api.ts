@@ -16,6 +16,7 @@ export const fetchSpotify = <T>(
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        cache: 'no-cache',
       });
 
       // Throw error

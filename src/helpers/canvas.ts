@@ -42,7 +42,7 @@ export const drawItem = async (
     const { celestialBody } = item;
     // Draw the SVG image instead of the colored box
     const imageElement = await loadSVG(
-      `images/celestial-bodies/${celestialBody.type}/${celestialBody.variant}.svg`,
+      `/images/celestial-bodies/${celestialBody.type}/${celestialBody.variant}.svg`,
     );
 
     context.drawImage(imageElement, item.x, item.y, item.width, item.height);

@@ -12,7 +12,7 @@ const Home: FC = () => {
           <Image
             className="testing-image"
             key={`${celestialBodyName}-${variant}`}
-            src={`/images/celestial-bodies/${celestialBodyName}/${variant}.svg`}
+            src={`images/celestial-bodies/${celestialBodyName}/${variant}.svg`}
             alt="Picture of the author"
             width={1024}
             height={1024}

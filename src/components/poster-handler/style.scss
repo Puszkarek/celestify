@@ -1,13 +1,7 @@
 .poster-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 100%;
-  width: 100%;
-
-  overflow: hidden;
-  aspect-ratio: 1;
+  @apply flex justify-center items-center;
+  @apply h-full w-full;
+  @apply aspect-square overflow-hidden;
 }
 
 .poster-description {
