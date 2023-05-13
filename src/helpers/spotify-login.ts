@@ -45,6 +45,12 @@ export const getSpotifyAccessToken = (
   return pipe(
     TE.tryCatch(
       async () => {
+        console.log(
+          '3 -  URLs',
+          SPOTIFY_API_TOKEN_URL,
+          process.env.SPOTIFY_CLIENT_ID,
+          process.env.SPOTIFY_CLIENT_SECRET,
+        );
         const response = await fetch(SPOTIFY_API_TOKEN_URL, {
           method: 'POST',
           cache: 'no-cache',
