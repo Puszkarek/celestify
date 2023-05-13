@@ -59,6 +59,7 @@ const Home = async ({
   const response = await task();
 
   if (E.isLeft(response)) {
+    console.error(response.left);
     return <main>Not logged in</main>;
   }
 
