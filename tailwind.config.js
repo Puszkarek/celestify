@@ -35,7 +35,10 @@ module.exports = {
     },
     extend: {
       margin: {
-        gutter: '16px',
+        gutter: 'var(--gutter)',
+      },
+      padding: {
+        gutter: 'var(--gutter)',
       },
       borderRadius: {
         sm: '1rem',

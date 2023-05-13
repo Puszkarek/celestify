@@ -216,7 +216,6 @@ export const generateCelestialBodiesGrid = async (
     }
 
     if (!position) {
-      console.log('NOT FOUND');
       break;
     }
 

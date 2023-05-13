@@ -20,8 +20,8 @@ const Home: FC = () => {
             into a mesmerizing{' '}
             <span className="text-primary-blue">planetary poster</span>! Each
             planet represents one of your top artists or songs, and the{' '}
-            <span className="text-primary-purple">galaxy</span>
-            is a reflection of your unique{' '}
+            <span className="text-primary-purple">galaxy</span> is a reflection
+            of your unique{' '}
             <span className="text-primary-pink">musical taste</span>.
           </p>
         </section>

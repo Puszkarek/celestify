@@ -22,7 +22,6 @@ export const middleware = async (
 
   const pathName = request.nextUrl.pathname;
 
-  console.log('NEXT_URL', request.nextUrl);
   if (pathName.startsWith('/poster')) {
     return pipe(
       validateSpotifyToken(request),
@@ -44,14 +43,12 @@ export const middleware = async (
       return NextResponse.redirect(`${host}/poster/short_term`);
     }
     case '/spotify/callback': {
-      console.log('3. CALLBACK', request.nextUrl.searchParams.get('code'));
       const task = pipe(
         request.nextUrl.searchParams.get('code'),
         E.fromNullable(createException('No code Found')),
         TE.fromEither,
         TE.chain(getSpotifyAccessToken),
         TE.map((token) => {
-          console.log('3.2. SAVING TOKEN', token);
           // Set the cookie and redirect to /home
           const nextResponse = NextResponse.redirect(homeURL);
           nextResponse.cookies.set('token', JSON.stringify(token), {
@@ -71,7 +68,6 @@ export const middleware = async (
       return await task();
     }
     case '/login': {
-      console.log('1. LOGIN');
       return pipe(
         validateSpotifyToken(request),
         E.fold(

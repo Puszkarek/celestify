@@ -44,14 +44,14 @@ const Home = async ({
       ),
     ),
     TE.chain(({ timeRange, token }) => getTopItems(token, timeRange)),
-    TE.map(({ tracks, features }) =>
-      tracks.map((track) => ({
+    TE.map(({ tracks, features }) => {
+      return tracks.map((track) => ({
         metadata: track,
         features: features.find(
           (feature) => feature.id === track.id,
         ) as SpotifyAudioFeatures,
-      })),
-    ),
+      }));
+    }),
     TE.map((tracksWithFeatures) => groupFeatureByArtist(tracksWithFeatures)),
     TE.map(generateGalaxy),
   );
@@ -59,8 +59,44 @@ const Home = async ({
   const response = await task();
 
   if (E.isLeft(response)) {
-    console.error(response.left);
-    return <main>Not logged in</main>;
+    return (
+      <main>
+        {/* TODO: move to a shared component */}
+        <div className="warning-message-container">
+          <div className="warning-message-icon">¯\(°_o)/¯</div>
+          <div className="warning-message-content shadow">
+            <div className="warning-message">
+              Hey, sorry! Something went wrong :/
+            </div>
+            <div className="warning-message">
+              Try to refresh the page or come back later!
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const galaxy = response.right;
+
+  if (galaxy.celestialBodies.length === 0) {
+    return (
+      <main>
+        {/* TODO: move to a shared component */}
+        <div className="warning-message-container">
+          <div className="warning-message-icon">꒰ ꒡⌓꒡꒱</div>
+          <div className="warning-message-content shadow">
+            <div className="warning-message">
+              Looks that you had never ever listened to a single song on Spotify
+              :(
+            </div>
+            <div className="warning-message">
+              Go listen to some music and come back later!
+            </div>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (

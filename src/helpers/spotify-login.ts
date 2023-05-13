@@ -42,17 +42,9 @@ export const getSpotifyAccessToken = (
     redirect_uri: process.env.SPOTIFY_CALLBACK_URI as string,
   };
 
-  console.log('3.1 - URL PARAMETERS', urlParameters);
   return pipe(
     TE.tryCatch(
       async () => {
-        console.log(
-          '3 -  URLs',
-          SPOTIFY_API_TOKEN_URL,
-          process.env.SPOTIFY_CLIENT_ID,
-          process.env.SPOTIFY_CLIENT_SECRET,
-        );
-
         const response = await fetch(SPOTIFY_API_TOKEN_URL, {
           method: 'POST',
           cache: 'no-cache',
@@ -66,10 +58,8 @@ export const getSpotifyAccessToken = (
             )}`,
           },
         });
-        console.log('3.1. RESPONSE', response.status, response.statusText);
         const data: unknown = await response.json();
 
-        console.log('3.1.1 PARSED DATA', data);
         return data;
       },
       (error) => {
@@ -79,7 +69,6 @@ export const getSpotifyAccessToken = (
     ),
     TE.chain(TE.fromPredicate(spotifyTokenDecoder.is, extractException)),
     TE.map(({ access_token, refresh_token, expires_in }) => {
-      console.log('3. FINAAAAAAAAAAAAAAAAAAAAAAAAl');
       const millisecondsMultiplier = 1000;
       const expires_in_milliseconds = expires_in * millisecondsMultiplier;
 

@@ -94,3 +94,19 @@
     @apply bg-primary-purple;
   }
 }
+
+.warning-message-container {
+  @apply flex flex-col justify-center items-center;
+
+  height: 85vh;
+
+  .warning-message-icon {
+    @apply text-7xl text-secondary-yellow;
+    @apply mb-gutter;
+  }
+  .warning-message-content {
+    @apply mx-4 p-gutter;
+
+    max-width: 600px;
+  }
+}
