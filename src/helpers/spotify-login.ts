@@ -42,6 +42,7 @@ export const getSpotifyAccessToken = (
     redirect_uri: process.env.SPOTIFY_CALLBACK_URI as string,
   };
 
+  console.log('3.1 - URL PARAMETERS', urlParameters);
   return pipe(
     TE.tryCatch(
       async () => {
