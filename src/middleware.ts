@@ -5,7 +5,6 @@ import {
 } from '@app/helpers/spotify-login';
 import { getHostURI } from '@app/helpers/url-generator';
 import { createException } from '@app/utils/error';
-import { LOGGER } from '@app/utils/logger';
 import * as E from 'fp-ts/Either';
 import { pipe } from 'fp-ts/lib/function';
 import * as T from 'fp-ts/Task';
@@ -70,9 +69,7 @@ export const middleware = async (
         validateSpotifyToken(request),
         E.fold(
           // User's Token is invalid, delete it and redirect to `login` page
-          (error) => {
-            LOGGER.warn(error.message);
-
+          () => {
             request.cookies.delete('token');
             return NextResponse.redirect(loginURL);
           },
