@@ -1,5 +1,6 @@
 const DEFAULT_PORT = 3000;
 
-// TODO: make it dynamic
-export const APP_BASE_URL =
-  process.env.URL ?? `http://localhost:${process.env.PORT ?? DEFAULT_PORT}`;
+export const APP_BASE_URL = `http://${
+  process.env.NEXT_PUBLIC_VERCEL_URL ??
+  `localhost:${process.env.PORT ?? DEFAULT_PORT}`
+}`;
