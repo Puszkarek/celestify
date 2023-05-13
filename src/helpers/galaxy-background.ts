@@ -6,7 +6,6 @@ export const generateGalaxyBackground = ({
   valence,
   energy,
 }: AudioFeatures): GalaxyBackground => {
-  return BACKGROUNDS.happy[2];
   // Low energy and low valence for a cool, reserved atmosphere
   if (valence <= 0.5 && energy <= 0.5) {
     return BACKGROUNDS.sad[0];

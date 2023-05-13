@@ -5,8 +5,8 @@ import {
   generateGalaxyBackground,
   generateGalaxyStars,
 } from '@app/helpers/galaxy-background';
-import { FeaturesByArtist } from '@app/helpers/music';
 import { CelestialBody, Galaxy } from '@app/interfaces/galaxy';
+import { FeaturesByArtist } from '@app/interfaces/music';
 import { seededRandomGenerator } from '@app/utils/random';
 
 export const getGalaxyDescription = (

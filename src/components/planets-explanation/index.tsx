@@ -31,8 +31,8 @@ const CELESTIAL_BODY_MEANING: Array<{
     ),
   },
   {
-    id: 'supernova',
-    name: 'Supernova',
+    id: 'star',
+    name: 'Star',
     color: 'primary-blue',
     image: {
       size: 1,
@@ -40,15 +40,16 @@ const CELESTIAL_BODY_MEANING: Array<{
     },
     description: (
       <>
-        They exhibit a potent, explosive essence, owing to their high{' '}
-        <span className="text-primary-orange">energy</span> and low
-        acousticness. Their low to medium{' '}
+        Stars emit a steady, radiant essence, due to their stable{' '}
+        <span className="text-primary-orange">energy</span> and controlled
+        acousticness. Their moderate to high{' '}
         <span className="text-primary-magenta">danceability</span> encapsulates
-        the abrupt, explosive character of a supernova, adding to their
-        captivating allure.
+        the consistent, radiant character of a star, adding to their captivating
+        charm.
       </>
     ),
   },
+
   {
     id: 'wildlife',
     name: 'Wildlife Planet',
@@ -103,23 +104,6 @@ const CELESTIAL_BODY_MEANING: Array<{
         their low energy and high valence. The low{' '}
         <span className="text-primary-magenta">danceability</span> illustrates
         the stillness and peacefulness of water.
-      </>
-    ),
-  },
-  {
-    id: 'ice',
-    name: 'Ice Planet',
-    color: 'primary-cyan',
-    image: {
-      size: 0.9,
-      position: 'right',
-    },
-    description: (
-      <>
-        They present a <span className="text-primary-cyan">cool</span>, composed
-        ambience by means of their low energy and low valence. Low to medium{' '}
-        <span className="text-primary-magenta">danceability</span> conveys the
-        stillness and rigidity of ice.
       </>
     ),
   },
@@ -183,7 +167,7 @@ export const CelestialBodiesExplanation = (): JSX.Element => {
                     }px * var(--meaning-image-size-multiplier))`,
                     float: image.position,
                   }}
-                  src={`/images/illustrations/${id}.svg`}
+                  src={`/images/${id}/0.svg`}
                   alt="Hey"
                   width={1024}
                   height={1024}

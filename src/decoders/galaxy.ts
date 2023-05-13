@@ -20,11 +20,10 @@ export const celestialBodyDecoder = t.type({
   /** Based on sadness, happiness, etc */
   type: t.union([
     t.literal('black-hole'),
-    t.literal('supernova'),
+    t.literal('star'),
     t.literal('wildlife'),
     t.literal('vulcanic'),
     t.literal('electric'),
-    t.literal('ice'),
     t.literal('oceanic'),
     t.literal('rocky'),
     t.literal('gas-giant'),

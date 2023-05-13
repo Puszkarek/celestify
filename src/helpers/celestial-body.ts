@@ -1,30 +1,35 @@
-import { AudioFeatures, FeaturesByArtist } from '@app/helpers/music';
+/* eslint-disable complexity */
+/* eslint-disable max-statements */
 import { CelestialBody } from '@app/interfaces/galaxy';
+import { AudioFeatures, FeaturesByArtist } from '@app/interfaces/music';
 
 /**
- * Determines the type of planet based on the audio features
+ * Determines the type of celestial body based on the audio features
+ *
  *
  * @param audioFeatures - All parameters are between 0 and 1
- * @returns The type of planet
+ * @returns The type of celestial body
  */
-// eslint-disable-next-line complexity
-const getPlanetType = ({
+export const getCelestialBodyType = ({
   energy,
-  acousticness,
-  danceability,
   valence,
+  danceability,
+  acousticness,
 }: AudioFeatures): CelestialBody['type'] => {
-  // * Importance order: energy, valence, danceability, acousticness
+  /**
+   * Black Hole: Low valence for a dark, mysterious atmosphere
+   */
+  if (energy > 0.8 && valence <= 0.39) {
+    return 'black-hole';
+  }
+  /**
+   * Star: High energy and high valence for a bright, happy atmosphere
+   */
+  if (energy > 0.8 && valence >= 0.8) {
+    return 'star';
+  }
 
   if (energy <= 0.49) {
-    // TODO: apocalypse planet?
-    // TODO: might be something inspired by broke planet, depends on midjourney
-    if (valence <= 0.5 && danceability <= 0.5) {
-      /** Ice Planet: Low energy and low valence for a cool, reserved atmosphere,
-       * With low to medium danceability representing the stillness and rigidity of ice */
-      return 'ice';
-    }
-
     if (valence >= 0.5 && danceability <= 0.5) {
       /** Oceanic Planet: Low energy and high valence for a calm, soothing atmosphere,
      With low danceability representing the stillness and serenity of water */
@@ -43,10 +48,6 @@ const getPlanetType = ({
     }
   }
 
-  // * Energy >= 0.5
-  // TODO: Party planet?
-  // TODO: might something inspired by Alice in Wonderland, depends on midjourney
-
   if (energy >= 0.65 && valence <= 0.4 && danceability >= 0.5) {
     /** Volcanic Planet: High energy and low valence for an intense, dramatic atmosphere,
      * With medium to high danceability representing the dynamic nature of volcanoes and eruptions */
@@ -62,34 +63,6 @@ const getPlanetType = ({
   /** Wildlife Planet: High energy and high valence for a lively, vibrant atmosphere,
    * With medium to high danceability representing the active life and movement */
   return 'wildlife';
-};
-
-/**
- * Determines the type of celestial body based on the audio features
- *
- *
- * @param audioFeatures - All parameters are between 0 and 1
- * @returns The type of celestial body
- */
-export const getCelestialBodyType = (
-  audioFeatures: AudioFeatures,
-): CelestialBody['type'] => {
-  /**
-   * Black Hole: High energy and low valence for a dark, mysterious feeling,
-   * With low to medium danceability representing the stillness and rigidity of a black hole
-   */
-  if (audioFeatures.energy >= 0.9 && audioFeatures.valence <= 0.39) {
-    return 'black-hole';
-  }
-  /**
-   * Supernova: High energy and low acousticness for a powerful, explosive feeling,
-   * With low to medium danceability representing the sudden, explosive nature of a supernova
-   */
-  if (audioFeatures.energy > 0.8 && audioFeatures.acousticness < 0.15) {
-    return 'supernova';
-  }
-
-  return getPlanetType(audioFeatures);
 };
 
 export const generateCelestialBody = ({

@@ -1,4 +1,4 @@
-import { FeaturesByArtist } from '@app/helpers/music';
+import { FeaturesByArtist } from '@app/interfaces/music';
 import {
   SpotifyArtist,
   SpotifyAudioFeatures,
