@@ -71,13 +71,10 @@ export const FOURTH_GRID_CALCULATOR_POSITIONS: Array<GridPositionCalculator> = [
 
 export const THIRD_GRID_CALCULATOR_POSITIONS: Array<GridPositionCalculator> = [
   // First
-  (size, customSeed) => {
-    console.log('size', GRID_SIZE - size.width - 320);
-    return {
-      x: seededRandomGenerator(customSeed, 320, GRID_SIZE - size.width - 320),
-      y: seededRandomGenerator(`${customSeed}-y`, 50, 140),
-    };
-  },
+  (size, customSeed) => ({
+    x: seededRandomGenerator(customSeed, 320, GRID_SIZE - size.width - 320),
+    y: seededRandomGenerator(`${customSeed}-y`, 50, 140),
+  }),
   // Second
   (size, customSeed) => ({
     x: seededRandomGenerator(customSeed, 80, 110),
