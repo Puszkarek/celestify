@@ -53,13 +53,10 @@ export const getSpotifyAccessToken = (
           process.env.SPOTIFY_CLIENT_SECRET,
         );
 
-        const url = `${SPOTIFY_API_TOKEN_URL}?${new URLSearchParams(
-          urlParameters,
-        ).toString()}`;
-
-        const response = await fetch(url, {
+        const response = await fetch(SPOTIFY_API_TOKEN_URL, {
           method: 'POST',
           cache: 'no-cache',
+          body: new URLSearchParams(urlParameters),
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': `Basic ${stringToBase64(
