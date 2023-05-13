@@ -57,17 +57,23 @@ export const getSpotifyAccessToken = (
             )}`,
           },
         });
-        console.log('RESPONSE', response);
+        console.log('3.1. RESPONSE');
+        console.dir(response, {
+          depth: null,
+        });
         const data: unknown = await response.json();
 
+        console.log('3.1.1 PARSED DATA', data);
         return data;
       },
       (error) => {
+        console.error('3. SOMETHING HAPPENS', error);
         return extractException(error);
       },
     ),
     TE.chain(TE.fromPredicate(spotifyTokenDecoder.is, extractException)),
     TE.map(({ access_token, refresh_token, expires_in }) => {
+      console.log('3. FINAAAAAAAAAAAAAAAAAAAAAAAAl');
       const millisecondsMultiplier = 1000;
       const expires_in_milliseconds = expires_in * millisecondsMultiplier;
 
