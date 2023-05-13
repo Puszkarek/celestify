@@ -92,10 +92,11 @@ export const generateGalaxy = (
     (accumulator, item) => accumulator + item.name,
     '',
   );
+
   return {
     id: galaxyID,
     celestialBodies: celestialBodies,
-    background: generateGalaxyBackground(averageAudioFeatures),
+    background: generateGalaxyBackground(galaxyID, averageAudioFeatures),
     stars: generateGalaxyStars(averageAudioFeatures),
     description: getGalaxyDescription(galaxyID, celestialBodies),
   };

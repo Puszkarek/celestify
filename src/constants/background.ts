@@ -1,4 +1,8 @@
-export const BACKGROUNDS = {
+import { GalaxyBackground } from '@app/interfaces/galaxy';
+
+type BackgroundItems = [GalaxyBackground, ...Array<GalaxyBackground>];
+
+export const BACKGROUNDS: Record<'sad' | 'happy', BackgroundItems> = {
   // Low energy and low valence for a cool, reserved atmosphere
   sad: [
     {
@@ -7,6 +11,20 @@ export const BACKGROUNDS = {
         [0.8, '#331e43'],
       ],
       angle: 100,
+    },
+    {
+      colors: [
+        [0, '#21132a'],
+        [0.8, '#1e373d'],
+      ],
+      angle: 260,
+    },
+    {
+      colors: [
+        [0, '#24313e'],
+        [0.8, '#331e43'],
+      ],
+      angle: 260,
     },
   ],
   // High energy and valence for a warm, energetic atmosphere
@@ -40,16 +58,12 @@ export const BACKGROUNDS = {
       ],
       angle: 260,
     },
-  ],
-  // High energy for a energetic bright atmosphere
-  default: [
     {
       colors: [
-        [0.15, '#2c6d85'],
-        [0.4, '#331e43'],
-        [1, '#1d1630'],
+        [0, '#24313e'],
+        [1, '#26255f'],
       ],
-      angle: 135,
+      angle: 260,
     },
   ],
-} as const;
+};

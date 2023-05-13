@@ -1,22 +1,21 @@
 import { BACKGROUNDS } from '@app/constants/background';
 import { GalaxyBackground, GalaxyStarCount } from '@app/interfaces/galaxy';
 import { AudioFeatures } from '@app/interfaces/music';
+import { seededRandomGenerator } from '@app/utils/random';
 
-export const generateGalaxyBackground = ({
-  valence,
-  energy,
-}: AudioFeatures): GalaxyBackground => {
-  // Low energy and low valence for a cool, reserved atmosphere
-  if (valence <= 0.5 && energy <= 0.5) {
-    return BACKGROUNDS.sad[0];
+export const generateGalaxyBackground = (
+  seed: string,
+  { valence }: AudioFeatures,
+): GalaxyBackground => {
+  if (valence <= 0.5) {
+    return BACKGROUNDS.sad[
+      seededRandomGenerator(seed, 0, BACKGROUNDS.sad.length - 1)
+    ] as GalaxyBackground;
   }
 
-  // High energy and valence for a warm, energetic atmosphere
-  if (valence >= 0.5 && energy >= 0.5) {
-    return BACKGROUNDS.happy[0];
-  }
-
-  return BACKGROUNDS.default[0];
+  return BACKGROUNDS.happy[
+    seededRandomGenerator(seed, 0, BACKGROUNDS.happy.length - 1)
+  ] as GalaxyBackground;
 };
 export const generateGalaxyStars = ({
   energy,

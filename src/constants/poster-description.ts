@@ -8,7 +8,7 @@ export const POSTER_DESCRIPTION = {
   ],
   '5': [
     'You have a lot of favorite artists',
-    'It could be a k-pop group, right?',
+    'How many artists here, they can form a k-pop group',
   ],
   'electric': [
     "Wow, there's so much energy in this playlist, be careful",
@@ -18,9 +18,10 @@ export const POSTER_DESCRIPTION = {
     "It's so dark here, I can barely see",
     "Almost sure that there's a black parede somewhere in this playlist",
   ],
-  'star': ['Look at this sky full of stars'],
+  'star': [
+    'Look at this sky full of stars',
+    "It's so bright, I need sunglasses",
+  ],
 } as const;
 
-// TODO: 3. update the `explanation` text and images
-// TODO: 4. host it on vercel and create a prod app in spotify
 // TODO: 5. add ads banners to the pages
