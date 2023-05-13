@@ -20,6 +20,8 @@ export const middleware = async (
   const loginURL = `${host}/login`;
 
   const pathName = request.nextUrl.pathname;
+
+  console.log('NEXT', request.nextUrl);
   if (pathName.startsWith('/poster')) {
     return pipe(
       validateSpotifyToken(request),
