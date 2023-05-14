@@ -22,7 +22,7 @@ export const generateSpotifyLoginURL = (): string => {
   const urlParameters: Record<string, string> = {
     response_type: 'code',
     client_id: process.env.SPOTIFY_CLIENT_ID as string,
-    scope: 'user-read-email user-top-read',
+    scope: 'user-top-read',
     redirect_uri: process.env.SPOTIFY_CALLBACK_URI as string,
   };
 

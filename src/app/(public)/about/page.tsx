@@ -29,8 +29,8 @@ const About: FC = () => {
 
         <p className="about-item">
           The coolest part? You can share your musical cosmos with friends!
-          Simply send them a unique link, and they can dive right into your
-          custom constellation of artists.
+          Simply download the image and send to them, and they can dive right
+          into your custom constellation of artists.
         </p>
 
         <p className="about-item">

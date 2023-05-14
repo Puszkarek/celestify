@@ -39,16 +39,6 @@ const PosterHandlerComponent = ({
       });
   }, [galaxy, isLoaded]);
 
-  const share = async (): Promise<void> => {
-    // TODO: improve it later
-    await navigator.share({
-      title: 'Galaxy Poster',
-      text: 'Check out my galaxy poster!',
-      url: 'celestify.space',
-      files: [new File([imageURI ?? ''], 'poster.png', { type: 'image/png' })],
-    });
-  };
-
   return (
     <>
       <div className="poster-container shadow">
@@ -82,12 +72,6 @@ const PosterHandlerComponent = ({
           >
             <Icon name={ICON_NAME.download} size={30}></Icon>
           </a>
-          <button
-            onClick={share}
-            className="share-button shadow shadow-interactive"
-          >
-            <Icon name={ICON_NAME.share} size={30}></Icon>
-          </button>
         </div>
       </section>
     </>
