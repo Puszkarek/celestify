@@ -10,12 +10,12 @@ const Head: FC = () => {
       />
       <meta
         name="description"
-        content="It's a website that generated an unique cosmic poster based on your Spotify listening data."
+        content="Hey, music lover! Want to see your playlist take on a new form? Create your very own cosmic poster that's as unique as your music taste. Let your favorite songs inspire a visual masterpiece that'll jazz up your space. It's more than just a poster, it's a universe of melodies, all based on your personal jams. Start crafting now, and let your music taste shine in a whole new way!"
       />
       <meta property="og:title" content="Celestify" />
       <meta
         property="og:description"
-        content="It's a website that generated an unique cosmic poster based on your Spotify listening data."
+        content="Craft a unique cosmic poster, inspired by your music taste. Transform your favorite jams into a visual masterpiece. Your playlist, your universe!"
       />
       <meta property="og:url" content="https://celestify.space/" />
       <meta
