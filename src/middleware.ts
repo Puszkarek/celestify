@@ -40,7 +40,7 @@ export const middleware = async (
   }
   switch (request.nextUrl.pathname) {
     case '/': {
-      return NextResponse.redirect(`${host}/poster/short_term`);
+      return NextResponse.redirect(`${host}/poster/long_term`);
     }
     case '/spotify/callback': {
       const task = pipe(

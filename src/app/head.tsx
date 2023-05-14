@@ -10,9 +10,19 @@ const Head: FC = () => {
       />
       <meta
         name="description"
-        content="Celestify is a website that generated your unique solar system"
+        content="It's a website that generated an unique cosmic poster based on your Spotify listening data."
       />
-      <link rel="icon" href="/favicon.ico" />
+      <meta property="og:title" content="Celestify" />
+      <meta
+        property="og:description"
+        content="It's a website that generated an unique cosmic poster based on your Spotify listening data."
+      />
+      <meta property="og:url" content="https://celestify.space/" />
+      <meta
+        property="og:image"
+        content="https://celestify.space/images/banner.jpg"
+      />
+      <meta property="og:type" content="website" />
     </>
   );
 };
