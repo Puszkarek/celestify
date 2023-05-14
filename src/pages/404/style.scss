@@ -1,0 +1,23 @@
+.not-found-container {
+  @apply bg-primary-red;
+  @apply h-[90vh];
+}
+
+.not-found-content {
+  @apply flex flex-col justify-center items-center;
+
+  @apply h-full;
+  @apply text-3xl;
+}
+
+.not-found-message-icon {
+  @apply text-6xl;
+}
+
+.not-found-message {
+  @apply p-gutter my-gutter;
+}
+
+.not-found-button {
+  @apply mt-[5rem] p-gutter bg-primary-cyan;
+}
