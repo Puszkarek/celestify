@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/consistent-destructuring */
+import { GRID_Y_OFFSET } from '@app/constants/grid';
 import { PosterGridItem } from '@app/interfaces/poster';
 
 export const loadSVG = async (url: string): Promise<HTMLImageElement> => {
@@ -45,8 +46,22 @@ export const drawItem = async (
       `/images/celestial-bodies/${celestialBody.type}/${celestialBody.variant}.svg`,
     );
 
-    context.drawImage(imageElement, item.x, item.y, item.width, item.height);
+    context.drawImage(
+      imageElement,
+      item.x,
+      item.y + GRID_Y_OFFSET,
+      item.width,
+      item.height,
+    );
     return;
+  }
+  if (item.type === 'text') {
+    // Set the text color
+    context.fillStyle = '#ffd700';
+    // Set the font style and size
+    context.font = 'normal 30px Bungee';
+
+    context.fillText(item.text, item.x, item.y + GRID_Y_OFFSET + item.height);
   }
   if (item.type === 'star') {
     const imageElement = await loadSVG(item.url);
@@ -60,13 +75,5 @@ export const drawItem = async (
       itemSize.width,
       itemSize.height,
     );
-    return;
   }
-
-  // Set the text color
-  context.fillStyle = '#ffd700';
-  // Set the font style and size
-  context.font = 'normal 30px Bungee';
-
-  context.fillText(item.text, item.x, item.y + item.height);
 };

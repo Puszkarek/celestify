@@ -5,17 +5,23 @@ import './style.scss';
 import { Icon } from '@app/components/icon';
 import { Loading } from '@app/components/loading';
 import { createGalaxyPoster } from '@app/helpers/grid';
+import { getSubTitleFromPathname } from '@app/helpers/grid-text';
 import { Galaxy } from '@app/interfaces/galaxy';
 import { ICON_NAME } from '@app/interfaces/icon';
+import { SpotifyUserData } from '@app/interfaces/spotify';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const PosterHandlerComponent = ({
   galaxy,
+  userData,
 }: {
   galaxy: Galaxy;
+  userData: SpotifyUserData;
 }): JSX.Element => {
+  const pathname = usePathname();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [imageURI, setImageURI] = useState<string | null>(null);
 
@@ -30,7 +36,9 @@ const PosterHandlerComponent = ({
       throw new Error('No celestial bodies found');
     }
 
-    void createGalaxyPoster(galaxy)
+    const subTitle = getSubTitleFromPathname(pathname ?? '');
+
+    void createGalaxyPoster(galaxy, userData.display_name, subTitle)
       .then((posterURI) => {
         setImageURI(posterURI);
       })

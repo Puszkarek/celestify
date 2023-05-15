@@ -4,6 +4,7 @@ import { Exception } from '@app/interfaces/error';
 import {
   SpotifyAudioFeaturesResponse,
   SpotifyMostPlayedTracksResponse,
+  SpotifyUserData,
 } from '@app/interfaces/spotify';
 import { pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/TaskEither';
@@ -30,6 +31,20 @@ export const getTopItems = (
       return {
         tracks: tracks.items,
         features: features.audio_features,
+      };
+    }),
+  );
+};
+
+export const getUserData = (
+  code: string,
+): TE.TaskEither<Exception, SpotifyUserData> => {
+  return pipe(
+    // * Fetch top tracks
+    fetchSpotify<SpotifyUserData>('me', code),
+    TE.map(({ display_name }) => {
+      return {
+        display_name,
       };
     }),
   );

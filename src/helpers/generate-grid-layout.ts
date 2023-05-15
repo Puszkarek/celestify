@@ -1,18 +1,15 @@
 /* eslint-disable no-await-in-loop */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable max-lines */
-/* eslint-disable max-lines-per-function */
-import { GRID_ITEM_SIZES, GRID_SIZE } from '@app/constants/grid';
+import { GRID_ITEM_SIZES } from '@app/constants/grid';
 import { CELESTIAL_BODY_TYPES_COUNT } from '@app/constants/poster';
 import { loadSVG, resizeItemImageSize } from '@app/helpers/canvas';
 import { isOverlapping } from '@app/helpers/grid-stars';
+import { wrapText } from '@app/helpers/grid-text';
 import { CelestialBody } from '@app/interfaces/galaxy';
 import {
   GridItemPosition,
   GridItemSize,
   PosterCelestialBodyItem,
   PosterGridItem,
-  PosterTextItem,
 } from '@app/interfaces/poster';
 import { clone } from '@app/utils/object';
 import { seededRandomGenerator } from '@app/utils/random';
@@ -23,69 +20,6 @@ export type GridPositionCalculator = (
 ) => GridItemPosition;
 
 const MAX_ATTEMPTS = 200;
-
-// eslint-disable-next-line max-statements
-const wrapText = (
-  context: CanvasRenderingContext2D,
-  text: string,
-  xPosition: number,
-  yPosition: number,
-  maxWidth: number,
-  lineHeight: number,
-): Array<PosterGridItem> => {
-  // Set the text color
-  context.fillStyle = '#ffd700';
-  // Set the font style and size
-  context.font = 'normal 30px Bungee';
-
-  const items: Array<PosterGridItem> = [];
-  const words = text.split(' ');
-
-  let line = '';
-  let mutableYPosition = yPosition;
-
-  for (const [index, word] of words.entries()) {
-    const testLine = `${line} ${word}`.trim();
-    const metrics = context.measureText(testLine);
-    const testWidth = metrics.width;
-    if (testWidth > maxWidth && index > 0) {
-      const textMetrics = context.measureText(line);
-
-      const item: PosterTextItem = {
-        type: 'text',
-        text: line,
-        x: xPosition - textMetrics.width / 2,
-        y: mutableYPosition,
-        width: textMetrics.width,
-        height:
-          textMetrics.actualBoundingBoxAscent +
-          textMetrics.actualBoundingBoxDescent,
-      };
-
-      items.push(item);
-
-      line = word;
-      mutableYPosition += lineHeight;
-    } else {
-      line = testLine;
-    }
-  }
-
-  const textMetrics = context.measureText(line);
-
-  items.push({
-    type: 'text',
-    text: line,
-    x: xPosition - textMetrics.width / 2,
-    y: mutableYPosition,
-    width: textMetrics.width,
-    height:
-      textMetrics.actualBoundingBoxAscent +
-      textMetrics.actualBoundingBoxDescent,
-  });
-
-  return items;
-};
 
 const popRandomItemType = (
   availableBodyTypes: typeof CELESTIAL_BODY_TYPES_COUNT,

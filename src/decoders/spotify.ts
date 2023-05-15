@@ -70,6 +70,10 @@ export const spotifyAudioFeaturesDecoder = t.intersection([
   }),
 ]);
 
+export const spotifyUserDataDecoder = t.type({
+  display_name: t.string,
+});
+
 export const spotifyContextDecoder = t.type({
   type: t.literal('artist'),
   external_urls: t.type({

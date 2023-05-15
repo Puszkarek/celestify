@@ -1,7 +1,7 @@
 'use client';
 /* eslint-disable max-statements */
 
-import { GRID_SIZE } from '@app/constants/grid';
+import { GRID_HEIGHT, GRID_WIDTH } from '@app/constants/grid';
 import { drawItem } from '@app/helpers/canvas';
 import {
   generateCelestialBodiesGrid,
@@ -15,6 +15,7 @@ import {
   THIRD_GRID_CALCULATOR_POSITIONS,
 } from '@app/helpers/grid-layout';
 import { addStars } from '@app/helpers/grid-stars';
+import { cutCanvasTitle } from '@app/helpers/grid-text';
 import { Galaxy } from '@app/interfaces/galaxy';
 
 const createCanvasBackground = (
@@ -44,6 +45,31 @@ const createCanvasBackground = (
   return gradient;
 };
 
+const addText = ({
+  context,
+  position,
+  size,
+  font,
+  text,
+  color,
+}: {
+  context: CanvasRenderingContext2D;
+  size: number;
+  font: string;
+  text: string;
+  color: string;
+  position: {
+    x: number;
+    y: number;
+  };
+}): void => {
+  // eslint-disable-next-line require-atomic-updates
+  context.fillStyle = color;
+  // eslint-disable-next-line require-atomic-updates
+  context.font = `${size}px ${font}`;
+
+  context.fillText(text, position.x, position.y);
+};
 const initCanvas = async (
   context: CanvasRenderingContext2D,
   galaxy: Galaxy,
@@ -51,7 +77,7 @@ const initCanvas = async (
   // * Create background
   const gradient = createCanvasBackground(context, galaxy.background);
   context.fillStyle = gradient;
-  context.fillRect(0, 0, GRID_SIZE, GRID_SIZE);
+  context.fillRect(0, 0, GRID_WIDTH, GRID_HEIGHT);
 
   // * Add font for texts (without this, we'll have a racing condition)
   const bungeeFont = new FontFace('Bungee', 'url(/fonts/bungee/regular.ttf)');
@@ -62,14 +88,45 @@ const initCanvas = async (
     'url(/fonts/lexend-mega/medium.ttf)',
   );
   document.fonts.add(await lexendFont.load());
+};
+
+const finishCanvasDetails = (
+  context: CanvasRenderingContext2D,
+  title: string,
+  subTitle: string,
+): void => {
+  // * Add title
+  context.fillStyle = '#ffd700';
+  context.font = '75px Bungee';
+  const parsedTitle = cutCanvasTitle(context, title, 100, GRID_WIDTH - 100);
+  context.fillText(parsedTitle.text, parsedTitle.x, parsedTitle.y);
+
+  // * Add subtitle
+  context.fillStyle = '#ffd700';
+  context.font = '30px Bungee';
+  const subTitleMetrics = context.measureText(subTitle);
+
+  context.fillText(
+    subTitle,
+    GRID_WIDTH / 2 - subTitleMetrics.width / 2,
+    parsedTitle.y +
+      subTitleMetrics.actualBoundingBoxAscent +
+      subTitleMetrics.actualBoundingBoxDescent +
+      20,
+  );
 
   // * Add footer
-  // eslint-disable-next-line require-atomic-updates
-  context.fillStyle = '#fefefe';
-  // eslint-disable-next-line require-atomic-updates
-  context.font = '20px Lexend';
-
-  context.fillText('celestify.space', 800, 1010);
+  addText({
+    text: 'celestify.space',
+    context,
+    size: 20,
+    color: '#fefefe',
+    font: 'Lexend',
+    position: {
+      x: 800,
+      y: GRID_HEIGHT - 20,
+    },
+  });
 };
 
 const getGridItemsPosition = (
@@ -96,12 +153,15 @@ const getGridItemsPosition = (
     }
   }
 };
+
 export const createGalaxyPoster = async (
   galaxy: Galaxy,
+  title: string,
+  subTitle: string,
 ): Promise<string | null> => {
   const canvasElement = document.createElement('canvas');
-  canvasElement.width = GRID_SIZE;
-  canvasElement.height = GRID_SIZE;
+  canvasElement.width = GRID_WIDTH;
+  canvasElement.height = GRID_HEIGHT;
   const context = canvasElement.getContext('2d');
   if (!context) {
     return null;
@@ -134,6 +194,8 @@ export const createGalaxyPoster = async (
   });
 
   await Promise.all(itemsPromises);
+
+  finishCanvasDetails(context, title, subTitle);
 
   return canvasElement.toDataURL();
 };

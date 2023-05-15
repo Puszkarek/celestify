@@ -4,7 +4,7 @@ import { PosterHandler } from '@app/components/poster-handler';
 import { spotifyTokenDecoder, timeRangeDecoder } from '@app/decoders/spotify';
 import { groupFeatureByArtist } from '@app/helpers/feature-by-artist';
 import { generateGalaxy } from '@app/helpers/galaxy';
-import { getTopItems } from '@app/helpers/get-top-items';
+import { getTopItems, getUserData } from '@app/helpers/spotify-requests';
 import { SpotifyAudioFeatures } from '@app/interfaces/spotify';
 import { createException } from '@app/utils/error';
 import { safeJSONParse } from '@app/utils/json';
@@ -43,17 +43,25 @@ const Home = async ({
         ),
       ),
     ),
-    TE.chain(({ timeRange, token }) => getTopItems(token, timeRange)),
-    TE.map(({ tracks, features }) => {
-      return tracks.map((track) => ({
-        metadata: track,
-        features: features.find(
-          (feature) => feature.id === track.id,
-        ) as SpotifyAudioFeatures,
-      }));
-    }),
-    TE.map((tracksWithFeatures) => groupFeatureByArtist(tracksWithFeatures)),
-    TE.map(generateGalaxy),
+    TE.bind('userData', ({ token }) => getUserData(token)),
+    TE.bind('galaxy', ({ timeRange, token }) =>
+      pipe(
+        getTopItems(token, timeRange),
+        TE.map(({ tracks, features }) => {
+          return tracks.map((track) => ({
+            metadata: track,
+            features: features.find(
+              // eslint-disable-next-line max-nested-callbacks
+              (feature) => feature.id === track.id,
+            ) as SpotifyAudioFeatures,
+          }));
+        }),
+        TE.map((tracksWithFeatures) =>
+          groupFeatureByArtist(tracksWithFeatures),
+        ),
+        TE.map(generateGalaxy),
+      ),
+    ),
   );
 
   const response = await task();
@@ -77,7 +85,7 @@ const Home = async ({
     );
   }
 
-  const galaxy = response.right;
+  const { galaxy, userData } = response.right;
 
   if (galaxy.celestialBodies.length === 0) {
     return (
@@ -132,7 +140,7 @@ const Home = async ({
           </Link>
         </div>
 
-        <PosterHandler galaxy={response.right}></PosterHandler>
+        <PosterHandler galaxy={galaxy} userData={userData}></PosterHandler>
         {/* 
         <section className="galaxy-list-container shadow">
           <h2 className="section-title text-primary-purple">

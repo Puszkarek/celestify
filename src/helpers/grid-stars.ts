@@ -1,7 +1,7 @@
 /* eslint-disable max-statements */
 'use client';
 
-import { GRID_SIZE } from '@app/constants/grid';
+import { GRID_HEIGHT, GRID_WIDTH } from '@app/constants/grid';
 import { STAR_TYPES_COUNT } from '@app/constants/poster';
 import { Galaxy } from '@app/interfaces/galaxy';
 import {
@@ -88,12 +88,12 @@ export const addStars = async (
         x: seededRandomGenerator(
           `${seed}${attempts}-x`,
           0,
-          GRID_SIZE - item.width,
+          GRID_WIDTH - item.width,
         ),
         y: seededRandomGenerator(
           `${seed}${attempts}-y`,
           0,
-          GRID_SIZE - item.height,
+          GRID_HEIGHT - item.height,
         ),
       };
 
@@ -133,12 +133,12 @@ export const addStars = async (
         x: seededRandomGenerator(
           `${seed}${attempts}-x`,
           xOffset,
-          GRID_SIZE - item.width - xOffset,
+          GRID_WIDTH - item.width - xOffset,
         ),
         y: seededRandomGenerator(
           `${seed}${attempts}-y`,
           yOffset,
-          GRID_SIZE - item.height - yOffset,
+          GRID_WIDTH - item.height - yOffset,
         ),
       };
 
