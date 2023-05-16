@@ -1,0 +1,49 @@
+.stats-container {
+  aspect-ratio: 1/0.7;
+}
+.stats-content {
+  @apply flex flex-row justify-evenly;
+  @apply h-full;
+}
+.stats-item {
+  @apply w-full h-full;
+  @apply px-[10px] pb-[10px];
+
+  @apply flex flex-col items-center justify-between;
+}
+
+.stats-bar {
+  @apply flex flex-col justify-end;
+  @apply w-full flex-1;
+  @apply border-primary-black border-4;
+}
+.stats-bar-fill {
+  width: 100%;
+}
+
+.stats-bar-title {
+  font-family: 'Bungee';
+  @apply text-[0.5rem] text-center;
+  @apply py-[2.5px];
+}
+
+@media screen and (min-width: 500px) {
+  .stats-container {
+    aspect-ratio: 1/0.5;
+  }
+  .stats-bar-title {
+    @apply text-sm;
+  }
+  .stats-item {
+    @apply px-[20px];
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .stats-bar-title {
+    @apply text-base;
+  }
+  .stats-item {
+    @apply px-[50px];
+  }
+}

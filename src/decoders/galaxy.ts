@@ -1,3 +1,4 @@
+import { audioFeaturesDecoder } from '@app/decoders/music';
 import * as t from 'io-ts';
 
 export const galaxyStarCount = t.type({
@@ -36,4 +37,5 @@ export const galaxyDecoder = t.type({
   background: galaxyBackgroundDecoder,
   stars: galaxyStarCount,
   description: t.string,
+  stats: audioFeaturesDecoder,
 });

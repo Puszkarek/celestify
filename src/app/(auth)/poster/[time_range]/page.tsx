@@ -1,6 +1,7 @@
 import './style.scss';
 
 import { PosterHandler } from '@app/components/poster-handler';
+import { Stats } from '@app/components/stats';
 import { spotifyTokenDecoder, timeRangeDecoder } from '@app/decoders/spotify';
 import { groupFeatureByArtist } from '@app/helpers/feature-by-artist';
 import { generateGalaxy } from '@app/helpers/galaxy';
@@ -141,13 +142,7 @@ const Home = async ({
         </div>
 
         <PosterHandler galaxy={galaxy} userData={userData}></PosterHandler>
-        {/* 
-        <section className="galaxy-list-container shadow">
-          <h2 className="section-title text-primary-purple">
-            So... What do all these things mean?
-          </h2>
-          <CelestialBodiesExplanation></CelestialBodiesExplanation>
-        </section> */}
+        <Stats audioFeatures={galaxy.stats}></Stats>
 
         <section className="galaxy-explanation-container shadow">
           <h2 className="section-title text-primary-magenta">

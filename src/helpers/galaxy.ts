@@ -50,5 +50,6 @@ export const generateGalaxy = (
     background: generateGalaxyBackground(galaxyID, averageAudioFeatures),
     stars: generateGalaxyStars(averageAudioFeatures),
     description: getGalaxyDescription(galaxyID, celestialBodies),
+    stats: averageAudioFeatures,
   };
 };
