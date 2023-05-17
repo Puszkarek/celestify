@@ -2,7 +2,7 @@
 /* eslint-disable max-statements */
 
 import { GRID_HEIGHT, GRID_WIDTH } from '@app/constants/grid';
-import { drawItem } from '@app/helpers/canvas';
+import { drawItem, loadSVG } from '@app/helpers/canvas';
 import {
   generateCelestialBodiesGrid,
   GridPositionCalculator,
@@ -90,11 +90,11 @@ const initCanvas = async (
   document.fonts.add(await lexendFont.load());
 };
 
-const finishCanvasDetails = (
+const finishCanvasDetails = async (
   context: CanvasRenderingContext2D,
   title: string,
   subTitle: string,
-): void => {
+): Promise<void> => {
   // * Add title
   context.fillStyle = '#ffd700';
   context.font = '75px Bungee';
@@ -116,6 +116,18 @@ const finishCanvasDetails = (
   );
 
   // * Add footer
+  const spotifyLogo = await loadSVG('/spotify/logo_with_text.svg');
+
+  const logoWidth = spotifyLogo.width * 0.3;
+  const logoHeight = spotifyLogo.height * 0.3;
+  context.drawImage(
+    spotifyLogo,
+    20,
+    GRID_HEIGHT - logoHeight - 20,
+    logoWidth,
+    logoHeight,
+  );
+
   addText({
     text: 'celestify.space',
     context,
@@ -195,7 +207,7 @@ export const createGalaxyPoster = async (
 
   await Promise.all(itemsPromises);
 
-  finishCanvasDetails(context, title, subTitle);
+  await finishCanvasDetails(context, title, subTitle);
 
   return canvasElement.toDataURL();
 };
