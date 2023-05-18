@@ -29,7 +29,7 @@ export const FIFTY_GRID_CALCULATOR_POSITIONS: Array<GridPositionCalculator> = [
     y:
       GRID_WIDTH -
       size.height -
-      seededRandomGenerator(`${customSeed}-y`, 100, 150),
+      seededRandomGenerator(`${customSeed}-y`, 140, 150),
   }),
   // Fifth
   (size, customSeed) => ({
@@ -58,7 +58,7 @@ export const FOURTH_GRID_CALCULATOR_POSITIONS: Array<GridPositionCalculator> = [
     y:
       GRID_WIDTH -
       size.height -
-      seededRandomGenerator(`${customSeed}-y`, 120, 140),
+      seededRandomGenerator(`${customSeed}-y`, 145, 155),
   }),
   // Fourth
   (size, customSeed) => ({
@@ -82,7 +82,7 @@ export const THIRD_GRID_CALCULATOR_POSITIONS: Array<GridPositionCalculator> = [
     y:
       GRID_WIDTH -
       size.width -
-      seededRandomGenerator(`${customSeed}-y`, 180, 300),
+      seededRandomGenerator(`${customSeed}-y`, 160, 220),
   }),
   // Third
   (size, customSeed) => ({
@@ -90,7 +90,7 @@ export const THIRD_GRID_CALCULATOR_POSITIONS: Array<GridPositionCalculator> = [
     y:
       GRID_WIDTH -
       size.height -
-      seededRandomGenerator(`${customSeed}-y`, 150, 300),
+      seededRandomGenerator(`${customSeed}-y`, 150, 220),
   }),
 ];
 

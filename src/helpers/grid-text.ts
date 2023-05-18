@@ -1,11 +1,6 @@
 /* eslint-disable max-statements */
 import { GRID_WIDTH } from '@app/constants/grid';
-import {
-  GridItemPosition,
-  GridItemSize,
-  PosterGridItem,
-  PosterTextItem,
-} from '@app/interfaces/poster';
+import { PosterGridItem, PosterTextItem } from '@app/interfaces/poster';
 
 export const wrapText = (
   context: CanvasRenderingContext2D,
@@ -20,13 +15,20 @@ export const wrapText = (
   // Set the font style and size
   context.font = 'normal 30px Bungee';
 
-  const items: Array<PosterGridItem> = [];
+  const items: Array<PosterTextItem> = [];
   const words = text.split(' ');
 
   let line = '';
   let mutableYPosition = yPosition;
 
   for (const [index, word] of words.entries()) {
+    // TODO: Improve this logic
+    // Limit the number of lines to 2
+    if (items.length >= 2) {
+      const lastItem = items[items.length - 1]!;
+      lastItem.text = `${lastItem.text}...`;
+      return items;
+    }
     const testLine = `${line} ${word}`.trim();
     const metrics = context.measureText(testLine);
     const testWidth = metrics.width;

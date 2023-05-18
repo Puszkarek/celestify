@@ -30,12 +30,6 @@ const PosterHandlerComponent = ({
       return;
     }
 
-    const topItems = galaxy.celestialBodies;
-
-    if (topItems.length === 0) {
-      throw new Error('No celestial bodies found');
-    }
-
     const subTitle = getSubTitleFromPathname(pathname ?? '');
 
     void createGalaxyPoster(galaxy, userData.display_name, subTitle)
