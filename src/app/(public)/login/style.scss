@@ -26,3 +26,9 @@
     @apply p-4;
   }
 }
+
+@media screen and (max-height: 500px) {
+  .login-container {
+    height: auto;
+  }
+}
