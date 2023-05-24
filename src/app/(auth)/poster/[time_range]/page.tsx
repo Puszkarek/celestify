@@ -1,5 +1,6 @@
 import './style.scss';
 
+import { AdBanner } from '@app/components/ad-banner';
 import { PosterHandler } from '@app/components/poster-handler';
 import { Stats } from '@app/components/stats';
 import { spotifyTokenDecoder, timeRangeDecoder } from '@app/decoders/spotify';
@@ -111,6 +112,11 @@ const Home = async ({
   return (
     <div className="home-container">
       <main className="home-main-container">
+        <AdBanner
+          data-ad-slot="7469414338"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></AdBanner>
         <div className="poster-buttons shadow">
           <Link
             href="poster/short_term"
@@ -142,6 +148,13 @@ const Home = async ({
         </div>
 
         <PosterHandler galaxy={galaxy} userData={userData}></PosterHandler>
+
+        <AdBanner
+          data-ad-slot="9453633166"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></AdBanner>
+
         <Stats audioFeatures={galaxy.stats}></Stats>
 
         <section className="galaxy-explanation-container shadow">
@@ -162,6 +175,12 @@ const Home = async ({
             and preferences. Get ready to explore your musical universe!
           </p>
         </section>
+
+        <AdBanner
+          data-ad-slot="7944631444"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></AdBanner>
       </main>
     </div>
   );

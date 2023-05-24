@@ -8,13 +8,11 @@ const Home: FC = () => {
   return (
     <>
       <main className="login-container">
-        <div className="m-auto">
-          <AdBanner
-            data-ad-slot="7469414338"
-            data-ad-format="auto"
-            data-full-width-responsive="true"
-          ></AdBanner>
-        </div>
+        <AdBanner
+          data-ad-slot="7469414338"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></AdBanner>
         <header className="login-header">
           <p className="login-intro">
             Turn your historic into a cosmic adventure!
@@ -35,6 +33,12 @@ const Home: FC = () => {
         </section>
 
         <LoginButton />
+
+        <AdBanner
+          data-ad-slot="9453633166"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></AdBanner>
       </main>
     </>
   );
