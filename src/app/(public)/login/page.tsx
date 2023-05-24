@@ -1,5 +1,6 @@
 import './style.scss';
 
+import { AdBanner } from '@app/components/ad-banner';
 import { LoginButton } from '@app/components/login-button';
 import { FC } from 'react';
 
@@ -7,6 +8,13 @@ const Home: FC = () => {
   return (
     <>
       <main className="login-container">
+        <div className="min-w-[320px] shadow">
+          <AdBanner
+            data-ad-slot="7469414338"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          ></AdBanner>
+        </div>
         <header className="login-header">
           <p className="login-intro">
             Turn your historic into a cosmic adventure!

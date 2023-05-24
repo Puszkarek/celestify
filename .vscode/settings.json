@@ -5,5 +5,5 @@
     // "*.scss": "tailwindcss"
   },
   "css.customData": [".vscode/css_custom_data.json"],
-  "cSpell.words": ["celestify", "danceability", "spotify"]
+  "cSpell.words": ["adsbygoogle", "celestify", "danceability", "spotify"]
 }
