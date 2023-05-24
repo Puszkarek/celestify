@@ -8,7 +8,7 @@ const Home: FC = () => {
   return (
     <>
       <main className="login-container">
-        <div className="min-w-[320px] shadow">
+        <div className="m-auto">
           <AdBanner
             data-ad-slot="7469414338"
             data-ad-format="auto"
