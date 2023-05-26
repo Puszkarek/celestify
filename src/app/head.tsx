@@ -24,15 +24,6 @@ const Head: FC = () => {
         content="https://celestify.space/images/banner.jpg"
       />
       <meta property="og:type" content="website" />
-
-      <Script
-        async
-        strategy="lazyOnload"
-        id="next-google-adsense"
-        data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}
-        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js`}
-        crossOrigin="anonymous"
-      />
     </>
   );
 };

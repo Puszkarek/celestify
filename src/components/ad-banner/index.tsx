@@ -1,36 +1,36 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 'use client';
 
+import { AtOptions } from '@app/constants/ad';
 import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
+import Script from 'next/script';
 
-const AdBannerComponent = (props: object): JSX.Element => {
-  useEffect(() => {
-    try {
-      console.log('aaaaaaa', (window as any).adsbygoogle);
-      /* 
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
-        {},
-      ); */
-    } catch (error) {
-      console.log('push error');
-      console.log(error);
-    }
-  }, []);
-
+const AdBannerComponent = ({
+  atOptions,
+  id,
+}: {
+  atOptions: AtOptions;
+  id: string;
+}): JSX.Element => {
   return (
-    <ins
-      className="adsbygoogle adbanner-customize"
-      style={{
-        display: 'block',
-        overflow: 'hidden',
-      }}
-      data-ad-client={process.env.NEXT_PUBLIC_GOOGLE_ADS_CLIENT_ID}
-      {...props}
-    />
+    <div
+      id={id}
+      className="mx-2 my-5 flex justify-center items-center text-white text-center"
+    >
+      <Script id={`script-${id}`}>
+        {`atOptions = ${JSON.stringify(atOptions)};
+        (function() {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = "//www.highperformancedformats.com/${
+              atOptions.key
+            }/invoke.js";
+            document.getElementById('${id}').appendChild(script);
+        })();`}
+      </Script>
+    </div>
   );
 };
+
 export const AdBanner = dynamic(() => Promise.resolve(AdBannerComponent), {
   ssr: false,
 });

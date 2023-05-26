@@ -2,17 +2,15 @@ import './style.scss';
 
 import { AdBanner } from '@app/components/ad-banner';
 import { LoginButton } from '@app/components/login-button';
+import { BANNER_300_x_250_1, BANNER_320_x_50_1 } from '@app/constants/ad';
 import { FC } from 'react';
 
 const Home: FC = () => {
   return (
     <>
       <main className="login-container">
-        <AdBanner
-          data-ad-slot="7469414338"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></AdBanner>
+        <AdBanner atOptions={BANNER_320_x_50_1} id="1" />
+
         <header className="login-header">
           <p className="login-intro">
             Turn your historic into a cosmic adventure!
@@ -33,12 +31,6 @@ const Home: FC = () => {
         </section>
 
         <LoginButton />
-
-        <AdBanner
-          data-ad-slot="9453633166"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></AdBanner>
       </main>
     </>
   );
