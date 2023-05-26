@@ -1,5 +1,5 @@
 .login-container {
-  @apply h-[80%] w-[100%] max-w-[600px];
+  @apply min-h-[80%] w-[100%] max-w-[600px];
   @apply flex flex-col items-center justify-between;
   @apply m-auto py-0 px-[1rem];
 
