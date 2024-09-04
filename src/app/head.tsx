@@ -18,10 +18,10 @@ const Head: FC = () => {
         property="og:description"
         content="Craft a unique cosmic poster, inspired by your music taste. Transform your favorite jams into a visual masterpiece. Your playlist, your universe!"
       />
-      <meta property="og:url" content="https://celestify.space/" />
+      <meta property="og:url" content="https://celestify.vercel.app/" />
       <meta
         property="og:image"
-        content="https://celestify.space/images/banner.jpg"
+        content="https://celestify.vercel.app/images/banner.jpg"
       />
       <meta property="og:type" content="website" />
     </>

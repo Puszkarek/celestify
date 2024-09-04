@@ -129,7 +129,7 @@ const finishCanvasDetails = async (
   );
 
   addText({
-    text: 'celestify.space',
+    text: 'celestify.vercel.app',
     context,
     size: 20,
     color: '#fefefe',
