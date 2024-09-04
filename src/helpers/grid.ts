@@ -135,7 +135,7 @@ const finishCanvasDetails = async (
     color: '#fefefe',
     font: 'Lexend',
     position: {
-      x: 800,
+      x: 720,
       y: GRID_HEIGHT - 20,
     },
   });
