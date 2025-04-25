@@ -1,38 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Celestify
 
-## Getting Started
+Celestify is a web application that creates personalized cosmic posters based on your music taste. By connecting to your Spotify account, Celestify transforms your favorite artists into a unique celestial galaxy that visualizes your musical preferences.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- **Personalized Music Galaxy**: Connect your Spotify account to generate a cosmic visualization of your music taste
+- **Dynamic Visualizations**: Watch your solar system evolve as your music preferences change
+- **Sharable Creations**: Download your musical cosmos and share it with friends
+- **Privacy-Focused**: Only uses necessary Spotify data and stores minimal information in cookies
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Visit the application
+2. Connect your Spotify account
+3. Explore your personalized musical galaxy
+4. Download and share your unique cosmic poster
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## 💻 Technology
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Celestify is built with:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Next.js
+- TypeScript
+- Canvas API for visualizations
+- Spotify API for music data
 
-## Learn More
+## 🔒 Privacy
 
-To learn more about Next.js, take a look at the following resources:
+Celestify respects your privacy. The application only accesses your Spotify data to create your visualizations and doesn't store any personal information except for an authentication token in cookies. For more details, please check our [Privacy Policy](/privacy-policy).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👤 About
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Celestify blends music and astronomy to create a unique experience that helps you visualize your music taste in a new way. It's designed to not only showcase your favorite artists but also encourage music discovery and appreciation.
 
-## Deploy on Vercel
+## 🔗 Links
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Live Application: [https://celestify.vercel.app/](https://celestify.vercel.app/)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+Explore your musical universe with Celestify - where your playlist becomes a galaxy!
